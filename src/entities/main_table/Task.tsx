@@ -8,11 +8,22 @@ import { Priority } from './Priority'
 import { ReadedMark } from './ReadedMark'
 import { TaskName } from './TaskName'
 
-export function Task(props: {task: TaskInfo}) {
+export function Task(props: {
+    task: TaskInfo,
+    selected: boolean,
+    onSelectChange: (taskId: string, selected: boolean) => void,
+}) {
     let task = props.task
     return (
         <>
             <div className='task-item'>
+                <input
+                    className='task-checkbox'
+                    type='checkbox'
+                    checked={props.selected}
+                    onChange={e => props.onSelectChange(task.task.id, e.target.checked)}
+                    aria-label='Выбрать задачу'
+                />
                 <ImportantMark important={task.important}/>
                 <ReadedMark readed={task.readed} />
                 <TaskName taskName={task.task.data.__name} />
