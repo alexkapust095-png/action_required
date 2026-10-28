@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useState } from 'react'
 import './App.css'
-import { TaskTable } from './entities/main_table/TaskTable'
 import { testTaskInfoArray } from './types/testData'
+import { TaskTableContainer } from './entities/main_table/TaskTableContainer'
 
 function App() {
   // Состояние выбора живёт в корне приложения: храним только ID выбранных задач
@@ -29,7 +29,7 @@ function App() {
 
   return (
     <>
-      <TaskTable
+      <TaskTableContainer
         tasks={testTaskInfoArray}
         selectedIds={selectedTaskIds}
         onSelectChange={handleSelectChange}

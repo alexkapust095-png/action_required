@@ -2,7 +2,7 @@ import { TaskInfo } from "@/types/types";
 import { Task } from "./Task";
 
 
-export function TaskTable(props: {
+export function TaskTableContent(props: {
     tasks: TaskInfo[],
     selectedIds: Set<string>,
     onSelectChange: (taskId: string, selected: boolean) => void,
