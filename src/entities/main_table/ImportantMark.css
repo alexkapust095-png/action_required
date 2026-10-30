@@ -1,31 +1,26 @@
-/* ImportantMark — узкая колонка флага «Важно» (40px).
+/* ImportantMark — первый признак колонки «Метки» («Важно»).
+   Слот (task-mark-important-slot) занимает первую ячейку 2-колоночной
+   сетки Marks, т.е. стоит ровно под заголовком «*” и слева от «Прочитано».
    Только геометрия. Цвета, прозрачность и тени не задаются. */
 
-/* Важность / прочитанность — узкие служебные колонки (40px).
-   Значения прижаты к левому краю ячейки и имеют тот же горизонтальный
-   отступ, что и остальные колонки (.task-table-cell), поэтому шапка
-   (TaskTableHeader) и строки совпадают по выравниванию. */
-.task-widget .task-table-cell.important,
-.task-widget .task-table-cell.readed {
-    padding-inline: var(--tt-cell-padding-inline);
-    display: flex;
+.task-widget .task-mark-important-slot {
+    display: inline-flex;
     align-items: center;
     justify-content: flex-start;
+    width: var(--tt-col-mark);
+    height: 24px;
+    min-width: 0;
+    box-sizing: border-box;
 }
 
+/* Глиф иконки: квадрат 18x18 по левому краю своего слота */
 .task-widget .task-mark-important {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 24px;
-    height: 24px;
-    box-sizing: border-box;
-}
-
-/* Глиф иконки: квадрат 18x18 по центру ячейки 40px */
-.task-widget .task-mark-important.md-18 {
     width: 18px;
     height: 18px;
     font-size: 18px;
     line-height: 18px;
+    box-sizing: border-box;
 }

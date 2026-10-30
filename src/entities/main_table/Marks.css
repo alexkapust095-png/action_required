@@ -1,0 +1,18 @@
+/* Marks — колонка признаков «Важно» и «Прочитано» под одним заголовком «*”.
+   Внутри ячейки признаки образуют сетку 2x2: колонки фиксированной ширины
+   (--tt-col-mark), поэтому второй признак стоит ровно ПОД первым,
+   а левая граница колонки совпадает в шапке и в строках задач.
+   Только геометрия. Цвета, прозрачность и тени не задаются. */
+
+.task-widget .task-table-cell.marks {
+    display: grid;
+    grid-template-columns: var(--tt-col-mark) var(--tt-col-mark);
+    column-gap: var(--tt-col-marks-gap);
+    align-content: center;
+    justify-content: start;
+    align-items: center;
+}
+
+.task-widget .task-table-cell.marks {
+    box-sizing: border-box;
+}

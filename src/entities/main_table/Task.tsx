@@ -3,11 +3,10 @@ import './Task.css'
 import { TaskInfo } from '../../types/types'
 import { CreatedAt } from './CreatedAt'
 import { Duedate } from './Duedate'
-import { ImportantMark } from './ImportantMark'
 import { Initiator } from './Initiator'
+import { Marks } from './Marks'
 import { Participants } from './Participants'
 import { Priority } from './Priority'
-import { ReadedMark } from './ReadedMark'
 import { TaskName } from './TaskName'
 
 export function Task(props: {
@@ -17,7 +16,8 @@ export function Task(props: {
 }) {
     let task = props.task
     // Строка списка: все ячейки — прямые дети grid-контейнера,
-    // поэтому колонки шапки и строк совпадают
+    // поэтому колонки шапки и строк совпадают.
+    // Признаки «Важно» и «Прочитано» — одна колонка Marks под заголовком «*».
     return (
         <div className='task-item task-table-row'>
             <input
@@ -27,8 +27,7 @@ export function Task(props: {
                 onChange={e => props.onSelectChange(task.task.id, e.target.checked)}
                 aria-label='Выбрать задачу'
             />
-            <ImportantMark important={task.important}/>
-            <ReadedMark readed={task.readed} />
+            <Marks important={task.important} readed={task.readed} />
             <TaskName taskName={task.task.data.__name} />
             <CreatedAt date={task.task.data.__createdAt} />
             <Initiator createdBy={task.createdBy} />

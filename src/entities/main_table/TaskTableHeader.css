@@ -35,17 +35,19 @@
     text-align: left;
 }
 
-/* Колонки выбора / важности / прочитанности в шапке ЭДО не подписаны,
-   но ячейка «*» обязана стоять на том же левом краю, что и колонка важности
-   в строках задач (см. ImportantMark.css): flex + justify-content: flex-start
-   при общем отступе ячеек. */
-.task-widget .task-table-head .task-table-cell.important {
-    display: flex;
+/* Колонка «Метки» в шапке: один заголовок «*” над признаками
+   «Важно» и «Прочитано». Ячейка использует ту же сетку 2-колонок,
+   что и строки задач (см. Marks.css), поэтому левая граница колонки
+   и позиция «*”» совпадают с позицией первого признака в строках. */
+.task-widget .task-table-head .task-table-cell.marks {
+    display: grid;
+    grid-template-columns: var(--tt-col-mark) var(--tt-col-mark);
+    column-gap: var(--tt-col-marks-gap);
     align-items: center;
-    justify-content: flex-start;
 }
 
-.task-widget .task-table-head .column-name.important {
+.task-widget .task-table-head .column-name.marks {
+    grid-column: 1 / -1; /* «*” на всю ширину колонки меток */
     padding: 0;
     width: auto;
     height: auto;

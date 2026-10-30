@@ -1,29 +1,15 @@
-/* ReadedMark — узкая колонка флага «Прочитано» (40px).
+/* ReadedMark — второй признак колонки «Метки» («Прочитано»).
+   Занимает вторую ячейку 2-колоночной сетки Marks — в той же строке
+   списка, что и «Важно», под тем же заголовком «*”.
    Только геометрия. Цвета, прозрачность и тени не задаются. */
-
-/* Колонка «Прочитано» — геометрия синхронизирована с колонкой «Важно»
-   (см. ImportantMark.css): левое выравнивание + общий отступ ячеек,
-   чтобы шапка и строки списка стояли на одних границах. */
-.task-widget .task-table-cell.readed {
-    padding-inline: var(--tt-cell-padding-inline);
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-}
 
 .task-widget .task-mark-readed {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 24px;
-    height: 24px;
-    box-sizing: border-box;
-}
-
-/* Глиф иконки: квадрат 18x18 по центру ячейки 40px */
-.task-widget .task-mark-readed.md-18 {
     width: 18px;
     height: 18px;
     font-size: 18px;
     line-height: 18px;
+    box-sizing: border-box;
 }

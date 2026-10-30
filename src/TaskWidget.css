@@ -25,15 +25,21 @@
 
     /* ============================================================
        Единая сетка колонок таблицы — общий токен геометрии.
-       9 колонок: чекбокс | важность | прочитано | наименование |
+       8 колонок: чекбокс | метки (*) | наименование |
                   дата создания | инициатор | участники | приоритет | сделать до
-       Шапка (TaskTableHeader) и строки (Task) используют ОДНУ сетку,
-       поэтому границы колонок совпадают.
+
+       Колонка «Метки» (--tt-col-marks = 2 x --tt-col-mark + отступ между):
+       внутри неё признаки «Важно» и «Прочитано» стоят ВТОРАЯ ПОД ПЕРВОЙ
+       (одна колонка, один заголовок «*»). Шапка (TaskTableHeader) и
+       строки (Task) используют ОДНУ сетку, поэтому границы ровные.
        ============================================================ */
+    --tt-col-mark: 24px;                    /* ширина одного признака (иконка) */
+    --tt-col-marks-gap: 8px;                /* зазор между признаками          */
+    --tt-col-marks: calc(2 * var(--tt-col-mark) + var(--tt-col-marks-gap)); /* 56px */
+
     --tt-grid-columns:
         48px                  /* task-checkbox  */
-        40px                  /* ImportantMark  */
-        40px                  /* ReadedMark     */
+        var(--tt-col-marks)   /* Marks (*): важно + прочитано друг под другом */
         minmax(260px, 1.2fr)  /* TaskName       */
         170px                 /* CreatedAt      */
         170px                 /* Initiator      */
@@ -62,6 +68,8 @@
 .task-widget .task-table-body,
 .task-widget .task-table-row,
 .task-widget .task-table-cell,
+.task-widget .task-table-cell.marks,
+.task-widget .task-mark-important-slot,
 .task-widget .task-checkbox,
 .task-widget .task-title,
 .task-widget .task-title-span,
@@ -97,7 +105,7 @@
 @media (max-width: 1400px) {
     .task-widget {
         --tt-grid-columns:
-            48px 40px 40px
+            48px var(--tt-col-marks)
             minmax(220px, 1.2fr)
             150px 150px
             minmax(180px, 1fr)
@@ -108,8 +116,10 @@
 
 @media (max-width: 1100px) {
     .task-widget {
+        --tt-col-mark: 20px;
+        --tt-col-marks-gap: 6px; /* --tt-col-marks = 46px */
         --tt-grid-columns:
-            40px 36px 36px
+            40px var(--tt-col-marks)
             minmax(180px, 1.2fr)
             130px 130px
             minmax(150px, 1fr)

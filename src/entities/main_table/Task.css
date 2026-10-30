@@ -24,8 +24,8 @@
     cursor: pointer;
 }
 
-/* Пустые служебные ячейки шапки (прочитанность) — только геометрия колонки */
-.task-widget .task-table-head .task-table-cell.readed {
+/* Пустая служебная ячейка «выбор» в шапке — только геометрия колонки */
+.task-widget .task-table-head .task-table-cell.checkbox {
     padding-inline: var(--tt-cell-padding-inline);
 }
 
