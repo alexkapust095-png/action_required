@@ -14,12 +14,17 @@ export function TaskTableContainer(props: {
     return (
         <div className="task-widget task-table-container">
             <Actions selectedIds={props.selectedIds}/>
-            <TaskTableHeader />
-            <TaskTableContent
-                onSelectChange={props.onSelectChange}
-                selectedIds={props.selectedIds}
-                tasks={props.tasks}
-            />
+            {/* Шапка колонок и тело списка объединены в один прокручиваемый
+                блок: скроллится только тело, шапка остаётся на месте (sticky).
+                Ограничение по высоте (70vh) задано именно здесь — без шапки. */}
+            <div className="task-table-scroll">
+                <TaskTableHeader />
+                <TaskTableContent
+                    onSelectChange={props.onSelectChange}
+                    selectedIds={props.selectedIds}
+                    tasks={props.tasks}
+                />
+            </div>
         </div>
     )
 }

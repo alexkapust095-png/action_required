@@ -22,16 +22,19 @@
     grid-column: 1 / -1;
 }
 
-/* Шапка колонок и тело списка — тоже на всю ширину */
-.task-widget.task-table-container > .task-table-head,
-.task-widget.task-table-container > .task-table-body {
+/* Блок «шапка + тело списка» — на всю ширину сетки.
+   Именно он ограничивается по высоте (см. TaskTableContent.css) и прокручивается,
+   при этом панель действий и заголовок таблицы в прокрутку не попадают. */
+.task-widget.task-table-container > .task-table-scroll {
     grid-column: 1 / -1;
     min-width: 0;
+    display: block;
 }
 
 /* Внутренняя модель блоков — по классам, без универсальных селекторов */
 .task-widget,
 .task-widget .task-table-container,
+.task-widget .task-table-scroll,
 .task-widget .task-table-head,
 .task-widget .task-table-row,
 .task-widget .task-table-cell {
