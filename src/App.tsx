@@ -34,7 +34,7 @@ function App() {
         selectedIds={selectedTaskIds}
         onSelectChange={handleSelectChange}
       />
-      <p>Выбрано задач: {selectedTasks.length}</p>
+      <p>Выбрано: {selectedTasks.length}</p>
     </>
   )
 }

@@ -1,6 +1,7 @@
 import { TaskInfo } from "@/types/types";
 import { TaskTableContent } from "./TaskTableContent";
 import { TaskTableHeader } from "./TaskTableHeader";
+import { Actions } from "../actons/Actions";
 
 export function TaskTableContainer(props: {
     tasks: TaskInfo[],
@@ -9,6 +10,7 @@ export function TaskTableContainer(props: {
 }) {
     return (
         <>
+            <Actions selectedIds={props.selectedIds}/>
             <TaskTableHeader />
             <TaskTableContent 
                 onSelectChange={props.onSelectChange}
