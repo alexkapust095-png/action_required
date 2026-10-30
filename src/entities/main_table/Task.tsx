@@ -20,13 +20,15 @@ export function Task(props: {
     // Признаки «Важно» и «Прочитано» — одна колонка Marks под заголовком «*».
     return (
         <div className='task-item task-table-row'>
-            <input
-                className='task-checkbox'
-                type='checkbox'
-                checked={props.selected}
-                onChange={e => props.onSelectChange(task.task.id, e.target.checked)}
-                aria-label='Выбрать задачу'
-            />
+            <div className='task-table-cell checkbox'>
+                <input
+                    className='task-checkbox'
+                    type='checkbox'
+                    checked={props.selected}
+                    onChange={e => props.onSelectChange(task.task.id, e.target.checked)}
+                    aria-label='Выбрать задачу'
+                />
+            </div>
             <Marks important={task.important} readed={task.readed} />
             <TaskName taskName={task.task.data.__name} />
             <CreatedAt date={task.task.data.__createdAt} />

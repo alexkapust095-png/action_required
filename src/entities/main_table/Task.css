@@ -14,22 +14,25 @@
     padding: var(--tt-cell-padding-block) var(--tt-cell-padding-inline);
 }
 
-/* Чекбокс выбора — первая колонка (48px), элемент по левому краю
-   с общим отступом ячеек: то же выравнивание, что у шапки и остальных колонок */
+/* Ячейка-колонка чекбокса (48px): обёртка div.task-table-cell.checkbox
+   вокруг input.task-checkbox как у остальных колонок. Горизонтальный отступ
+   НЕ переопределяется: он общий для всех ячеек (.task-widget .task-table-cell),
+   поэтому левый край чекбокса в строках и пустой служебной ячейки в шапке
+   совпадает с одним шагом сетки. */
+.task-widget .task-table-cell.checkbox {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+/* Сам чекбокс — фиксированный квадрат 16×16 внутри ячейки, по левому краю */
 .task-widget .task-checkbox {
     display: block;
     width: 16px;
     height: 16px;
     margin: 0;
+    flex-shrink: 0;
     cursor: pointer;
-}
-
-/* Пустая служебная ячейка «выбор» в шапке — только геометрия колонки.
-   Горизонтальный отступ НЕ переопределяется: он общий для всех ячеек
-   (.task-widget .task-table-cell), поэтому левый край чекбокса в строках
-   и левый край последующих заголовков совпадают с одним шагом сетки. */
-.task-widget .task-table-head .task-table-cell.checkbox {
-    min-width: 0;
 }
 
 /* Внутренняя сетка колонок меток (2 признака) объявлена ОДНАЖДЫ в Marks.css
