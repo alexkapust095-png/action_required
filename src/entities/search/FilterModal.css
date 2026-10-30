@@ -1,0 +1,177 @@
+/* ============================================================
+   FilterModal — модальное окно фильтров с затемнением фона.
+   Подложка на весь экран; окно по центру; поля друг под другом.
+   ============================================================ */
+
+.task-widget.search-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    box-sizing: border-box;
+    /* Затемнение фона при открытии модалки */
+    background: rgba(0, 0, 0, 0.45);
+}
+
+.task-widget.search-modal-backdrop .search-modal {
+    display: flex;
+    flex-direction: column;
+    width: 420px;
+    max-width: 100%;
+    max-height: calc(100vh - 32px);
+    box-sizing: border-box;
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    font-family: 'Roboto', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    font-size: 14px;
+    line-height: 20px;
+    color: #1f1f1f;
+}
+
+/* Шапка окна */
+.task-widget.search-modal-backdrop .search-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    border-bottom: 1px solid #e8e8e8;
+    flex: 0 0 auto;
+}
+
+.task-widget.search-modal-backdrop .search-modal-title {
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.task-widget.search-modal-backdrop .search-modal-close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+    background: transparent;
+    font-size: 20px;
+    line-height: 1;
+    color: #666;
+}
+
+.task-widget.search-modal-backdrop .search-modal-close:hover {
+    background: #f0f0f0;
+}
+
+/* Тело: каждый пункт фильтра друг под другом, прокрутка по высоте */
+.task-widget.search-modal-backdrop .search-modal-body {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 16px;
+    overflow-y: auto;
+    flex: 1 1 auto;
+}
+
+.task-widget.search-modal-backdrop .filter-field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.task-widget.search-modal-backdrop .filter-label {
+    font-size: 12px;
+    line-height: 16px;
+    color: #666;
+}
+
+/* Диапазон дат «с» / «по» */
+.task-widget.search-modal-backdrop .filter-date-range {
+    display: flex;
+    gap: 8px;
+}
+
+.task-widget.search-modal-backdrop .filter-subfield {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex: 1 1 50%;
+    min-width: 0;
+}
+
+.task-widget.search-modal-backdrop .filter-subfield-caption {
+    flex: 0 0 auto;
+    color: #666;
+}
+
+.task-widget.search-modal-backdrop .filter-subfield input[type='date'] {
+    width: 100%;
+    min-width: 0;
+    height: 32px;
+    box-sizing: border-box;
+    padding: 0 8px;
+    font-family: inherit;
+    font-size: 14px;
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    background: #fff;
+}
+
+/* Чекбоксы «Прочитано» и «Важно» */
+.task-widget.search-modal-backdrop .filter-checkbox-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.task-widget.search-modal-backdrop .filter-checkbox-row input[type='checkbox'] {
+    width: 16px;
+    height: 16px;
+    margin: 0;
+    cursor: pointer;
+}
+
+/* Подвал с кнопкой «Поиск» */
+.task-widget.search-modal-backdrop .search-modal-footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    padding: 12px 16px;
+    border-top: 1px solid #e8e8e8;
+    flex: 0 0 auto;
+}
+
+.task-widget.search-modal-backdrop .search-modal-reset {
+    height: 32px;
+    padding: 0 12px;
+    cursor: pointer;
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    background: #fff;
+    font-family: inherit;
+    font-size: 14px;
+    color: #1f1f1f;
+}
+
+.task-widget.search-modal-backdrop .search-modal-submit {
+    height: 32px;
+    padding: 0 20px;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+    background: #1a67c2;
+    font-family: inherit;
+    font-size: 14px;
+    color: #fff;
+}
+
+.task-widget.search-modal-backdrop .search-modal-submit:hover {
+    background: #155aae;
+}

@@ -1,0 +1,169 @@
+/* ============================================================
+   MultiSelect / SingleSelect — выпадающие списки фильтров.
+   Открытие/закрытие по клику; закрытие по клику вне области
+   обрабатывается в TSX (mousedown + contains).
+   ============================================================ */
+
+.task-widget.search-multi-select {
+    position: relative; /* точка отсчёта для выпадающего списка */
+    width: 100%;
+}
+
+/* Кнопка-поле */
+.task-widget.search-multi-select .ms-control {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    width: 100%;
+    height: 32px;
+    box-sizing: border-box;
+    padding: 0 8px;
+    cursor: pointer;
+    text-align: left;
+    font-family: inherit;
+    font-size: 14px;
+    line-height: 20px;
+    color: #1f1f1f;
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    background: #fff;
+}
+
+.task-widget.search-multi-select .ms-control:hover,
+.task-widget.search-multi-select .ms-control.open {
+    border-color: #1a67c2;
+}
+
+.task-widget.search-multi-select .ms-summary {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-width: 0;
+}
+
+.task-widget.search-multi-select .ms-summary-text {
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.task-widget.search-multi-select .ms-placeholder {
+    color: #999;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.task-widget.search-multi-select .ms-count {
+    flex: 0 0 auto;
+    min-width: 18px;
+    padding: 0 5px;
+    box-sizing: border-box;
+    text-align: center;
+    font-size: 12px;
+    line-height: 18px;
+    border-radius: 9px;
+    background: #eaf1fa;
+    color: #1a67c2;
+}
+
+/* Стрелка-указатель */
+.task-widget.search-multi-select .ms-caret {
+    flex: 0 0 auto;
+    width: 0;
+    height: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 5px solid #666;
+    transition: transform 0.15s ease;
+}
+
+.task-widget.search-multi-select .ms-caret.up {
+    transform: rotate(180deg);
+}
+
+/* Выпадающий список */
+.task-widget.search-multi-select .ms-dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    max-height: 220px;
+    overflow-y: auto;
+    box-sizing: border-box;
+    padding: 4px 0;
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    background: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.task-widget.search-multi-select .ms-empty {
+    padding: 8px 12px;
+    color: #999;
+}
+
+/* Опция с чекбоксом (множественный выбор) */
+.task-widget.search-multi-select .ms-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    cursor: pointer;
+    user-select: none;
+    font-size: 14px;
+    line-height: 20px;
+    color: #1f1f1f;
+    background: transparent;
+    border: none;
+    text-align: left;
+    font-family: inherit;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.task-widget.search-multi-select .ms-option:hover {
+    background: #f2f6fb;
+}
+
+.task-widget.search-multi-select .ms-option.checked {
+    background: #eaf1fa;
+}
+
+.task-widget.search-multi-select .ms-option input[type='checkbox'] {
+    width: 16px;
+    height: 16px;
+    margin: 0;
+    flex: 0 0 auto;
+    cursor: pointer;
+}
+
+.task-widget.search-multi-select .ms-option-label {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Сброс выбора внутри списка */
+.task-widget.search-multi-select .ms-clear {
+    margin: 4px 8px 0;
+    padding: 4px 8px;
+    cursor: pointer;
+    text-align: center;
+    font-family: inherit;
+    font-size: 12px;
+    color: #1a67c2;
+    border: 1px dashed #b9cfe8;
+    border-radius: 4px;
+    background: #fff;
+}
+
+.task-widget.search-multi-select .ms-clear:hover {
+    background: #eaf1fa;
+}

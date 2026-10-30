@@ -2,10 +2,15 @@ import { useCallback, useMemo, useState } from 'react'
 import './App.css'
 import { testTaskInfoArray } from './types/testData'
 import { TaskTableContainer } from './entities/main_table/TaskTableContainer'
+import { SearchBar } from './entities/search/SearchBar'
+import { applySearch, EMPTY_FILTERS } from './entities/search/filterLogic'
+import { SearchFilters } from './entities/search/types'
 
 function App() {
   // Состояние выбора живёт в корне приложения: храним только ID выбранных задач
   const [selectedTaskIds, setSelectedTaskIds] = useState<Set<string>>(new Set())
+  // Применённые фильтры поиска (строка + модалка фильтров)
+  const [filters, setFilters] = useState<SearchFilters>(EMPTY_FILTERS)
 
   const handleSelectChange = useCallback((taskId: string, selected: boolean) => {
     setSelectedTaskIds(prev => {
@@ -19,18 +24,20 @@ function App() {
     })
   }, [])
 
+  // Список задач с учётом строки поиска и фильтров из модалки
+  const filteredTasks = useMemo(() => applySearch(testTaskInfoArray, filters), [filters])
+
   // Готовый доступ ко всем выбранным задачам прямо из App
   const selectedTasks = useMemo(
-    () => testTaskInfoArray.filter(task => selectedTaskIds.has(task.task.id)),
-    [selectedTaskIds],
+    () => filteredTasks.filter(task => selectedTaskIds.has(task.task.id)),
+    [filteredTasks, selectedTaskIds],
   )
-
-  console.log('Выбранные задачи:', selectedTasks)
 
   return (
     <>
+      <SearchBar tasks={testTaskInfoArray} onSearch={setFilters} />
       <TaskTableContainer
-        tasks={testTaskInfoArray}
+        tasks={filteredTasks}
         selectedIds={selectedTaskIds}
         onSelectChange={handleSelectChange}
       />

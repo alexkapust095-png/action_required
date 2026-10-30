@@ -1,0 +1,55 @@
+/* ============================================================
+   SearchBar — строка поиска с кнопкой фильтров в конце.
+   Только геометрия; цвета/тени минимальны и нейтральны.
+   ============================================================ */
+
+.task-widget.search-bar {
+    --sb-height: 36px;
+    --sb-gap: 4px;
+
+    display: flex;
+    align-items: stretch;
+    gap: var(--sb-gap);
+    box-sizing: border-box;
+    padding: 8px 12px;
+}
+
+.task-widget.search-bar .search-input {
+    flex: 1 1 auto;
+    min-width: 0;
+    height: var(--sb-height);
+    box-sizing: border-box;
+    padding: 0 12px;
+    font-family: inherit;
+    font-size: 14px;
+    line-height: 20px;
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    background: #fff;
+}
+
+.task-widget.search-bar .search-filter-button {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--sb-height);
+    height: var(--sb-height);
+    box-sizing: border-box;
+    padding: 0;
+    cursor: pointer;
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    background: #fff;
+    color: inherit;
+}
+
+.task-widget.search-bar .search-filter-button:hover,
+.task-widget.search-bar .search-filter-button.active {
+    border-color: #7a7a7a;
+}
+
+.task-widget.search-bar .search-filter-button .elma-icons {
+    font-size: 18px;
+    line-height: 1;
+}
