@@ -1,0 +1,16 @@
+/* CreatedAt — колонка «Дата создания» (170px).
+   Только геометрия. Цвета, прозрачность и тени не задаются. */
+
+.task-widget .created-at-title {
+    display: block;
+    min-width: 0;
+    font-size: 13px;
+    line-height: 18px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.task-widget .created-at-title {
+    box-sizing: border-box;
+}

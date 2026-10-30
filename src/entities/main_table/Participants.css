@@ -1,0 +1,26 @@
+/* Participants — резиновая колонка «Отправитель / Участники».
+   Только геометрия. Цвета, прозрачность и тени не задаются. */
+
+.task-widget .task-participants {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2px;
+    min-width: 0;
+}
+
+.task-widget .sender-title,
+.task-widget .participant-title {
+    min-width: 0;
+    font-size: 13px;
+    line-height: 18px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.task-widget .task-participants,
+.task-widget .sender-title,
+.task-widget .participant-title {
+    box-sizing: border-box;
+}

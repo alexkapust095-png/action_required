@@ -1,0 +1,27 @@
+/* TaskName — резиновая колонка «Наименование».
+   Только геометрия. Цвета, прозрачность и тени не задаются. */
+
+.task-widget .task-table-cell.name {
+    min-width: 0;
+}
+
+.task-widget .task-title {
+    display: block;
+    min-width: 0;
+}
+
+.task-widget .task-title-span {
+    display: block;
+    min-width: 0;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.task-widget .task-title,
+.task-widget .task-title-span {
+    box-sizing: border-box;
+}

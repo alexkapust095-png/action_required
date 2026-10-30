@@ -1,0 +1,36 @@
+/* Task — одна строка списка задач.
+   Только геометрия. Цвета, прозрачность и тени не задаются. */
+
+.task-widget .task-table-row {
+    display: grid;
+    grid-template-columns: var(--tt-grid-columns);
+    align-items: center;
+    min-height: var(--tt-row-min-height);
+}
+
+/* Общая ячейка строки: одинаковый горизонтальный отступ для всех колонок */
+.task-widget .task-table-cell {
+    min-width: 0;
+    padding: var(--tt-cell-padding-block) var(--tt-cell-padding-inline);
+}
+
+/* Чекбокс выбора — первая колонка, квадрат 48px, элемент по центру */
+.task-widget .task-checkbox {
+    display: block;
+    width: 16px;
+    height: 16px;
+    margin: 0 auto;
+    cursor: pointer;
+}
+
+/* Пустые служебные ячейки шапки (выбор / прочитанность) — только геометрия колонки */
+.task-widget .task-table-cell.checkbox,
+.task-widget .task-table-head .task-table-cell.readed {
+    padding-inline: 0;
+}
+
+.task-widget .task-table-row,
+.task-widget .task-table-cell,
+.task-widget .task-checkbox {
+    box-sizing: border-box;
+}

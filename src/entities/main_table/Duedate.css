@@ -1,0 +1,20 @@
+/* Duedate — колонка «Сделать до» (170px), последняя в таблице.
+   Только геометрия. Цвета, прозрачность и тени не задаются. */
+
+.task-widget .task-table-cell.due-date {
+    text-align: right;
+}
+
+.task-widget .duedate-title {
+    display: block;
+    min-width: 0;
+    font-size: 13px;
+    line-height: 18px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.task-widget .duedate-title {
+    box-sizing: border-box;
+}

@@ -1,0 +1,115 @@
+/* ============================================================
+   TaskWidget — корневая область встраиваемого виджета «Задачи».
+
+   Виджет встраивается в чужую страницу (ЭДО), поэтому:
+   - здесь нет ГЛОБАЛЬНЫХ селекторов ( *, html, body, #root, div, p ...);
+   - каждое правило привязано к классам/id внутри корня .task-widget;
+   - токены геометрии объявлены на самом корне (.task-widget), а не в :root,
+     поэтому наружу (к <html>) они не выходят и с чужими стилями не спорят.
+
+   Только геометрия: размеры, отступы, позиционирование.
+   Цвета, прозрачность и тени не задаются.
+   ============================================================ */
+
+.task-widget {
+    /* Типовая плотная сетка интерфейса ЭДО: 14px текст, шаг отступов 4px.
+       Наследуется только внутренними узлами виджета. */
+    font-family: 'Roboto', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    font-size: 14px;
+    line-height: 20px;
+    -webkit-font-smoothing: antialiased;
+
+    /* Внутренняя модель блоков виджета изолирована от чужих reset-стилей.
+       Модель задаётся списком классов (без универсального селектора `*`),
+       чтобы не переопределять правила страницы-хоста. */
+
+    /* ============================================================
+       Единая сетка колонок таблицы — общий токен геометрии.
+       9 колонок: чекбокс | важность | прочитано | наименование |
+                  дата создания | инициатор | участники | приоритет | сделать до
+       Шапка (TaskTableHeader) и строки (Task) используют ОДНУ сетку,
+       поэтому границы колонок совпадают.
+       ============================================================ */
+    --tt-grid-columns:
+        48px                  /* task-checkbox  */
+        40px                  /* ImportantMark  */
+        40px                  /* ReadedMark     */
+        minmax(260px, 1.2fr)  /* TaskName       */
+        170px                 /* CreatedAt      */
+        170px                 /* Initiator      */
+        minmax(220px, 1fr)    /* Participants   */
+        120px                 /* Priority       */
+        170px;                /* Duedate        */
+
+    --tt-row-min-height: 56px;    /* высота строки списка ЭДО */
+    --tt-head-height: 40px;       /* высота заголовков колонок */
+    --tt-toolbar-height: 56px;    /* высота панели действий */
+    --tt-cell-padding-inline: 12px;
+    --tt-cell-padding-block: 8px;
+}
+
+/* Модель блоков — только узлы виджета, перечисленные по классам.
+   Универсальных селекторов (`*`, теги) нет: стили не выходят за пределы виджета */
+.task-widget,
+.task-widget .task-table-container,
+.task-widget .task-table-headers,
+.task-widget .task-table-head,
+.task-widget .task-table-body,
+.task-widget .task-table-row,
+.task-widget .task-table-cell,
+.task-widget .task-checkbox,
+.task-widget .task-title,
+.task-widget .task-title-span,
+.task-widget .column-name,
+.task-widget .column-name-accent,
+.task-widget .created-at-title,
+.task-widget .created-by-title,
+.task-widget .duedate-title,
+.task-widget .sender-title,
+.task-widget .participant-title,
+.task-widget .priority-low,
+.task-widget .priority-medium,
+.task-widget .priority-high,
+.task-widget .task-mark-important,
+.task-widget .task-mark-readed,
+.task-widget .action-button,
+.task-widget .elma-icons,
+.task-widget .task-table-empty {
+    box-sizing: border-box;
+}
+
+/* Геометрия глифов иконок elma-icons — только внутри виджета */
+.task-widget .elma-icons.md-14 { width: 14px; height: 14px; font-size: 14px; }
+.task-widget .elma-icons.md-18 { width: 18px; height: 18px; font-size: 18px; }
+.task-widget .elma-icons.md-24 { width: 24px; height: 24px; font-size: 24px; }
+
+/* ============================================================
+   Адаптивная геометрия: на узких экранах сжимаются колонки метаданных,
+   резиновые колонки (наименование / участники) остаются.
+   Переопределяются токены на том же корне .task-widget.
+   ============================================================ */
+
+@media (max-width: 1400px) {
+    .task-widget {
+        --tt-grid-columns:
+            48px 40px 40px
+            minmax(220px, 1.2fr)
+            150px 150px
+            minmax(180px, 1fr)
+            110px
+            150px;
+    }
+}
+
+@media (max-width: 1100px) {
+    .task-widget {
+        --tt-grid-columns:
+            40px 36px 36px
+            minmax(180px, 1.2fr)
+            130px 130px
+            minmax(150px, 1fr)
+            100px
+            130px;
+        --tt-cell-padding-inline: 8px;
+    }
+}

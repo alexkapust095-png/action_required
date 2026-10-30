@@ -1,0 +1,26 @@
+/* ReadedMark — узкая колонка флага «Прочитано» (40px).
+   Только геометрия. Цвета, прозрачность и тени не задаются. */
+
+.task-widget .task-table-cell.readed {
+    padding-inline: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.task-widget .task-mark-readed {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    box-sizing: border-box;
+}
+
+/* Глиф иконки: квадрат 18x18 по центру ячейки 40px */
+.task-widget .task-mark-readed.md-18 {
+    width: 18px;
+    height: 18px;
+    font-size: 18px;
+    line-height: 18px;
+}

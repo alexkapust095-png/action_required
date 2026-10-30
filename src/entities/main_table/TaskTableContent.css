@@ -1,0 +1,37 @@
+/* TaskTableContent — прокручиваемая область строк списка.
+   Только геометрия. Цвета, прозрачность и тени не задаются. */
+
+.task-widget .task-table-body {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+}
+
+/* Пустое состояние: этот блок является корнем виджета (.task-widget),
+   поэтому селектор — только по классу области, без префикса */
+.task-table-empty-cell {
+    display: block;
+    width: 100%;
+    padding: var(--tt-cell-padding-block) 0;
+}
+
+/* Если пустое состояние вставлено внутрь контейнера-сетки — на всю ширину */
+.task-widget.task-table-container > .task-table-empty-cell {
+    grid-column: 1 / -1;
+}
+
+.task-widget .task-table-empty {
+    margin: 0;
+    padding: 32px var(--tt-cell-padding-inline);
+    text-align: center;
+    font-size: 14px;
+    line-height: 20px;
+}
+
+.task-widget .task-table-body,
+.task-widget .task-table-empty,
+.task-table-empty-cell {
+    box-sizing: border-box;
+}

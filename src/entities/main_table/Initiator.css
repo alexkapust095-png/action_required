@@ -1,0 +1,16 @@
+/* Initiator — колонка «Инициатор» (170px).
+   Только геометрия. Цвета, прозрачность и тени не задаются. */
+
+.task-widget .created-by-title {
+    display: block;
+    min-width: 0;
+    font-size: 13px;
+    line-height: 18px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.task-widget .created-by-title {
+    box-sizing: border-box;
+}

@@ -1,0 +1,26 @@
+/* Priority — колонка «Приоритет» (120px).
+   Только геометрия. Цвета, прозрачность и тени не задаются. */
+
+.task-widget .task-priority {
+    display: flex;
+    align-items: center;
+    min-width: 0;
+}
+
+.task-widget .priority-low,
+.task-widget .priority-medium,
+.task-widget .priority-high {
+    min-width: 0;
+    font-size: 13px;
+    line-height: 18px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.task-widget .task-priority,
+.task-widget .priority-low,
+.task-widget .priority-medium,
+.task-widget .priority-high {
+    box-sizing: border-box;
+}

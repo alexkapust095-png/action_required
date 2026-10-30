@@ -1,0 +1,53 @@
+/* TaskTableHeader — строка заголовков колонок.
+   Только геометрия. Цвета, прозрачность и тени не задаются. */
+
+/* Та же сетка, что у строк списка: один токен --tt-grid-columns */
+.task-widget .task-table-head {
+    display: grid;
+    grid-template-columns: var(--tt-grid-columns);
+    align-items: center;
+    height: var(--tt-head-height);
+    flex-shrink: 0;
+    /* заголовки остаются на месте при прокрутке тела списка */
+    position: sticky;
+    top: 0;
+    z-index: 2;
+}
+
+.task-widget .column-name {
+    min-width: 0;
+    padding: 0 var(--tt-cell-padding-inline);
+    font-size: 12px;
+    line-height: 16px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* В плотной сетке ЭДО метаданные выровнены по левому краю;
+   исключение — последняя колонка («Сделать до») у правого края таблицы */
+.task-widget .column-name.due-date {
+    text-align: right;
+}
+
+/* Двухстрочный заголовок «Отправитель / Участники» внутри одной колонки */
+.task-widget .column-name.participants {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    white-space: normal;
+}
+
+.task-widget .column-name-accent {
+    display: block;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.task-widget .task-table-head,
+.task-widget .column-name,
+.task-widget .column-name-accent {
+    box-sizing: border-box;
+}

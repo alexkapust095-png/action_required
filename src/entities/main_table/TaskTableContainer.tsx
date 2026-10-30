@@ -1,3 +1,6 @@
+import '../../TaskWidget.css'
+import './TaskTableContainer.css'
+
 import { TaskInfo } from "@/types/types";
 import { TaskTableContent } from "./TaskTableContent";
 import { TaskTableHeader } from "./TaskTableHeader";
@@ -9,14 +12,14 @@ export function TaskTableContainer(props: {
     onSelectChange: (taskId: string, selected: boolean) => void,
 }) {
     return (
-        <>
+        <div className="task-widget task-table-container">
             <Actions selectedIds={props.selectedIds}/>
             <TaskTableHeader />
-            <TaskTableContent 
+            <TaskTableContent
                 onSelectChange={props.onSelectChange}
                 selectedIds={props.selectedIds}
                 tasks={props.tasks}
             />
-        </>
+        </div>
     )
 }
