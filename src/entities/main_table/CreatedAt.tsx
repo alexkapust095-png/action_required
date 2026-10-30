@@ -1,14 +1,17 @@
 import './CreatedAt.css'
 
 import { TDatetime } from "@/types/elma365";
+import { escapeHtml } from "../../utils/escapeHtml";
+import { formatDateTime } from "../../utils/formatDateTime";
 
 export function CreatedAt(props: {date: TDatetime}) {
-    let date = props.date
+    const formatted = formatDateTime(props.date)
     return (
         <div className="task-table-cell created-at">
-            <span className="created-at-title">
-                `${date.day}.${date.month}.${date.year}, ${date.hours}:${date.minutes}`
-            </span>
+            <span
+                className="created-at-title"
+                dangerouslySetInnerHTML={{ __html: escapeHtml(formatted) }}
+            />
         </div>
     )
 }
