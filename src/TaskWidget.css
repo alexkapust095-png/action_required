@@ -47,9 +47,9 @@
     --tt-cell-padding-inline: 12px;
     --tt-cell-padding-block: 8px;
 
-    /* Видимая высота области списка (без панели действий и без заголовка
-       таблицы) — 70% высоты экрана. Внутри этой области прокручиваются строки,
-       заголовок колонок остаётся на месте (position: sticky). */
+    /* Видимая высота ТЕЛА списка (без панели действий и без заголовка
+       таблицы) — 70% высоты экрана. Внутри этой области прокручиваются строки;
+       панель действий и заголовок таблицы стоят над ней и в 70vh не входят. */
     --tt-list-max-height: 70vh;
 }
 
@@ -58,7 +58,6 @@
 .task-widget,
 .task-widget .task-table-container,
 .task-widget .task-table-headers,
-.task-widget .task-table-scroll,
 .task-widget .task-table-head,
 .task-widget .task-table-body,
 .task-widget .task-table-row,

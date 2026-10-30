@@ -22,20 +22,25 @@
     grid-column: 1 / -1;
 }
 
-/* Блок «шапка + тело списка» — на всю ширину сетки.
-   Именно он ограничивается по высоте (см. TaskTableContent.css) и прокручивается,
-   при этом панель действий и заголовок таблицы в прокрутку не попадают. */
-.task-widget.task-table-container > .task-table-scroll {
+/* Заголовок таблицы — на всю ширину сетки, стоит НАД областью прокрутки
+   и в ограничение высоты 70vh НЕ входит (прокручивается только тело). */
+.task-widget.task-table-container > .task-table-head {
     grid-column: 1 / -1;
     min-width: 0;
-    display: block;
+}
+
+/* Тело списка — на всю ширину сетки; именно оно ограничивается высотой 70vh
+   и прокручивается (см. TaskTableContent.css) */
+.task-widget.task-table-container > .task-table-body {
+    grid-column: 1 / -1;
+    min-width: 0;
 }
 
 /* Внутренняя модель блоков — по классам, без универсальных селекторов */
 .task-widget,
 .task-widget .task-table-container,
-.task-widget .task-table-scroll,
 .task-widget .task-table-head,
+.task-widget .task-table-body,
 .task-widget .task-table-row,
 .task-widget .task-table-cell {
     box-sizing: border-box;

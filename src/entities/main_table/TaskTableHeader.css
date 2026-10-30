@@ -1,17 +1,15 @@
 /* TaskTableHeader — строка заголовков колонок.
    Только геометрия. Цвета, прозрачность и тени не задаются. */
 
-/* Та же сетка, что у строк списка: один токен --tt-grid-columns */
+/* Та же сетка, что у строк списка: один токен --tt-grid-columns.
+   Заголовок стоит НАД областью прокрутки (телом списка) и в 70vh не входит,
+   поэтому position: sticky здесь не нужен — он всегда виден сам по себе. */
 .task-widget .task-table-head {
     display: grid;
     grid-template-columns: var(--tt-grid-columns);
     align-items: center;
     height: var(--tt-head-height);
     flex-shrink: 0;
-    /* заголовки остаются на месте при прокрутке тела списка */
-    position: sticky;
-    top: 0;
-    z-index: 2;
 }
 
 .task-widget .column-name {
