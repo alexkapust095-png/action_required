@@ -12,7 +12,10 @@
     flex-shrink: 0;
 }
 
-.task-widget .column-name {
+/* Базовая ячейка заголовка: тот же горизонтальный отступ и то же левое
+   выравнивание, что у ячеек строк задач (.task-table-cell), поэтому
+   подписи колонок стоят ровно над значениями. */
+.task-widget .task-table-head .column-name {
     min-width: 0;
     padding: 0 var(--tt-cell-padding-inline);
     font-size: 12px;
@@ -20,12 +23,34 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    text-align: left;
 }
 
-/* В плотной сетке ЭДО метаданные выровнены по левому краю;
-   исключение — последняя колонка («Сделать до») у правого края таблицы */
-.task-widget .column-name.due-date {
-    text-align: right;
+/* Строка заголовков целиком по левому краю — как тело списка:
+   переопределяет возможное унаследованное выравнивание страницы-хоста.
+   Отступ служебных колонок (выбор / важность / прочитано) совпадает
+   с отступом значений в строках, чтобы подписи не «съезжали». */
+.task-widget .task-table-head .task-table-cell {
+    padding: 0 var(--tt-cell-padding-inline);
+    text-align: left;
+}
+
+/* Колонки выбора / важности / прочитанности в шапке ЭДО не подписаны,
+   но ячейка «*» обязана стоять на том же левом краю, что и колонка важности
+   в строках задач (см. ImportantMark.css): flex + justify-content: flex-start
+   при общем отступе ячеек. */
+.task-widget .task-table-head .task-table-cell.important {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.task-widget .task-table-head .column-name.important {
+    padding: 0;
+    width: auto;
+    height: auto;
+    line-height: 16px;
+    text-align: left;
 }
 
 /* Двухстрочный заголовок «Отправитель / Участники» внутри одной колонки */

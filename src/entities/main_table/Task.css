@@ -14,19 +14,19 @@
     padding: var(--tt-cell-padding-block) var(--tt-cell-padding-inline);
 }
 
-/* Чекбокс выбора — первая колонка, квадрат 48px, элемент по центру */
+/* Чекбокс выбора — первая колонка (48px), элемент по левому краю
+   с общим отступом ячеек: то же выравнивание, что у шапки и остальных колонок */
 .task-widget .task-checkbox {
     display: block;
     width: 16px;
     height: 16px;
-    margin: 0 auto;
+    margin: 0;
     cursor: pointer;
 }
 
-/* Пустые служебные ячейки шапки (выбор / прочитанность) — только геометрия колонки */
-.task-widget .task-table-cell.checkbox,
+/* Пустые служебные ячейки шапки (прочитанность) — только геометрия колонки */
 .task-widget .task-table-head .task-table-cell.readed {
-    padding-inline: 0;
+    padding-inline: var(--tt-cell-padding-inline);
 }
 
 .task-widget .task-table-row,

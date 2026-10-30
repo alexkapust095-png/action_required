@@ -1,11 +1,16 @@
 /* ImportantMark — узкая колонка флага «Важно» (40px).
    Только геометрия. Цвета, прозрачность и тени не задаются. */
 
-.task-widget .task-table-cell.important {
-    padding-inline: 0;
+/* Важность / прочитанность — узкие служебные колонки (40px).
+   Значения прижаты к левому краю ячейки и имеют тот же горизонтальный
+   отступ, что и остальные колонки (.task-table-cell), поэтому шапка
+   (TaskTableHeader) и строки совпадают по выравниванию. */
+.task-widget .task-table-cell.important,
+.task-widget .task-table-cell.readed {
+    padding-inline: var(--tt-cell-padding-inline);
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
 }
 
 .task-widget .task-mark-important {

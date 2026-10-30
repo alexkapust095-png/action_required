@@ -1,11 +1,14 @@
 /* ReadedMark — узкая колонка флага «Прочитано» (40px).
    Только геометрия. Цвета, прозрачность и тени не задаются. */
 
+/* Колонка «Прочитано» — геометрия синхронизирована с колонкой «Важно»
+   (см. ImportantMark.css): левое выравнивание + общий отступ ячеек,
+   чтобы шапка и строки списка стояли на одних границах. */
 .task-widget .task-table-cell.readed {
-    padding-inline: 0;
+    padding-inline: var(--tt-cell-padding-inline);
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
 }
 
 .task-widget .task-mark-readed {
