@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import './FilterModal.css'
 import { FilterOptions, PriorityFilterValue, SearchFilters } from './types'
 import { PRIORITY_OPTIONS, ROUTE_OPTIONS } from './filterLogic'
-import { inputValueToTdatetime, tdatetimeToInputValue } from '@/utils/tdatetime'
+import { inputValueToTdatetime, tdatetimeToInputValue } from '../../utils/tdatetime'
 import { MultiSelect } from './MultiSelect'
 import { SingleSelect } from './SingleSelect'
 

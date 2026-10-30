@@ -1,5 +1,5 @@
 import { TaskInfo } from '@/types/types'
-import { compareTdatetime, inputValueToTdatetime, tdatetimeToInputValue } from '@/utils/tdatetime'
+import { compareTdatetime, inputValueToTdatetime, tdatetimeToInputValue } from '../../utils/tdatetime'
 import { FilterOptions, PriorityFilterValue, SearchFilters, SelectOption } from './types'
 
 /** Варианты поля «Маршрут» (фиксированный список) */
