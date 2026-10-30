@@ -7,7 +7,9 @@
     display: inline-flex;
     align-items: center;
     justify-content: flex-start;
-    width: var(--tt-col-mark);
+    /* слот растягивается на свою внутреннюю колонку сетки меток (1fr),
+       поэтому «Важно» и «Прочитано» делят ширину колонки «*”» поровну */
+    width: 100%;
     height: 24px;
     min-width: 0;
     box-sizing: border-box;

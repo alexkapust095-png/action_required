@@ -1,18 +1,44 @@
 /* Marks — колонка признаков «Важно» и «Прочитано» под одним заголовком «*”.
-   Внутри ячейки признаки образуют сетку 2x2: колонки фиксированной ширины
-   (--tt-col-mark), поэтому второй признак стоит ровно ПОД первым,
-   а левая граница колонки совпадает в шапке и в строках задач.
+
+   Правило ОБЩЕЕ для шапки и для строк задач: селектор по классу
+   .task-table-cell.marks без различия родителя. Поэтому внутренняя сетка
+   признаков имеет одинаковые ширины колонок, промежутки и внешние отступы
+   в заголовке и в строке — левая/правая границы колонки «*”» совпадают
+   с границами колонок признаков в задачах.
+
    Только геометрия. Цвета, прозрачность и тени не задаются. */
 
 .task-widget .task-table-cell.marks {
     display: grid;
-    grid-template-columns: var(--tt-col-mark) var(--tt-col-mark);
-    column-gap: var(--tt-col-marks-gap);
+    /* Внутренние колонки меток: слот признака | промежуток | слот признака.
+       Все значения выведены из ширины самой колонки «Метки»
+       (--tt-col-marks = 2 * --tt-col-mark + --tt-col-marks-gap), поэтому сетка
+       признаков тождественно заполняет область под заголовком «*”» и не может
+       разойтись с ним ни на одном брейкпоинте. */
+    grid-template-columns: var(--tt-col-mark-slot) var(--tt-col-marks-gap) var(--tt-col-mark-slot);
+    column-gap: 0; /* промежуток — отдельная средняя колонка */
     align-content: center;
-    justify-content: start;
-    align-items: center;
+    /* оба признака — на одной базовой линии, иначе разъезжаются по вертикали */
+    align-items: baseline;
+    width: 100%;
 }
 
-.task-widget .task-table-cell.marks {
+/* Первый признак («Важно») и второй («Прочитано») — в соседних колонках одной
+   строки (через промежуток): так они стоят под одним заголовком «*”» ровно по
+   внутренним колонкам шапки. Порядок задан один раз и действует одинаково для
+   шапки и строк задач. */
+.task-widget .task-table-cell.marks > :first-child {
+    grid-column: 1;
+    justify-self: start;
+}
+
+.task-widget .task-table-cell.marks > :last-child {
+    grid-column: 3;
+    justify-self: start;
+}
+
+.task-widget .task-table-cell.marks,
+.task-widget .task-mark-readed-slot,
+.task-widget .task-mark-readed {
     box-sizing: border-box;
 }
