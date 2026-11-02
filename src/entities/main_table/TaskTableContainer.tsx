@@ -10,10 +10,16 @@ export function TaskTableContainer(props: {
     tasks: TaskInfo[],
     selectedIds: Set<string>,
     onSelectChange: (taskId: string, selected: boolean) => void,
+    onClearSelection?: () => void,
+    onResetFilters?: () => void,
 }) {
     return (
         <div className="task-widget task-table-container">
-            <Actions selectedIds={props.selectedIds}/>
+            <Actions
+                selectedIds={props.selectedIds}
+                onClearSelection={props.onClearSelection}
+                onResetFilters={props.onResetFilters}
+            />
             {/* Шапка колонок стоит НАД областью прокрутки и в 70vh не входит.
                 Ограничение по высоте (70vh) и прокрутка заданы на .task-table-body
                 (см. TaskTableContent.css) — только тело списка. */}
