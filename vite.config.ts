@@ -18,7 +18,7 @@ export default defineConfig({
       // Формат выхода задаёт плагин singleFileWidget (iife): чистый IIFE
       // безопаснее для вставки в чужие страницы (elma365 Script-in-Script),
       // чем UMD с секциями module.exports/AMD.
-      formats: ['iife'],
+      formats: ['umd'],
       fileName: () => 'my-widget.umd.js'
     },
     rollupOptions: {
