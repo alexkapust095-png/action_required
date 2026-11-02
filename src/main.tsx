@@ -3,7 +3,21 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App'
 
-createRoot(document.getElementById('root')!).render(
+// Точка монтирования виджета.
+// В elma365 обычно нет элемента с id="root", поэтому ищем его, а если не
+// нашли — создаём собственную контейнер-ноду в конце <body>. Благодаря этому
+// сборка работает и как приложение (dev), и как автономный виджет (prod).
+function getMountNode(): HTMLElement {
+  const existing = document.getElementById('root')
+  if (existing) return existing
+  const node = document.createElement('div')
+  node.id = 'root'
+  node.className = 'task-widget'
+  document.body.appendChild(node)
+  return node
+}
+
+createRoot(getMountNode()).render(
   <StrictMode>
     <App />
   </StrictMode>,
