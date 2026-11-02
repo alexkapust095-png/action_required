@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Пример подключения виджета «Задачи к выполнению»</title>
+    <!--
+      НЕ НУЖНО:
+        <link rel="stylesheet" href="action_required.css" />   — стили уже внутри JS (инлайн)
+        <script src="react.js"></script>                       — React собран внутри бандла
+      Виджету нужен ТОЛЬКО один файл my-widget.umd.js, доступный по прямой ссылке,
+      которая отдаёт именно JavaScript (Content-Type: application/javascript),
+      а не HTML-страницу (иначе будет "Uncaught SyntaxError: Unexpected token '<'").
+    -->
+  </head>
+  <body>
+    <h1>Страница elma365 / любой сайт</h1>
+    <p>Ниже подключается виджет одним скриптом:</p>
+
+    <!-- ВАРИАНТ 1 (рекомендуемый): прямая ссылка на опубликованный файл.
+         В elma365 этот URL вставляется в настройку виджета (Script-in-Script).
+         Замените ссылку на свой реальный адрес файла my-widget.umd.js. -->
+    <script src="https://cdn.example.com/widgets/action-required/my-widget.umd.js"></script>
+
+    <!-- ВАРИАНТ 2: если код вставляется прямо в страницу elma365 как «встроенный
+         скрипт» — скопируйте СОДЕРЖИМОЕ dist/my-widget.umd.js внутрь этого тега.
+         Так вы вообще зависите от раздачи файла сервером:
+    <script>
+      ;(function(){ /* ...содержимое my-widget.umd.js... */ })();
+    </script>
+    -->
+
+    <!-- ВАРИАНТ 3: загрузка с проверкой ответа сервера (защита от HTML вместо JS).
+         Если по адресу окажется страница 404/логина — в консоли появится понятная
+         ошибка, а браузер не упадёт на SyntaxError:
+    <script>
+      fetch('https://cdn.example.com/widgets/action-required/my-widget.umd.js')
+        .then(function (r) {
+          var ct = r.headers.get('content-type') || '';
+          if (!r.ok || ct.indexOf('javascript') === -1) {
+            throw new Error('Сервер вернул не JavaScript (HTTP ' + r.status + ', type: ' + ct + ')');
+          }
+          return r.text();
+        })
+        .then(function (code) {
+          var s = document.createElement('script');
+          s.textContent = code;
+          document.head.appendChild(s);
+        })
+        .catch(function (e) { console.error('[action-required]', e.message); });
+    </script>
+    -->
+  </body>
+</html>
