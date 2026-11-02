@@ -39,16 +39,25 @@ export function inlineCss(): Plugin {
       const css = parts.join('\n')
       if (!css) return
 
-      // Инжектируем стили в начало каждого JS-чанка
+      // Инжектируем стили в начало каждого JS-чанка.
+      // CSS сериализуется как обычная JS-строка с полным экранированием:
+      // «<» -> \x3C, «>» -> \x3E, кавычки/слеши/переводы строк тоже
+      // экранируются, поэтому внутри бандла НЕТ никакой HTML-разметки
+      // (ни <!doctype>, ни </style>) — файл остаётся чистым JavaScript
+      // и не может сломать парсер при inline-вставке в elma365.
+      const cssLiteral = JSON.stringify(css)
+        .replace(/</g, '\\x3C')
+        .replace(/>/g, '\\x3E')
+
       for (const [fileName, item] of Object.entries(bundle)) {
         if (item.type !== 'chunk' || !fileName.endsWith('.js')) continue
         const injected =
           `(function(){if(typeof document==="undefined")return;` +
-          `var d=document.querySelector('[data-widget="action-required"]');` +
+          `var d=document.querySelector("[data-widget=action-required]");` +
           `if(d)return;` +
           `var s=document.createElement("style");` +
           `s.setAttribute("data-widget","action-required");` +
-          `s.appendChild(document.createTextNode(${JSON.stringify(css)}));` +
+          `s.appendChild(document.createTextNode(${cssLiteral}));` +
           `document.head.appendChild(s);})();\n`
         item.code = injected + item.code
       }
