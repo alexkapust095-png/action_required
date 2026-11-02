@@ -38,45 +38,50 @@ export function SearchBar(props: {
         props.onSearch(next)
     }
 
-    // «Сбросить» в модалке: очищаем строку поиска и все фильтры —
-    // задачи возвращаются к исходному виду; выбор в первой колонке сбрасывает App
+    // «Сбросить» в модалке: очищаем строку поиска и все применённые фильтры —
+    // список задач возвращается к исходному виду, выбор в первой колонке сбрасывает App.
+    // Окно фильтров остаётся открытым (его поля очищает сам FilterModal).
     const handleModalReset = () => {
         setQuery('')
         setAppliedFilters(EMPTY_FILTERS)
         props.onSearch(EMPTY_FILTERS)
-        setModalOpen(false)
     }
 
     return (
         <div className="task-widget search-bar">
-            <input
-                type="text"
-                className="search-input"
-                placeholder="Введите наименование"
-                value={query}
-                onChange={e => setQuery(e.target.value)}
-                onKeyDown={e => { if (e.key === 'Enter') handleSearchClick() }}
-            />
-            <button
-                type="button"
-                id="searchButton"
-                className="search-submit-button"
-                aria-label="Поиск"
-                onClick={handleSearchClick}
+            {/* Форма: Enter по кнопке «Поиск» срабатывает как обычный submit */}
+            <form
+                className="search-bar-form"
+                onSubmit={e => { e.preventDefault(); handleSearchClick() }}
             >
-                {/* Иконка поиска (elma-icons, как в панели действий) */}
-                <i className="elma-icons md-18" aria-hidden="true">search</i>
-            </button>
-            <button
-                type="button"
-                id="filterButton"
-                className={`search-filter-button${modalOpen ? ' active' : ''}`}
-                aria-label="Открыть фильтры"
-                onClick={() => setModalOpen(true)}
-            >
-                {/* Иконка фильтра (elma-icons, как в панели действий) */}
-                <i className="elma-icons md-18" aria-hidden="true">filter_list</i>
-            </button>
+                <input
+                    type="text"
+                    className="search-input"
+                    placeholder="Введите наименование"
+                    value={query}
+                    onChange={e => setQuery(e.target.value)}
+                    onKeyDown={e => { if (e.key === 'Enter') handleSearchClick() }}
+                />
+                <button
+                    type="submit"
+                    id="searchButton"
+                    className="search-submit-button"
+                    aria-label="Поиск"
+                >
+                    {/* Иконка поиска (elma-icons, как в панели действий) */}
+                    <i className="elma-icons md-18" aria-hidden="true">search</i>
+                </button>
+                <button
+                    type="button"
+                    id="filterButton"
+                    className={`search-filter-button${modalOpen ? ' active' : ''}`}
+                    aria-label="Открыть фильтры"
+                    onClick={() => setModalOpen(true)}
+                >
+                    {/* Иконка фильтра (elma-icons, как в панели действий) */}
+                    <i className="elma-icons md-18" aria-hidden="true">filter_list</i>
+                </button>
+            </form>
 
             <FilterModal
                 open={modalOpen}

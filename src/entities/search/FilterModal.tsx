@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import './FilterModal.css'
 import { FilterOptions, PriorityFilterValue, SearchFilters } from './types'
-import { PRIORITY_OPTIONS, ROUTE_OPTIONS } from './filterLogic'
+import { EMPTY_FILTERS, PRIORITY_OPTIONS, ROUTE_OPTIONS } from './filterLogic'
 import { inputValueToTdatetime, tdatetimeToInputValue } from '../../utils/tdatetime'
 import { MultiSelect } from './MultiSelect'
 import { SingleSelect } from './SingleSelect'
@@ -21,7 +21,8 @@ export function FilterModal(props: {
     /** Сброс всех фильтров: родитель очищает строку поиска и применённые фильтры */
     onReset: () => void
 }) {
-    // Локальное состояние черновика фильтров: «Поиск» применяет его целиком
+    // Локальный черновик фильтров: «Поиск» применяет его целиком.
+    // Сброс в модалке очищает только черновик (строку поиска сбрасывает родитель).
     const [draft, setDraft] = useState<Omit<SearchFilters, 'query'>>(props.initialFilters)
     const modalRef = useRef<HTMLDivElement>(null)
 
@@ -37,6 +38,12 @@ export function FilterModal(props: {
             event.preventDefault()
             props.onSearch(draft)
         }
+    }
+
+    // «Сбросить»: очищаем все поля окна фильтров, не закрывая его
+    const handleResetClick = () => {
+        setDraft({ ...EMPTY_FILTERS })
+        props.onReset()
     }
 
     // Esc закрывает модалку
@@ -194,7 +201,7 @@ export function FilterModal(props: {
                 </div>
 
                 <div className="search-modal-footer">
-                    <button type="button" className="search-modal-reset" onClick={props.onReset}>
+                    <button type="button" className="search-modal-reset" onClick={handleResetClick}>
                         Сбросить
                     </button>
                     <button

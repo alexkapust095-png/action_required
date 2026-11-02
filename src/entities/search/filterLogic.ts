@@ -1,5 +1,5 @@
 import { TaskInfo } from '@/types/types'
-import { compareTdatetime, inputValueToTdatetime, tdatetimeToInputValue } from '../../utils/tdatetime'
+import { compareTdatetime } from '../../utils/tdatetime'
 import { FilterOptions, PriorityFilterValue, SearchFilters, SelectOption } from './types'
 
 /** Варианты поля «Маршрут» (фиксированный список) */
@@ -86,6 +86,27 @@ export const EMPTY_FILTERS: SearchFilters = {
     createdAtTo: null,
     readed: false,
     important: false,
+}
+
+/**
+ * Признак «пустого» набора фильтров: ничего не введено и ничего не выбрано.
+ * Используется для возврата списка задач к исходному виду и сброса выбора.
+ */
+export function isFiltersEmpty(filters: SearchFilters): boolean {
+    return (
+        !filters.query.trim() &&
+        filters.priority === null &&
+        filters.sender === null &&
+        filters.participants.length === 0 &&
+        filters.initiators.length === 0 &&
+        filters.statuses.length === 0 &&
+        filters.actionType === null &&
+        filters.routes.length === 0 &&
+        filters.createdAtFrom === null &&
+        filters.createdAtTo === null &&
+        !filters.readed &&
+        !filters.important
+    )
 }
 
 function matchesText(haystack: string | undefined, needle: string): boolean {

@@ -3,7 +3,7 @@ import './App.css'
 import { testTaskInfoArray } from './types/testData'
 import { TaskTableContainer } from './entities/main_table/TaskTableContainer'
 import { SearchBar } from './entities/search/SearchBar'
-import { applySearch, EMPTY_FILTERS } from './entities/search/filterLogic'
+import { applySearch, EMPTY_FILTERS, isFiltersEmpty } from './entities/search/filterLogic'
 import { SearchFilters } from './entities/search/types'
 
 function App() {
@@ -24,23 +24,11 @@ function App() {
     })
   }, [])
 
-  // Применение фильтров: при сбросе (пустые фильтры) очищаем и выбор в первой колонке
+  // Применение фильтров: при полном сбросе возвращаем исходный список
+  // и очищаем выбор в первой колонке списка задач
   const handleSearch = useCallback((next: SearchFilters) => {
     setFilters(next)
-    const isReset =
-      !next.query.trim() &&
-      next.priority === null &&
-      next.sender === null &&
-      next.participants.length === 0 &&
-      next.initiators.length === 0 &&
-      next.statuses.length === 0 &&
-      next.actionType === null &&
-      next.routes.length === 0 &&
-      next.createdAtFrom === null &&
-      next.createdAtTo === null &&
-      !next.readed &&
-      !next.important
-    if (isReset) {
+    if (isFiltersEmpty(next)) {
       setSelectedTaskIds(new Set())
     }
   }, [])
