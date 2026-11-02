@@ -18,6 +18,8 @@ export function FilterModal(props: {
     initialFilters: SearchFilters
     onClose: () => void
     onSearch: (filters: Omit<SearchFilters, 'query'>) => void
+    /** Сброс всех фильтров: родитель очищает строку поиска и применённые фильтры */
+    onReset: () => void
 }) {
     // Локальное состояние черновика фильтров: «Поиск» применяет его целиком
     const [draft, setDraft] = useState<Omit<SearchFilters, 'query'>>(props.initialFilters)
@@ -28,6 +30,14 @@ export function FilterModal(props: {
         if (props.open) setDraft(props.initialFilters)
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props.open])
+
+    // Enter в любом поле модалки — применить фильтры (как по кнопке «Поиск»)
+    const handleFormKeyDown = (event: React.KeyboardEvent) => {
+        if (event.key === 'Enter') {
+            event.preventDefault()
+            props.onSearch(draft)
+        }
+    }
 
     // Esc закрывает модалку
     useEffect(() => {
@@ -53,7 +63,7 @@ export function FilterModal(props: {
 
     return (
         <div className="task-widget search-modal-backdrop" onMouseDown={handleBackdropMouseDown}>
-            <div className="search-modal" ref={modalRef} role="dialog" aria-modal="true" aria-label="Фильтры">
+            <div className="search-modal" ref={modalRef} role="dialog" aria-modal="true" aria-label="Фильтры" onKeyDown={handleFormKeyDown}>
                 <div className="search-modal-header">
                     <span className="search-modal-title">Фильтры</span>
                     <button type="button" className="search-modal-close" aria-label="Закрыть" onClick={props.onClose}>
@@ -184,7 +194,7 @@ export function FilterModal(props: {
                 </div>
 
                 <div className="search-modal-footer">
-                    <button type="button" className="search-modal-reset" onClick={() => setDraft(EMPTY_DRAFT)}>
+                    <button type="button" className="search-modal-reset" onClick={props.onReset}>
                         Сбросить
                     </button>
                     <button
@@ -199,18 +209,4 @@ export function FilterModal(props: {
             </div>
         </div>
     )
-}
-
-const EMPTY_DRAFT: Omit<SearchFilters, 'query'> = {
-    priority: null,
-    sender: null,
-    participants: [],
-    initiators: [],
-    statuses: [],
-    actionType: null,
-    routes: [],
-    createdAtFrom: null,
-    createdAtTo: null,
-    readed: false,
-    important: false,
 }

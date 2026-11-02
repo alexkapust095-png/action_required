@@ -24,6 +24,27 @@ function App() {
     })
   }, [])
 
+  // Применение фильтров: при сбросе (пустые фильтры) очищаем и выбор в первой колонке
+  const handleSearch = useCallback((next: SearchFilters) => {
+    setFilters(next)
+    const isReset =
+      !next.query.trim() &&
+      next.priority === null &&
+      next.sender === null &&
+      next.participants.length === 0 &&
+      next.initiators.length === 0 &&
+      next.statuses.length === 0 &&
+      next.actionType === null &&
+      next.routes.length === 0 &&
+      next.createdAtFrom === null &&
+      next.createdAtTo === null &&
+      !next.readed &&
+      !next.important
+    if (isReset) {
+      setSelectedTaskIds(new Set())
+    }
+  }, [])
+
   // Список задач с учётом строки поиска и фильтров из модалки
   const filteredTasks = useMemo(() => applySearch(testTaskInfoArray, filters), [filters])
 
@@ -35,7 +56,7 @@ function App() {
 
   return (
     <>
-      <SearchBar tasks={testTaskInfoArray} onSearch={setFilters} />
+      <SearchBar tasks={testTaskInfoArray} onSearch={handleSearch} />
       <TaskTableContainer
         tasks={filteredTasks}
         selectedIds={selectedTaskIds}

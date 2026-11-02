@@ -22,15 +22,29 @@ export function SearchBar(props: {
     // Все наборы вариантов для модалки — из массива задач
     const filterOptions = useMemo(() => extractFilterOptions(props.tasks), [props.tasks])
 
+    // «Поиск» из строки и Enter в строке: применяем введённое наименование
+    // вместе с уже применёнными фильтрами модалки
     const handleSearchClick = () => {
-        props.onSearch({ ...appliedFilters, query })
+        const next: SearchFilters = { ...appliedFilters, query }
+        setAppliedFilters(next)
+        props.onSearch(next)
     }
 
+    // «Поиск» в модалке фильтров: применяем черновик фильтров + текущую строку
     const handleModalSearch = (draft: Omit<SearchFilters, 'query'>) => {
         const next: SearchFilters = { ...draft, query }
         setAppliedFilters(next)
         setModalOpen(false)
         props.onSearch(next)
+    }
+
+    // «Сбросить» в модалке: очищаем строку поиска и все фильтры —
+    // задачи возвращаются к исходному виду; выбор в первой колонке сбрасывает App
+    const handleModalReset = () => {
+        setQuery('')
+        setAppliedFilters(EMPTY_FILTERS)
+        props.onSearch(EMPTY_FILTERS)
+        setModalOpen(false)
     }
 
     return (
@@ -60,6 +74,7 @@ export function SearchBar(props: {
                 initialFilters={appliedFilters}
                 onClose={() => setModalOpen(false)}
                 onSearch={handleModalSearch}
+                onReset={handleModalReset}
             />
         </div>
     )
