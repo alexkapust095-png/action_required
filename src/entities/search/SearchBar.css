@@ -28,7 +28,8 @@
     background: #fff;
 }
 
-.task-widget.search-bar .search-filter-button {
+.task-widget.search-bar .search-filter-button,
+.task-widget.search-bar .search-submit-button {
     flex: 0 0 auto;
     display: inline-flex;
     align-items: center;
@@ -45,11 +46,13 @@
 }
 
 .task-widget.search-bar .search-filter-button:hover,
-.task-widget.search-bar .search-filter-button.active {
+.task-widget.search-bar .search-filter-button.active,
+.task-widget.search-bar .search-submit-button:hover {
     border-color: #7a7a7a;
 }
 
-.task-widget.search-bar .search-filter-button .elma-icons {
+.task-widget.search-bar .search-filter-button .elma-icons,
+.task-widget.search-bar .search-submit-button .elma-icons {
     font-size: 18px;
     line-height: 1;
 }

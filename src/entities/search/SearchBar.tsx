@@ -59,6 +59,16 @@ export function SearchBar(props: {
             />
             <button
                 type="button"
+                id="searchButton"
+                className="search-submit-button"
+                aria-label="Поиск"
+                onClick={handleSearchClick}
+            >
+                {/* Иконка поиска (elma-icons, как в панели действий) */}
+                <i className="elma-icons md-18" aria-hidden="true">search</i>
+            </button>
+            <button
+                type="button"
                 id="filterButton"
                 className={`search-filter-button${modalOpen ? ' active' : ''}`}
                 aria-label="Открыть фильтры"
