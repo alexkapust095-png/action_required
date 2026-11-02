@@ -31,8 +31,6 @@ function mount() {
 
 // Скрипт может подключаться синхронно в <head>, когда document.body ещё
 // не существует — в этом случае ждём DOMContentLoaded.
-if (document.body) {
+export function initWidget() {
   mount()
-} else {
-  document.addEventListener('DOMContentLoaded', mount)
-}
+} 
