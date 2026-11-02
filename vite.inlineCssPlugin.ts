@@ -51,14 +51,20 @@ export function inlineCss(): Plugin {
 
       for (const [fileName, item] of Object.entries(bundle)) {
         if (item.type !== 'chunk' || !fileName.endsWith('.js')) continue
+        // Вставка стилей отложена до DOMContentLoaded: скрипт виджета
+        // может подключаться синхронно в <head> (elma365), когда
+        // document.head ещё не существует.
         const injected =
-          `(function(){if(typeof document==="undefined")return;` +
+          `(function(){var ins=function(){try{` +
+          `if(typeof document==="undefined"||!document.head)return;` +
           `var d=document.querySelector("[data-widget=action-required]");` +
           `if(d)return;` +
           `var s=document.createElement("style");` +
           `s.setAttribute("data-widget","action-required");` +
           `s.appendChild(document.createTextNode(${cssLiteral}));` +
-          `document.head.appendChild(s);})();\n`
+          `document.head.appendChild(s);}catch(e){}};` +
+          `if(typeof document!=="undefined"&&document.readyState==="loading")` +
+          `{document.addEventListener("DOMContentLoaded",ins)}else{ins()}})();\n`
         item.code = injected + item.code
       }
     },

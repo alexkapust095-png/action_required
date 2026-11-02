@@ -17,8 +17,22 @@ function getMountNode(): HTMLElement {
   return node
 }
 
-createRoot(getMountNode()).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-)
+function mount() {
+  // Защита от двойного монтирования (повторная вставка скрипта на странице)
+  const host = getMountNode()
+  if (host.dataset.widgetMounted === '1') return
+  host.dataset.widgetMounted = '1'
+  createRoot(host).render(
+    <StrictMode>
+      <App />
+    </StrictMode>,
+  )
+}
+
+// Скрипт может подключаться синхронно в <head>, когда document.body ещё
+// не существует — в этом случае ждём DOMContentLoaded.
+if (document.body) {
+  mount()
+} else {
+  document.addEventListener('DOMContentLoaded', mount)
+}
