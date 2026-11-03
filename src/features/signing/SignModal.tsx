@@ -20,9 +20,9 @@ export function SignModal(props: {
     /** Выбранные задачи (все с action_type.code === 'signing') */
     tasks: TaskInfo[]
     /** Функция загрузки доступных сертификатов (без параметров) */
-    loadCertificates: () => CertificateData[] | Promise<CertificateData[]>
+    loadCertificates: () => Promise<CertificateData[]>
     /** Функция подписания: принимает массив id задач */
-    signDocuments: (taskIds: string[]) => void | Promise<void>
+    signDocuments: (taskIds: string[]) => Promise<void>
     onClose: () => void
     /** После успешного подписания: обновить список задач как по кнопке «Обновить» */
     onSigned: () => void

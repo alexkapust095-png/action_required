@@ -70,7 +70,7 @@ function App(props: { params?: WidgetParams }) {
   const handleUpdate = useCallback(async () => {
     if (!params.update) return
     try {
-      const result = await (params.update as () => unknown)()
+      const result = await params.update()
       if (Array.isArray(result)) {
         setTasks(result as TaskInfo[])
       }
@@ -82,8 +82,8 @@ function App(props: { params?: WidgetParams }) {
   // П.3: клик по звезде — сначала вызываем setImportant(id), затем инвертируем
   // локальное состояние important (звезда: красная при important === true,
   // иначе пустая с чёрным контуром).
-  const handleToggleImportant = useCallback((taskId: string) => {
-    params.setImportant?.(taskId)
+  const handleToggleImportant = useCallback(async (taskId: string) => {
+    await params.setImportant?.(taskId)
     setTasks(prev => prev.map(task =>
       task.task.id === taskId ? { ...task, important: !task.important } : task,
     ))
@@ -91,8 +91,8 @@ function App(props: { params?: WidgetParams }) {
 
   // П.4: клик по лампе — сначала вызываем setReaded(id), затем инвертируем
   // локальное состояние readed (лампа: жёлтая при readed === true, иначе серая).
-  const handleToggleReaded = useCallback((taskId: string) => {
-    params.setReaded?.(taskId)
+  const handleToggleReaded = useCallback(async (taskId: string) => {
+    await params.setReaded?.(taskId)
     setTasks(prev => prev.map(task =>
       task.task.id === taskId ? { ...task, readed: !task.readed } : task,
     ))
