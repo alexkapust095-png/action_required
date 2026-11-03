@@ -42,7 +42,7 @@ export function Actions(props: {
                     className="action-button"
                     onClick={props.onSignSelected}
                 >
-                    <i className="elma-icons md-18">edit_note</i>Подписать выбранные
+                    <i className="elma-icons md-18">pencil</i>Подписать выбранные
                 </button>
             )}
             <button id="refreshButton" className="action-button" onClick={props.onUpdate}><i className="elma-icons md-18">sync</i>Обновить</button>
