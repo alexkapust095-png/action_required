@@ -55,7 +55,7 @@ export interface WidgetParams {
     /** 1) Список задач (массив аналогично testData.ts) */
     tasks?: TaskInfo[]
     /** 2) Функция обновления — привязана к кнопке «Обновить» */
-    update?: () => Promise<void>
+    update?: () => Promise<TaskInfo[]>
     /** 3) Пометка важной/неважной: принимает id задачи */
     setImportant?: (taskId: string) => Promise<void>
     /** 4) Пометка прочитанной/непрочитанной: принимает id задачи */
