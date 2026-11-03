@@ -132,11 +132,13 @@ function App(props: { params?: WidgetParams }) {
         onSignSelected={() => setSignModalOpen(true)}
       />
       <p>Выбрано: {selectedTasks.length}</p>
-      {signModalOpen && params.loadCertificates && params.signDocuments && (
+      {/* Модалка показываем всегда при открытии; отсутствующие функции из elma365
+          не блокируют окно — внутри SignModal они обрабатываются мягко */}
+      {signModalOpen && (
         <SignModal
           tasks={selectedTasks}
-          loadCertificates={params.loadCertificates}
-          signDocuments={params.signDocuments}
+          loadCertificates={params.loadCertificates ?? (async () => [])}
+          signDocuments={params.signDocuments ?? (async () => {})}
           onClose={closeSignModal}
           onSigned={handleUpdate}
         />
