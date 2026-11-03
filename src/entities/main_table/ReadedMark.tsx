@@ -1,11 +1,25 @@
 import './ReadedMark.css'
 
-export function ReadedMark(props: {readed: boolean}) {
-    // Признак «Прочитано» — второй слот колонки «Метки» (см. Marks.tsx):
-    // вторая внутренняя колонка той же сетки, что и у заголовка «*”.
+/**
+ * Признак «Прочитано» — второй слот колонки «Метки» (см. Marks.tsx):
+ * вторая внутренняя колонка той же сетки, что и у заголовка «*”.
+ * Клик по лампе сначала вызывает setReaded(id) (функция из elma365),
+ * после чего состояние readed инвертируется родителем:
+ * - readed === true  → жёлтая лампа;
+ * - readed === false → серая лампа.
+ */
+export function ReadedMark(props: { readed: boolean, onToggle?: () => void }) {
     return (
         <span className="task-mark-readed-slot">
-            <i className={`elma-icons md-15_featured task-mark-readed ${ props.readed == false ? 'task-mark-unread' : 'task-mark-read'}`}>lightbulb_on</i>
+            <button
+                type="button"
+                className="task-mark-button"
+                title={props.readed ? 'Отметить непрочитанной' : 'Отметить прочитанной'}
+                aria-label={props.readed ? 'Отметить непрочитанной' : 'Отметить прочитанной'}
+                onClick={props.onToggle}
+            >
+                <i className={`elma-icons md-15_featured task-mark-readed ${ props.readed == false ? 'task-mark-unread' : 'task-mark-read'}`}>lightbulb_on</i>
+            </button>
         </span>
     )
 }

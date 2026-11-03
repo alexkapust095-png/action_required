@@ -2,6 +2,7 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App'
+import { WidgetParams } from './types/types'
 
 // Точка монтирования виджета.
 // В elma365 обычно нет элемента с id="root", поэтому ищем его, а если не
@@ -17,20 +18,34 @@ function getMountNode(): HTMLElement {
   return node
 }
 
-function mount() {
+function mount(params: WidgetParams) {
   // Защита от двойного монтирования (повторная вставка скрипта на странице)
   const host = getMountNode()
   if (host.dataset.widgetMounted === '1') return
   host.dataset.widgetMounted = '1'
   createRoot(host).render(
     <StrictMode>
-      <App />
+      <App params={params} />
     </StrictMode>,
   )
 }
 
-// Скрипт может подключаться синхронно в <head>, когда document.body ещё
-// не существует — в этом случае ждём DOMContentLoaded.
-export function initWidget() {
-  mount()
-} 
+/**
+ * Инициализация виджета из elma365. Принимает параметры:
+ * 1) tasks — список задач (массив аналогично testData.ts);
+ * 2) update — функция обновления, привязана к кнопке «Обновить»;
+ * 3) setImportant(taskId) — пометка важной/неважной (клик по звезде);
+ * 4) setReaded(taskId) — пометка прочитанной/непрочитанной (клик по лампе);
+ * 5) signDocuments(taskIds[]) — подписание нескольких документов;
+ * 6) loadCertificates() — загрузка доступных сертификатов (CertificateData[]).
+ */
+export function initWidget(params: WidgetParams = {}) {
+  mount(params)
+}
+
+// Dev-режим (npm run dev): index.html подключает этот модуль напрямую —
+// монтируем сразу на тестовых данных. В prod-сборке плагин вырезает тег
+// script из index.html, и виджет инициализируется вызовом initWidget из elma365.
+if (import.meta.env.DEV) {
+  initWidget()
+}

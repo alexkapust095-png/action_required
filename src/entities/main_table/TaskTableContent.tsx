@@ -8,9 +8,11 @@ export function TaskTableContent(props: {
     tasks: TaskInfo[],
     selectedIds: Set<string>,
     onSelectChange: (taskId: string, selected: boolean) => void,
+    onToggleImportant?: (taskId: string) => void,
+    onToggleReaded?: (taskId: string) => void,
 }) {
 
-    const { tasks, selectedIds, onSelectChange } = props
+    const { tasks, selectedIds, onSelectChange, onToggleImportant, onToggleReaded } = props
 
     // Пустое состояние: этот блок становится корнем виджета (.task-widget),
     // чтобы токены геометрии наследовались и внутри него
@@ -31,6 +33,8 @@ export function TaskTableContent(props: {
                         task={task}
                         selected={selectedIds.has(task.task.id)}
                         onSelectChange={onSelectChange}
+                        onToggleImportant={onToggleImportant ? () => onToggleImportant(task.task.id) : undefined}
+                        onToggleReaded={onToggleReaded ? () => onToggleReaded(task.task.id) : undefined}
                     />
                 })
             }

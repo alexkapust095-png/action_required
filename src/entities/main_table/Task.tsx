@@ -13,6 +13,10 @@ export function Task(props: {
     task: TaskInfo,
     selected: boolean,
     onSelectChange: (taskId: string, selected: boolean) => void,
+    /** Переключение «Важно»: сначала setImportant(id), затем инверсия состояния */
+    onToggleImportant?: () => void,
+    /** Переключение «Прочитано»: сначала setReaded(id), затем инверсия состояния */
+    onToggleReaded?: () => void,
 }) {
     let task = props.task
     // Строка списка: все ячейки — прямые дети grid-контейнера,
@@ -29,7 +33,12 @@ export function Task(props: {
                     aria-label='Выбрать задачу'
                 />
             </div>
-            <Marks important={task.important} readed={task.readed} />
+            <Marks
+                important={task.important}
+                readed={task.readed}
+                onToggleImportant={props.onToggleImportant}
+                onToggleReaded={props.onToggleReaded}
+            />
             <TaskName taskName={task.task.data.__name} />
             <CreatedAt date={task.task.data.__createdAt} />
             <Initiator createdBy={task.createdBy} />

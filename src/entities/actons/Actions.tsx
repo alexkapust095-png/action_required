@@ -6,6 +6,11 @@ export function Actions(props: {
     selectedIds: Set<string>,
     onClearSelection?: () => void,
     onResetFilters?: () => void,
+    /** Функция обновления из elma365 — привязана к кнопке «Обновить» */
+    onUpdate?: () => void,
+    /** Кнопка «Подписать выбранные»: выбрано >0 и у всех action_type.code === 'signing' */
+    canSignSelected: boolean,
+    onSignSelected?: () => void,
 }) {
     // Панель действий — самостоятельный корень виджета (.task-widget),
     // поэтому её геометрия не зависит от того, смонтирована ли таблица
@@ -29,7 +34,18 @@ export function Actions(props: {
                     </button>
                 </>
             )}
-            <button id="refreshButton" className="action-button"><i className="elma-icons md-18">sync</i>Обновить</button>
+            {/* Подписание выбранных документов: показываем только когда
+                выбрано больше 0 элементов и у всех тип действия -> signing */}
+            {props.canSignSelected && (
+                <button
+                    id="signButton"
+                    className="action-button"
+                    onClick={props.onSignSelected}
+                >
+                    <i className="elma-icons md-18">edit_note</i>Подписать выбранные
+                </button>
+            )}
+            <button id="refreshButton" className="action-button" onClick={props.onUpdate}><i className="elma-icons md-18">sync</i>Обновить</button>
             {/* Сброс фильтров + выбранных документов: обработчик поднимается в App */}
             <button
                 id="resetButton"

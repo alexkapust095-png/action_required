@@ -26,3 +26,26 @@
     line-height: 18px;
     box-sizing: border-box;
 }
+
+/* Кнопка-переключатель вокруг глифа звезды: без рамок/фона, только курсор */
+.task-widget .task-mark-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0;
+    margin: 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+/* Звезда «Важно»: important === true → залитая красная;
+   important === false → пустая (unicode-контур star) с чёрным контуром */
+.task-widget .task-mark-important-active {
+    color: #e53935;
+}
+
+.task-widget .task-mark-important:not(.task-mark-important-active) {
+    color: #000;
+}
