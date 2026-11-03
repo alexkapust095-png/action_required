@@ -1,5 +1,5 @@
 import { createContext, useContext } from 'react'
-import { WidgetParams } from '@/types/types'
+import { WidgetParams } from '../types/types'
 
 /**
  * Параметры виджета, переданные в initWidget из elma365.

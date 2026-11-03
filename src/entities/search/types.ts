@@ -1,4 +1,4 @@
-import { TDatetime } from '@/types/elma365'
+import { TDatetime } from '../../types/elma365'
 
 /** Три уровня приоритета: Низкий (0–49), Средний (50–99), Высокий (100) — см. Priority.tsx */
 export type PriorityFilterValue = 'low' | 'medium' | 'high'

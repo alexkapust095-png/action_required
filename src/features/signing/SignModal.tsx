@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import './SignModal.css'
-import '@/entities/search/MultiSelect.css'
-import { CertificateData, TaskInfo } from '@/types/types'
-import { SingleSelect } from '@/entities/search/SingleSelect'
+import '../../entities/search/MultiSelect.css'
+import { CertificateData, TaskInfo } from '../../types/types'
+import { SingleSelect } from '../../entities/search/SingleSelect'
 
 type SignPhase = 'idle' | 'signing' | 'signed'
 

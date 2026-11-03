@@ -1,4 +1,4 @@
-import { TDatetime } from '@/types/elma365'
+import { TDatetime } from '../types/elma365'
 
 /**
  * Форматирует TDatetime ЭДО в строку «дд.мм.гггг, чч:мм»

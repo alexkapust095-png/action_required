@@ -1,6 +1,6 @@
 import './Participants.css'
 
-import { ProjectedAppItem, OrgInfo } from "@/types/types";
+import { ProjectedAppItem, OrgInfo } from "../../types/types";
 import { escapeHtml } from "../../utils/escapeHtml";
 
 

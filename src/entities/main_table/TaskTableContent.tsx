@@ -1,6 +1,6 @@
 import './TaskTableContent.css'
 
-import { TaskInfo } from "@/types/types";
+import { TaskInfo } from "../../types/types";
 import { Task } from "./Task";
 
 

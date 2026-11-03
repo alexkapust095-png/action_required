@@ -1,7 +1,7 @@
 import '../../TaskWidget.css'
 import './TaskTableContainer.css'
 
-import { TaskInfo } from "@/types/types";
+import { TaskInfo } from "../../types/types";
 import { TaskTableContent } from "./TaskTableContent";
 import { TaskTableHeader } from "./TaskTableHeader";
 import { Actions } from "../actons/Actions";

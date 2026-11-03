@@ -1,4 +1,4 @@
-import { TDatetime } from '@/types/elma365'
+import { TDatetime } from '../types/elma365'
 
 /** Перевод TDatetime ЭДО в строку input[type=date] (yyyy-mm-dd) */
 export function tdatetimeToInputValue(dt: TDatetime | null | undefined): string {

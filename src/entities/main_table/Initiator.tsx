@@ -1,6 +1,6 @@
 import './Initiator.css'
 
-import { Employee, ProjectedAppItem } from "@/types/types";
+import { Employee, ProjectedAppItem } from "../../types/types";
 import { escapeHtml } from "../../utils/escapeHtml";
 
 export function Initiator(props: {createdBy: ProjectedAppItem<Employee> | undefined}) {

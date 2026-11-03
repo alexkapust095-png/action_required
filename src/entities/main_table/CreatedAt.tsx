@@ -1,6 +1,6 @@
 import './CreatedAt.css'
 
-import { TDatetime } from "@/types/elma365";
+import { TDatetime } from "../../types/elma365";
 import { escapeHtml } from "../../utils/escapeHtml";
 import { formatDateTime } from "../../utils/formatDateTime";
 

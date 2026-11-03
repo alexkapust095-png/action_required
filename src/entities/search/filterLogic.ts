@@ -1,4 +1,4 @@
-import { TaskInfo } from '@/types/types'
+import { TaskInfo } from '../../types/types'
 import { compareTdatetime } from '../../utils/tdatetime'
 import { FilterOptions, PriorityFilterValue, SearchFilters, SelectOption } from './types'
 
