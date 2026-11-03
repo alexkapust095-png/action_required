@@ -42,10 +42,3 @@ function mount(params: WidgetParams) {
 export function initWidget(params: WidgetParams = {}) {
   mount(params)
 }
-
-// Dev-режим (npm run dev): index.html подключает этот модуль напрямую —
-// монтируем сразу на тестовых данных. В prod-сборке плагин вырезает тег
-// script из index.html, и виджет инициализируется вызовом initWidget из elma365.
-if (import.meta.env.DEV) {
-  initWidget()
-}
