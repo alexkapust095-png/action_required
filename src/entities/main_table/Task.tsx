@@ -25,7 +25,7 @@ export function Task(props: {
     const { url } = useWidgetParams()
     // Клик по любому месту строки открывает задачу: url + p/task/<id задачи>.
     // Ссылка формируется только если url передан — без него клик ничего не делает.
-    const taskLink = url ? `${url}(p/task/${task.task.id})` : undefined
+    const taskLink = url ? `${url}(p:task/${task.task.id})` : undefined
     // Строка — обычная ссылка <a href="...">. Клик по ней обрабатывает
     // роутер портала elma365: страница НЕ перезагружается, открывается
     // карточка задачи. stopPropagation на чекбоксе/метках защищает их
