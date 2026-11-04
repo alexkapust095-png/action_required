@@ -1,6 +1,6 @@
 import './Task.css'
 
-import { AnchorHTMLAttributes, MouseEvent } from 'react'
+import { AnchorHTMLAttributes, ChangeEvent, MouseEvent } from 'react'
 import { TaskInfo } from '../../types/types'
 import { useWidgetParams } from '../../context/widgetParams'
 import { CreatedAt } from './CreatedAt'
@@ -39,7 +39,7 @@ export function Task(props: {
     // т.к. React слушает события на корне виджета).
     const stopRowClick = (e: MouseEvent) => { e.preventDefault(); e.stopPropagation() }
     // Чекбокс выбора задачи — полный контроль React над состоянием.
-    const handleCheckboxCellClick = (e: any) => {
+    const handleCheckboxCellClick = (e: ChangeEvent<HTMLInputElement, HTMLInputElement>) => {
         e.stopPropagation()
         props.onSelectChange(task.task.id, !props.selected)
     }
