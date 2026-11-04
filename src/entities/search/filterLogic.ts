@@ -45,6 +45,7 @@ export function extractFilterOptions(tasks: TaskInfo[]): FilterOptions {
     const initiators: { id: string; label: string }[] = []
     const statuses: { id: string; label: string }[] = []
     const actionTypes: { id: string; label: string }[] = []
+    const routes: { id: string; label: string }[] = []
 
     for (const task of tasks) {
         if (task.sender) {
@@ -62,6 +63,12 @@ export function extractFilterOptions(tasks: TaskInfo[]): FilterOptions {
             const at = st.data?.action_type
             if (at) actionTypes.push({ id: at.code, label: at.name ?? at.code })
         }
+        if (task.item?.data?.route) {
+            routes.push({
+                label: task.item?.data?.route,
+                id: task.item.code
+            })
+        }
     }
 
     return {
@@ -70,6 +77,7 @@ export function extractFilterOptions(tasks: TaskInfo[]): FilterOptions {
         initiators: uniqueOptions(initiators),
         statuses: uniqueOptions(statuses),
         actionTypes: uniqueOptions(actionTypes),
+        routes: uniqueOptions(routes)
     }
 }
 
@@ -148,11 +156,10 @@ export function taskMatchesFilters(task: TaskInfo, filters: SearchFilters): bool
         return false
     }
 
-    // Маршрут: в данных задачи пока нет поля route — фильтр применяется,
-    // только когда выбран хотя бы один маршрут (сверяется с item.route, если поле появится)
+    // Маршрут
     if (filters.routes.length > 0) {
-        const route = task.item?.route
-        if (!route || !filters.routes.includes(route)) return false
+        const route = task.item?.code ?? ''
+        if (!filters.routes.includes(route)) return false
     }
 
     // Диапазон даты создания документооборота (item.data.__createdAt как TDatetime)

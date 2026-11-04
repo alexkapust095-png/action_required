@@ -19,6 +19,7 @@ export interface FilterOptions {
     initiators: SelectOption[]
     statuses: SelectOption[]
     actionTypes: SelectOption[]
+    routes: SelectOption[]
 }
 
 /** Итоговый набор фильтров, отдаваемый наружу по кнопке «Поиск» */

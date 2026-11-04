@@ -149,7 +149,7 @@ export function FilterModal(props: {
                     <div className="filter-field">
                         <label className="filter-label">Маршрут</label>
                         <MultiSelect
-                            options={ROUTE_OPTIONS}
+                            options={props.options.routes}
                             value={draft.routes}
                             onChange={value => patch({ routes: value })}
                             placeholder="Любой маршрут"
