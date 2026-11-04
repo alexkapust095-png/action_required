@@ -67,7 +67,7 @@ export interface WidgetParams {
     /** 4a) Снятие пометки прочитанности: принимает id задачи */
     setUnreaded?: (taskId: string) => Promise<void>
     /** 5) Подписание нескольких документов: принимает массив id задач */
-    signDocuments?: (taskIds: string[]) => Promise<void>
+    signDocuments?: (taskIds: string[], certCode: string) => Promise<void>
     /** 6) Загрузка доступных сертификатов: без параметров */
     loadCertificates?: () => Promise<CertificateData[]>
 }

@@ -22,7 +22,7 @@ export function SignModal(props: {
     /** Функция загрузки доступных сертификатов (без параметров) */
     loadCertificates: () => Promise<CertificateData[]>
     /** Функция подписания: принимает массив id задач */
-    signDocuments: (taskIds: string[]) => Promise<void>
+    signDocuments: (taskIds: string[], certCode: string) => Promise<void>
     onClose: () => void
     /** После успешного подписания: обновить список задач как по кнопке «Обновить» */
     onSigned: () => void
@@ -70,7 +70,7 @@ export function SignModal(props: {
         if (phase !== 'idle' || idsToSign.length === 0 || !selectedCertificate) return
         setPhase('signing')
         try {
-            await props.signDocuments(idsToSign)
+            await props.signDocuments(idsToSign, selectedCertificate)
             setPhase('signed')
             // Обновление списка задач — как по кнопке «Обновить»
             props.onSigned()
