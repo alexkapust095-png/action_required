@@ -35,8 +35,10 @@ function mount(params: WidgetParams) {
  * 0) url — базовый URL портала (строка), используется для открытия задачи по клику;
  * 1) tasks — список задач (массив аналогично testData.ts);
  * 2) update — функция обновления, привязана к кнопке «Обновить»;
- * 3) setImportant(taskId) — пометка важной/неважной (клик по звезде);
- * 4) setReaded(taskId) — пометка прочитанной/непрочитанной (клик по лампе);
+ * 3) setImportant(taskId) — пометка важной (клик по звезде, important === false);
+ *    clearImportant(taskId) — снятие важности (клик по звезде, important === true);
+ * 4) setReaded(taskId) — пометка прочитанной (клик по лампе, readed === false);
+ *    setUnreaded(taskId) — снятие прочитанности (клик по лампе, readed === true);
  * 5) signDocuments(taskIds[]) — подписание нескольких документов;
  * 6) loadCertificates() — загрузка доступных сертификатов (CertificateData[]).
  */

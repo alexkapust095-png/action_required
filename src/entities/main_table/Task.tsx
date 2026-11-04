@@ -15,9 +15,9 @@ export function Task(props: {
     task: TaskInfo,
     selected: boolean,
     onSelectChange: (taskId: string, selected: boolean) => void,
-    /** Переключение «Важно»: сначала setImportant(id), затем инверсия состояния */
+    /** Переключение «Важно»: setImportant/clearImportant(id) по состоянию, затем инверсия */
     onToggleImportant?: () => void,
-    /** Переключение «Прочитано»: сначала setReaded(id), затем инверсия состояния */
+    /** Переключение «Прочитано»: setReaded/setUnreaded(id) по состоянию, затем инверсия */
     onToggleReaded?: () => void,
 }) {
     let task = props.task

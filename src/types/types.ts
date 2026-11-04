@@ -58,10 +58,14 @@ export interface WidgetParams {
     tasks?: TaskInfo[]
     /** 2) Функция обновления — привязана к кнопке «Обновить» */
     update?: () => Promise<TaskInfo[]>
-    /** 3) Пометка важной/неважной: принимает id задачи */
+    /** 3) Пометка важной: принимает id задачи */
     setImportant?: (taskId: string) => Promise<void>
-    /** 4) Пометка прочитанной/непрочитанной: принимает id задачи */
+    /** 3a) Снятие пометки важности: принимает id задачи */
+    clearImportant?: (taskId: string) => Promise<void>
+    /** 4) Пометка прочитанной: принимает id задачи */
     setReaded?: (taskId: string) => Promise<void>
+    /** 4a) Снятие пометки прочитанности: принимает id задачи */
+    setUnreaded?: (taskId: string) => Promise<void>
     /** 5) Подписание нескольких документов: принимает массив id задач */
     signDocuments?: (taskIds: string[]) => Promise<void>
     /** 6) Загрузка доступных сертификатов: без параметров */

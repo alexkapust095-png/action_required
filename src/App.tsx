@@ -79,24 +79,37 @@ function App(props: { params?: WidgetParams }) {
     }
   }, [params])
 
-  // П.3: клик по звезде — сначала вызываем setImportant(id), затем инвертируем
-  // локальное состояние important (звезда: красная при important === true,
-  // иначе пустая с чёрным контуром).
+  // П.3: клик по звезде — в зависимости от текущего состояния вызываем
+  // setImportant(id) (если задача не важная) или clearImportant(id)
+  // (если уже важная), затем инвертируем локальное состояние important
+  // (звезда: красная при important === true, иначе пустая с чёрным контуром).
   const handleToggleImportant = useCallback(async (taskId: string) => {
-    await params.setImportant?.(taskId)
-    setTasks(prev => prev.map(task =>
-      task.task.id === taskId ? { ...task, important: !task.important } : task,
+    const task = tasks.find(t => t.task.id === taskId)
+    if (task?.important === true) {
+      await params.clearImportant?.(taskId)
+    } else {
+      await params.setImportant?.(taskId)
+    }
+    setTasks(prev => prev.map(t =>
+      t.task.id === taskId ? { ...t, important: !t.important } : t,
     ))
-  }, [params])
+  }, [params, tasks])
 
-  // П.4: клик по лампе — сначала вызываем setReaded(id), затем инвертируем
-  // локальное состояние readed (лампа: жёлтая при readed === true, иначе серая).
+  // П.4: клик по лампе — в зависимости от текущего состояния вызываем
+  // setReaded(id) (если задача не прочитана) или setUnreaded(id)
+  // (если уже прочитана), затем инвертируем локальное состояние readed
+  // (лампа: жёлтая при readed === true, иначе серая).
   const handleToggleReaded = useCallback(async (taskId: string) => {
-    await params.setReaded?.(taskId)
-    setTasks(prev => prev.map(task =>
-      task.task.id === taskId ? { ...task, readed: !task.readed } : task,
+    const task = tasks.find(t => t.task.id === taskId)
+    if (task?.readed === true) {
+      await params.setUnreaded?.(taskId)
+    } else {
+      await params.setReaded?.(taskId)
+    }
+    setTasks(prev => prev.map(t =>
+      t.task.id === taskId ? { ...t, readed: !t.readed } : t,
     ))
-  }, [params])
+  }, [params, tasks])
 
   // Список задач с учётом строки поиска и фильтров из модалки
   const filteredTasks = useMemo(() => applySearch(tasks, filters), [tasks, filters])
