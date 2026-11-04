@@ -35,15 +35,18 @@ export function Task(props: {
         : {}
     // «Прочитано» и «Важно» — как бы поверх строки: клики по этим элементам
     // не должны открывать задачу. preventDefault отменяет навигацию по <a>,
-    // stopPropagation гасит всплытие (сами кнопки onClick работают штатно).
-    const stopRowClick = (e: MouseEvent<HTMLAnchorElement>) => { e.preventDefault(); e.stopPropagation() }
-    // Чекбокс: обёртка гасит клик так же, как метки (preventDefault + stopPropagation),
-    // иначе браузер перейдёт по href строки-ссылки. Но preventDefault на событии
-    // click отменяет и нативный toggle input'а — поэтому сам чекбокс сделан
-    // неконтролируемым (defaultChecked) и переключается вручную в onChange
-    // (см. div.task-table-cell.checkbox ниже). Выбор при этом живёт в состоянии
-    // App (selectedTaskIds) как и раньше.
-    const stopCheckboxClick = (e: MouseEvent<HTMLDivElement>) => { e.preventDefault(); e.stopPropagation() }
+    // stopPropagation гасит всплытие (сами кнопки onClick работают штатно,
+    // т.к. React слушает события на корне виджета).
+    const stopRowClick = (e: MouseEvent) => { e.preventDefault(); e.stopPropagation() }
+    // Чекбокс: обёртка гасит ТОЛЬКО переход по <a> — preventDefault БЕЗ
+    // stopPropagation. React 19 слушает события на корне виджета, а
+    // stopPropagation прямо на DOM-узле обрывает всплытие до корня: из-за
+    // этого синтетический onChange чекбокса не срабатывал вовсе, выбор не
+    // записывался в selectedTaskIds (App) и визуально не менялся.
+    // preventDefault отменяет браузерный toggle input'а, поэтому чекбокс
+    // полностью управляемый (checked={selected}): галочку рисует React по
+    // состоянию выбора после того, как onSelectChange обновит selectedTaskIds.
+    const preventRowNavigation = (e: MouseEvent) => { e.preventDefault() }
     // Строка списка: все ячейки — прямые дети grid-контейнера,
     // поэтому колонки шапки и строк совпадают.
     // Признаки «Важно» и «Прочитано» — одна колонка Marks под заголовком «*».
@@ -53,22 +56,12 @@ export function Task(props: {
             {...rowProps}
             title={taskLink ? 'Открыть задачу' : undefined}
         >
-            <div className='task-table-cell checkbox' onClick={stopCheckboxClick}>
+            <div className='task-table-cell checkbox' onClick={preventRowNavigation}>
                 <input
-                    ref={el => { el && (el.checked = props.selected) }}
                     className='task-checkbox'
                     type='checkbox'
-                    defaultChecked={props.selected}
-                    onChange={e => {
-                        // preventDefault на обёртке отменил нативный toggle,
-                        // поэтому переключаем DOM-состояние вручную — галочка
-                        // появляется сразу при клике. Выбор синхронно живёт
-                        // в selectedTaskIds (App), ref выше держит его в порядке
-                        // и при внешних сбросах выбора.
-                        const checked = !e.target.checked
-                        e.target.checked = checked
-                        props.onSelectChange(task.task.id, checked)
-                    }}
+                    checked={props.selected}
+                    onChange={e => props.onSelectChange(task.task.id, e.target.checked)}
                     aria-label='Выбрать задачу'
                 />
             </div>
