@@ -39,23 +39,8 @@ export function Task(props: {
     // т.к. React слушает события на корне виджета).
     const stopRowClick = (e: MouseEvent) => { e.preventDefault(); e.stopPropagation() }
     // Чекбокс выбора задачи — полный контроль React над состоянием.
-    //
-    // Корень проблемы «галочка догоняет со следующим кликом»: в прошлых
-    // версиях использовались defaultChecked / uncontrolled-input и native
-    // слушатели, из-за чего DOM-состояние input'а и состояние выбора в App
-    // жили отдельно и рассинхронизировались (React не перерисовывал галочку
-    // синхронно с записью выбора).
-    //
-    // Финальное решение: input управляемый (checked={props.selected}), а
-    // переключение состояния происходит в onClick обёртки ячейки через
-    // функциональный set у родителя — т.е. выбор и визуал гарантированно
-    // обновляются в одном и том же рендере. Никаких рефов на checked,
-    // никаких useEffect-синхронизаций: единственный источник истины —
-    // selectedTaskIds в App. preventDefault гасит переход по <a>, но сам
-    // клик по чекбоксу при этом игнорируется браузером (onClick на div),
-    // поэтому нативный toggle не нужен — состояние ставим программно.
-    const handleCheckboxCellClick = (e: MouseEvent<HTMLDivElement>) => {
-        e.preventDefault()
+    const handleCheckboxCellClick = (e: any) => {
+        e.stopPropagation()
         props.onSelectChange(task.task.id, !props.selected)
     }
     // Строка списка: все ячейки — прямые дети grid-контейнера,
@@ -67,12 +52,15 @@ export function Task(props: {
             {...rowProps}
             title={taskLink ? 'Открыть задачу' : undefined}
         >
-            <div className='task-table-cell checkbox' onClick={handleCheckboxCellClick}>
+            <div className='task-table-cell checkbox'
+                // onClick={handleCheckboxCellClick}
+            >
                 <input
                     className='task-checkbox'
                     type='checkbox'
                     checked={props.selected}
-                    onChange={() => {}}
+                    // onChange={() => {}}
+                    onChange={handleCheckboxCellClick}
                     aria-label='Выбрать задачу'
                 />
             </div>
