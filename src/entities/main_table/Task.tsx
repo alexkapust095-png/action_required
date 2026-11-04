@@ -1,6 +1,8 @@
 import './Task.css'
 
+import { MouseEvent } from 'react'
 import { TaskInfo } from '../../types/types'
+import { useWidgetParams } from '../../context/widgetParams'
 import { CreatedAt } from './CreatedAt'
 import { Duedate } from './Duedate'
 import { Initiator } from './Initiator'
@@ -19,12 +21,39 @@ export function Task(props: {
     onToggleReaded?: () => void,
 }) {
     let task = props.task
+    // Базовый URL портала приходит из initWidget (WidgetParams.url).
+    const { url } = useWidgetParams()
+    // Клик по любому месту строки открывает задачу: url + p/task/<id задачи>.
+    // Ссылка формируется только если url передан — без него клик ничего не делает.
+    const taskLink = url ? `${url}p/task/${task.task.id}` : undefined
+    const handleRowClick = () => {
+        if (!taskLink) return
+        window.open(taskLink, '_blank', 'noopener,noreferrer')
+    }
+    // «Выбор», «Прочитано» и «Важно» — как бы поверх строки: клики по этим
+    // элементам не должны открывать задачу. Останавливаем всплытие события
+    // на ячейках-обёртках, не трогая сами чекбокс/кнопки (их onChange/onClick
+    // продолжают работать штатно).
+    const stopRowClick = (e: MouseEvent<HTMLDivElement>) => e.stopPropagation()
     // Строка списка: все ячейки — прямые дети grid-контейнера,
     // поэтому колонки шапки и строк совпадают.
     // Признаки «Важно» и «Прочитано» — одна колонка Marks под заголовком «*».
     return (
-        <div className='task-item task-table-row'>
-            <div className='task-table-cell checkbox'>
+        <div
+            className='task-item task-table-row'
+            onClick={handleRowClick}
+            role='link'
+            tabIndex={0}
+            title={taskLink ? 'Открыть задачу' : undefined}
+            onKeyDown={e => {
+                // Доступность: Enter/Пробел открывают задачу с клавиатуры
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault()
+                    handleRowClick()
+                }
+            }}
+        >
+            <div className='task-table-cell checkbox' onClick={stopRowClick}>
                 <input
                     className='task-checkbox'
                     type='checkbox'
@@ -38,6 +67,7 @@ export function Task(props: {
                 readed={task.readed}
                 onToggleImportant={props.onToggleImportant}
                 onToggleReaded={props.onToggleReaded}
+                onStopRowClick={stopRowClick}
             />
             <TaskName taskName={task.task.data.__name} />
             <CreatedAt date={task.task.data.__createdAt} />

@@ -45,3 +45,10 @@
 .task-widget .task-checkbox {
     box-sizing: border-box;
 }
+
+/* Строка задачи целиком кликабельна — открывает задачу (url + p/task/<id>).
+   «Выбор», «Важно» и «Прочитано» стоят поверх строки: их клики не открывают
+   задачу (stopPropagation в Task.tsx), но курсор у них остаётся свой. */
+.task-widget .task-table-row {
+    cursor: pointer;
+}
