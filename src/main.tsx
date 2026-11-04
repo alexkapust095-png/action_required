@@ -1,4 +1,3 @@
-import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App'
@@ -23,11 +22,11 @@ function mount(params: WidgetParams) {
   const host = getMountNode()
   if (host.dataset.widgetMounted === '1') return
   host.dataset.widgetMounted = '1'
-  createRoot(host).render(
-    <StrictMode>
-      <App params={params} />
-    </StrictMode>,
-  )
+  // ВАЖНО: StrictMode НЕ используем. В dev-сборке React он намеренно вызывает
+  // эффекты дважды; на странице elma365 это приводило к тому, что повторный
+  // эффект синхронизации чекбоксов сбрасывал DOM-галочку обратно, и выбор
+  // «догонял» визуал только со следующим кликом.
+  createRoot(host).render(<App params={params} />)
 }
 
 /**

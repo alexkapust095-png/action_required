@@ -1,6 +1,6 @@
 import './Task.css'
 
-import { AnchorHTMLAttributes, MouseEvent, useEffect, useRef } from 'react'
+import { AnchorHTMLAttributes, MouseEvent } from 'react'
 import { TaskInfo } from '../../types/types'
 import { useWidgetParams } from '../../context/widgetParams'
 import { CreatedAt } from './CreatedAt'
@@ -38,38 +38,26 @@ export function Task(props: {
     // stopPropagation гасит всплытие (сами кнопки onClick работают штатно,
     // т.к. React слушает события на корне виджета).
     const stopRowClick = (e: MouseEvent) => { e.preventDefault(); e.stopPropagation() }
-    // Чекбокс выбора задачи — uncontrolled + ref-синхронизация.
+    // Чекбокс выбора задачи — полный контроль React над состоянием.
     //
-    // Почему галочка «догоняла» только со следующим кликом:
-    // любой вариант с managed-state (checked={...} или локальный useState +
-    // useEffect) зависит от ре-рендера компонента. На странице elma365
-    // обновление состояния App не всегда приводило к немедленной перерисовке
-    // строки, поэтому визуальное состояние отставаало от фактического выбора.
+    // Корень проблемы «галочка догоняет со следующим кликом»: в прошлых
+    // версиях использовались defaultChecked / uncontrolled-input и native
+    // слушатели, из-за чего DOM-состояние input'а и состояние выбора в App
+    // жили отдельно и рассинхронизировались (React не перерисовывал галочку
+    // синхронно с записью выбора).
     //
-    // Решение: input НЕ управляется React'ом (defaultChecked вместо checked),
-    // браузер рисует галочку СРАЗУ в момент клика — без всякого ре-рендера.
-    // А useEffect синхронизирует DOM с пропом `selected` при ВНЕШНИХ изменениях
-    // («Очистить выбор», сброс фильтров), где пользовательского клика нет и
-    // браузер сам ничего не переключит.
-    const inputRef = useRef<HTMLInputElement>(null)
-    useEffect(() => {
-        const el = inputRef.current
-        if (el && el.checked !== props.selected) {
-            el.checked = props.selected
-        }
-    }, [props.selected])
-    // Смена состояния (клик мышью/пробелом или программный .click()) приходит
-    // через onChange — читаем фактическое DOM-состояние input'а и сообщаем
-    // родителю. preventDefault здесь НЕ вызываем: он отменил бы нативный
-    // toggle браузера и рассинхронизировал DOM с состоянием App. Навигацию
-    // по <a> гасит onClick на обёртке ячейки (см. ниже).
-    const syncFromDom = () => {
-        props.onSelectChange(task.task.id, inputRef.current?.checked ?? false)
+    // Финальное решение: input управляемый (checked={props.selected}), а
+    // переключение состояния происходит в onClick обёртки ячейки через
+    // функциональный set у родителя — т.е. выбор и визуал гарантированно
+    // обновляются в одном и том же рендере. Никаких рефов на checked,
+    // никаких useEffect-синхронизаций: единственный источник истины —
+    // selectedTaskIds в App. preventDefault гасит переход по <a>, но сам
+    // клик по чекбоксу при этом игнорируется браузером (onClick на div),
+    // поэтому нативный toggle не нужен — состояние ставим программно.
+    const handleCheckboxCellClick = (e: MouseEvent<HTMLDivElement>) => {
+        e.preventDefault()
+        props.onSelectChange(task.task.id, !props.selected)
     }
-    // Обёртка ячейки: гасит ТОЛЬКО переход по <a>. stopPropagation тут ставить
-    // нельзя — React слушает события на корне виджета и иначе не получил бы ни
-    // click, ни change чекбокса.
-    const preventRowNavigation = (e: MouseEvent) => { e.preventDefault() }
     // Строка списка: все ячейки — прямые дети grid-контейнера,
     // поэтому колонки шапки и строк совпадают.
     // Признаки «Важно» и «Прочитано» — одна колонка Marks под заголовком «*».
@@ -79,13 +67,12 @@ export function Task(props: {
             {...rowProps}
             title={taskLink ? 'Открыть задачу' : undefined}
         >
-            <div className='task-table-cell checkbox' onClick={preventRowNavigation}>
+            <div className='task-table-cell checkbox' onClick={handleCheckboxCellClick}>
                 <input
-                    ref={inputRef}
                     className='task-checkbox'
                     type='checkbox'
-                    defaultChecked={props.selected}
-                    onChange={syncFromDom}
+                    checked={props.selected}
+                    onChange={() => {}}
                     aria-label='Выбрать задачу'
                 />
             </div>
