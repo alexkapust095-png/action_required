@@ -37,7 +37,7 @@ export function Task(props: {
     // элементам не должны открывать задачу. Останавливаем всплытие события
     // на ячейках-обёртках, не трогая сами чекбокс/кнопки (их onChange/onClick
     // продолжают работать штатно).
-    const stopRowClick = (e: MouseEvent<HTMLDivElement>) => e.stopPropagation()
+    const stopRowClick = (e: MouseEvent<HTMLAnchorElement>) => { e.preventDefault(); e.stopPropagation() }
     // Строка списка: все ячейки — прямые дети grid-контейнера,
     // поэтому колонки шапки и строк совпадают.
     // Признаки «Важно» и «Прочитано» — одна колонка Marks под заголовком «*».
