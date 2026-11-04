@@ -33,11 +33,17 @@ export function Task(props: {
     const rowProps: AnchorHTMLAttributes<HTMLAnchorElement> = taskLink
         ? { href: taskLink }
         : {}
-    // «Выбор», «Прочитано» и «Важно» — как бы поверх строки: клики по этим
-    // элементам не должны открывать задачу. Останавливаем всплытие события
-    // на ячейках-обёртках, не трогая сами чекбокс/кнопки (их onChange/onClick
-    // продолжают работать штатно).
+    // «Прочитано» и «Важно» — как бы поверх строки: клики по этим элементам
+    // не должны открывать задачу. preventDefault отменяет навигацию по <a>,
+    // stopPropagation гасит всплытие (сами кнопки onClick работают штатно).
     const stopRowClick = (e: MouseEvent<HTMLAnchorElement>) => { e.preventDefault(); e.stopPropagation() }
+    // Чекбокс: обёртка гасит клик так же, как метки (preventDefault + stopPropagation),
+    // иначе браузер перейдёт по href строки-ссылки. Но preventDefault на событии
+    // click отменяет и нативный toggle input'а — поэтому сам чекбокс сделан
+    // неконтролируемым (defaultChecked) и переключается вручную в onChange
+    // (см. div.task-table-cell.checkbox ниже). Выбор при этом живёт в состоянии
+    // App (selectedTaskIds) как и раньше.
+    const stopCheckboxClick = (e: MouseEvent<HTMLDivElement>) => { e.preventDefault(); e.stopPropagation() }
     // Строка списка: все ячейки — прямые дети grid-контейнера,
     // поэтому колонки шапки и строк совпадают.
     // Признаки «Важно» и «Прочитано» — одна колонка Marks под заголовком «*».
@@ -47,12 +53,22 @@ export function Task(props: {
             {...rowProps}
             title={taskLink ? 'Открыть задачу' : undefined}
         >
-            <div className='task-table-cell checkbox' onClick={stopRowClick}>
+            <div className='task-table-cell checkbox' onClick={stopCheckboxClick}>
                 <input
+                    ref={el => { el && (el.checked = props.selected) }}
                     className='task-checkbox'
                     type='checkbox'
-                    checked={props.selected}
-                    onChange={e => props.onSelectChange(task.task.id, e.target.checked)}
+                    defaultChecked={props.selected}
+                    onChange={e => {
+                        // preventDefault на обёртке отменил нативный toggle,
+                        // поэтому переключаем DOM-состояние вручную — галочка
+                        // появляется сразу при клике. Выбор синхронно живёт
+                        // в selectedTaskIds (App), ref выше держит его в порядке
+                        // и при внешних сбросах выбора.
+                        const checked = !e.target.checked
+                        e.target.checked = checked
+                        props.onSelectChange(task.task.id, checked)
+                    }}
                     aria-label='Выбрать задачу'
                 />
             </div>
