@@ -28,7 +28,8 @@ export function Task(props: {
     const taskLink = url ? `${url}p/task/${task.task.id}` : undefined
     const handleRowClick = () => {
         if (!taskLink) return
-        window.open(taskLink, '_blank', 'noopener,noreferrer')
+        // Задача открывается прямо здесь — в текущем окне/вкладке.
+        window.location.href = taskLink
     }
     // «Выбор», «Прочитано» и «Важно» — как бы поверх строки: клики по этим
     // элементам не должны открывать задачу. Останавливаем всплытие события
