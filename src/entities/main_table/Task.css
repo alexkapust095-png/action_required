@@ -8,6 +8,13 @@
     min-height: var(--tt-row-min-height);
 }
 
+/* Строка задачи — ссылка <a>: сбрасываем браузерные стили ссылок
+   (подчёркивание, цвет), сетку и размеры задают правила выше. */
+.task-widget a.task-table-row {
+    text-decoration: none;
+    color: inherit;
+}
+
 /* Общая ячейка строки: одинаковый горизонтальный отступ для всех колонок */
 .task-widget .task-table-cell {
     min-width: 0;
