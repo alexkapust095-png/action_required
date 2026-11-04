@@ -30,9 +30,9 @@
 
 /* Лампа «Прочитано»: новое состояние readed === true → жёлтая; иначе серая */
 .task-widget .task-mark-readed.task-mark-read {
-    color: #f9c81a;
+    color: #9e9e9e;
 }
 
 .task-widget .task-mark-readed.task-mark-unread {
-    color: #9e9e9e;
+    color: #f9c81a;
 }
