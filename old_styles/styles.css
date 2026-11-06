@@ -1,0 +1,425 @@
+
+    /* TASK-4: значения — var(--edo-…, <прежнее значение>); без переключателя виджет выглядит как раньше.
+       Общие селекторы (p, select, .show, .hidden, .name …) прежде действовали на всю страницу портала.
+       :where(…) ниже: в режиме «как сейчас» — по-прежнему на всю страницу, в режиме токенов — только внутри виджета.
+       Специфичность у :where нулевая, поэтому правила весят столько же, сколько раньше. */
+    :where(html:not([data-edo-theme="tokens"]), .filter-menu-container, .task-table-container) p {
+        margin-top: 1em !important;
+        margin-bottom: 1em !important;
+    }
+    .task-table-container {
+        max-width: 95%;
+        font-family: var(--edo-font, SF Pro Display, Helvetica, Arial, sans-serif);
+
+    }
+    /* Стиль для филтров полностью */
+    .filter-menu-header {
+        margin-bottom: var(--edo-space-xl, 20px);
+    }
+
+    .filter-menu-container {
+        margin-bottom: var(--edo-space-xl, 20px);
+    }
+
+    .task-table-container-name {
+        margin-bottom: var(--edo-space-l, 15px);
+    }
+
+    /* стили для формы ввода названия*/
+    .filter-menu-form {
+        position: relative;
+        display: flex;
+        justify-content: flex-start;
+        align-items: stretch;
+        border-radius: var(--edo-radius, 4px);
+        border: var(--edo-border-width, 1px) solid var(--edo-border, #D9D9D9);
+        max-width: 712px;
+        min-height: 39px;
+        overflow: hidden;
+    }
+
+    .filter-menu-form > button {
+        background-color: transparent;
+        border-right: none;
+        border-top: none;
+        border-bottom: none;
+        border-left: var(--edo-border-width, 1px) solid var(--edo-border, #D9D9D9);
+        width: 30px;
+        cursor: pointer
+    }
+
+    .filter-menu-form > input {
+        border: none;
+    }
+
+    /* значок фильтра (был fill в атрибуте style у <path>) */
+    .filter-menu-button-extend path {
+        fill: var(--edo-accent-text, rgb(20%, 33%, 53%, 1));
+    }
+
+    /* стили для формы фильтров */
+    .filter-menu-extended-filters-options {
+        padding: var(--edo-space-m, 12px);
+        row-gap: var(--edo-space-m, 10px); /* Отступ между строками */
+        width: 100%;
+        max-width: 712px;
+        position: absolute;
+        background: var(--edo-surface, #FFFFFF);
+        box-shadow: var(--edo-shadow, 0px 6px 28px rgba(37, 41, 65, 0.16));
+        border-radius: var(--edo-radius-l, 10px);
+        visibility: hidden;
+        transition: 0.2s;
+        opacity: 0;
+        z-index: 99;
+        overflow-y: auto;
+    }
+
+    .filter-menu-extended-filters-options__active {
+        height: 500px;
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .filter-menu-extended-filters-name {
+        width: 25%;
+        display: flex;
+        align-items: center;
+        overflow: hidden
+    }
+
+    .filter-menu-extended-filters-value {
+        width: 75%;
+    }
+    .filter-menu-option {
+        display: flex;
+        margin-top: var(--edo-space-m, 12px);
+        margin-bottom: var(--edo-space-m, 12px)
+    }
+
+    .filter-button-container > button {
+        border: none;
+        outline: none;
+        padding: var(--edo-space-xs, 5px) var(--edo-space-m, 12px);
+        font-style: normal;
+        font-weight: var(--edo-font-weight-bold, 600);
+        font-size: var(--edo-font-size, 15px);
+        line-height: 22px;
+        color: var(--edo-btn-text, #FFFFFF);
+        background: var(--edo-btn-bg, #1E6599);
+        border-radius: var(--edo-radius, 4px);
+        align-self: flex-start;
+        transition: 0.3s;
+        cursor: pointer;
+    }
+    .filter-button-container > button:hover {
+        background: var(--edo-btn-bg-hover, #367eb2);
+    }
+
+    .input-date-field {
+        margin: 0;
+    }
+
+/* Таблица */
+    .task-table-headers {
+        display: flex;
+        gap: var(--edo-space-xl, 20px);
+    }
+    .task-table-headers > button {
+        height: 35px;
+        align-items: center;
+    }
+
+    .task-table-head-container {
+        display: flex; /* Включаем Flexbox */
+    }
+
+    .task-table-head {
+        display: flex; /* Включаем Flexbox */
+        align-items: anchor-center;
+        border-bottom: var(--edo-border-width, 1px) solid var(--edo-border, #CAD1D8); /* Граница под каждым заголовком */
+        width: 96%;
+    }
+
+    .task-table-head-important {
+        display: flex; /* Включаем Flexbox */
+        align-items: anchor-center;
+        border-bottom: var(--edo-border-width, 1px) solid var(--edo-border, #CAD1D8); /* Граница под каждым заголовком */
+        width: 4%;
+    }
+
+    .column-name {
+        text-align: left;
+        box-sizing: border-box;
+        font-style: normal;
+        font-weight: var(--edo-font-weight, normal);
+        font-size: var(--edo-font-size, 14px);
+        line-height: 140%;
+        margin: 0;
+        padding: 0;
+        color: var(--edo-text-secondary, #8C8C8C);
+    }
+
+    /* «Отправитель» в шапке (был style="color: …" в разметке) */
+    .column-name-accent {
+        color: var(--edo-accent-text, #1e6599);
+    }
+
+    /* Задание индивидуальных ширин для каждого заголовка */
+    :where(html:not([data-edo-theme="tokens"]), .task-table-container) .important { width: 4%;}
+    :where(html:not([data-edo-theme="tokens"]), .task-table-container) .name { width: 30.0%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;} /* Наименование */
+    :where(html:not([data-edo-theme="tokens"]), .task-table-container) .created-at { width: 10%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;} /* Связанный документооборот */
+    :where(html:not([data-edo-theme="tokens"]), .task-table-container) .participants { width: 20%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;} /* Связанный документооборот */
+    :where(html:not([data-edo-theme="tokens"]), .task-table-container) .created-by { width: 20%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;}
+    :where(html:not([data-edo-theme="tokens"]), .task-table-container) .priority { width: 10%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;} /* Статус */
+    :where(html:not([data-edo-theme="tokens"]), .task-table-container) .due-date { width: 10%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;} /* Сделать до */
+
+    .tasks-list {
+        display: flex; /* Включаем Flexbox */
+        align-items: stretch; /* Вертикальное выравнивание */
+        width: 100%
+    }
+
+    /* Просроченная задача (был style="background-color: …" в скрипте) */
+    .tasks-list_overdue {
+        background-color: var(--edo-danger-row, #ffcccca1);
+    }
+
+    .tasks-list-container {
+        height: 70vh; /* Вы можете установить любое желаемое значение высоты */
+        overflow-y: scroll; /* Это свойство добавит вертикальную полосу прокрутки, только если содержимое элемента превышает его высоту */
+    }
+
+    .task-item {
+        text-align: left; /* Выравнивание текста по центру */
+        box-sizing: border-box; /* Учёт внутренних отступов и границ в ширине */
+        /* margin-right: 10px; */
+
+    }
+
+    .task-marks {
+        width: 4%;
+        float: left;
+        /* margin-top: 1rem; */
+        display: flex; /* Включаем Flexbox */
+        align-items: center; /* Вертикальное выравнивание */
+        border-bottom: var(--edo-border-width, 1px) solid var(--edo-border, #CAD1D8); /* Граница под каждым заголовком */
+        transition: background 0.18s;
+    }
+
+    .task-marks__active {
+        background: var(--edo-accent-soft, #f6fafd);
+        color: inherit;
+    }
+
+    /* Значки «важно» и «прочитано» (были style="…" в скрипте).
+       !important — как у прежнего inline-стиля, чтобы цвет не перебили классы иконок платформы (grey-icons). */
+    .task-mark-important {
+        color: var(--edo-important, red) !important;
+    }
+    .task-mark-readed {
+        margin-left: 10%;
+    }
+    .task-mark-unread {
+        color: var(--edo-unread, #e9c500) !important;
+    }
+    .task-mark-read {
+        color: var(--edo-icon-muted, #B0B0B0) !important;
+    }
+
+    .tasks-list-item {
+        width: 96%;
+        display: flex; /* Включаем Flexbox */
+        align-items: center; /* Вертикальное выравнивание */
+        border-bottom: var(--edo-border-width, 1px) solid var(--edo-border, #CAD1D8); /* Граница под каждым заголовком */
+        white-space: nowrap; /* Запрещаем перенос строки */
+        color: inherit;
+        transition: background 0.18s;
+    }
+
+    .tasks-list-item:hover {
+        background: var(--edo-accent-soft, #f6fafd);
+        color: inherit !important;
+        text-decoration: none !important;
+    }
+
+    :where(html:not([data-edo-theme="tokens"]), .filter-menu-container, .task-table-container) .hidden {
+        display: none;
+    }
+
+    /* Задание индивидуальных ширин для каждого столбика */
+    .task-name { margin-top: 1em !important; margin-bottom: 1em !important; padding-right: var(--edo-space-l, 15px); color: var(--edo-accent-text, #1e6599); width: 30%; overflow: hidden; text-overflow: ellipsis; white-space: wrap;} /* Наименование */
+    .task-created-at {  width: 10%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;} /* Связанный документооборот */
+    .task-participants { width: 20%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;} /* Связанный документооборот */
+    .task-priority { width: 10%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;} /* Статус */
+    .task-due-date {  width: 10%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;} /* Сделать до */
+    .task-created-by { width: 20%; overflow: hidden; text-overflow: ellipsis; white-space: break-spaces;}
+
+    .participant-title {
+        white-space: wrap;
+        overflow: visible;
+        max-width: 60%;           /* Ограничиваем ширину блока */
+        color: var(--edo-text, #585858);
+    }
+
+    .participants-dropdown-list {
+        position: absolute;
+        z-index: 100;
+        box-shadow: var(--edo-shadow, 0px 6px 28px rgba(37, 41, 65, 0.16));
+        background: var(--edo-surface, white);
+        width: 72.5%;
+        margin-top: 2px;
+        display: none;
+        border: var(--edo-border-width, 1px) solid var(--edo-border, #D9D9D9);
+        border-radius: 0 0 var(--edo-radius-l, 8px) var(--edo-radius-l, 8px);
+        max-height: 270px;
+        overflow-y: auto;
+    }
+
+    .created-at-title {
+        color: var(--edo-text, #585858)
+    }
+
+    .due-date-title {
+        color: var(--edo-text, #585858)
+    }
+
+    :where(html:not([data-edo-theme="tokens"]), .filter-menu-container, .task-table-container) .show {
+        display: block !important;
+    }
+
+    .participants-dropdown-item {
+        padding: var(--edo-space-s, 8px) var(--edo-space-m, 12px);
+        cursor: pointer;
+        font-size: var(--edo-font-size, 14px);
+        transition: background 0.2s;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow-x: hidden;
+    }
+
+    .participants-dropdown-item:hover {
+        background: var(--edo-accent-soft, #e6f4fa);
+    }
+
+    .participants-selected-items {
+        gap: var(--edo-space-xs, 5px);
+        margin-top: var(--edo-space-xs, 5px);
+    }
+
+    .participants-selected-item {
+        background-color: var(--edo-accent, #007bff);
+        color: var(--edo-on-accent, white);
+        padding: var(--edo-space-xs, 5px) var(--edo-space-m, 10px);
+        border-radius: var(--edo-radius, 3px);
+        align-items: center;
+        margin-bottom: var(--edo-space-xs, 5px);
+    }
+
+    .participants-selected-item-close {
+        align-items: right;
+        cursor: pointer;
+        font-weight: var(--edo-font-weight-bold, bold);
+        float:right;
+    }
+
+    .participants-item-close {
+        align-items: right;
+        cursor: pointer;
+        font-weight: var(--edo-font-weight-bold, bold);
+        float:right;
+    }
+
+    .created-by-dropdown-list {
+        position: absolute;
+        z-index: 100;
+        box-shadow: var(--edo-shadow, 0px 6px 28px rgba(37, 41, 65, 0.16));
+        background: var(--edo-surface, white);
+        width: 72.5%;
+        margin-top: 2px;
+        display: none;
+        border: var(--edo-border-width, 1px) solid var(--edo-border, #D9D9D9);
+        border-radius: 0 0 var(--edo-radius-l, 8px) var(--edo-radius-l, 8px);
+        max-height: 270px;
+        overflow-y: auto;
+    }
+
+
+    .created-by-selected-item {
+        background-color: var(--edo-accent, #007bff);
+        color: var(--edo-on-accent, white);
+        padding: var(--edo-space-xs, 5px) var(--edo-space-m, 10px);
+        border-radius: var(--edo-radius, 3px);
+        align-items: center;
+        margin-bottom: var(--edo-space-xs, 5px);
+    }
+
+    .created-by-selected-item-close {
+        align-items: right;
+        cursor: pointer;
+        font-weight: var(--edo-font-weight-bold, bold);
+        float:right;
+    }
+
+    .created-by-dropdown-item {
+        padding: var(--edo-space-s, 8px) var(--edo-space-m, 12px);
+        cursor: pointer;
+        font-size: var(--edo-font-size, 14px);
+        transition: background 0.2s;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow-x: hidden;
+    }
+
+    .created-by-dropdown-item:hover {
+        background: var(--edo-accent-soft, #e6f4fa);
+    }
+
+    /* «Нет результатов» / «Все опции выбраны» (был style.cursor в скрипте) */
+    .participants-dropdown-item_empty,
+    .created-by-dropdown-item_empty {
+        cursor: default;
+    }
+
+
+    .sender-title {
+        color: var(--edo-accent-text, #1e6599);
+        white-space: wrap;
+        overflow: visible;
+        max-width: 60%;           /* Ограничиваем ширину блока */
+    }
+
+    /* .sender-title:hover {
+        white-space: wrap;
+        overflow: visible;
+    } */
+
+    .task-name-title {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: inline-block;
+        max-width: 85%;
+        transition: 0.2s
+    }
+
+    .task-name-title:hover {
+        color: var(--edo-accent-text-hover, #448ec4);
+        text-decoration: none;
+    }
+
+    /* Стили для выпадающих фильтров*/
+    :where(html:not([data-edo-theme="tokens"]), .filter-menu-container, .task-table-container) select {
+        height: 32px;
+        width: 300px;
+        border: var(--edo-border-width, 1px) solid var(--edo-border, #CAD1D8);
+        border-radius: var(--edo-radius, 4px);
+    }
+
+    /* Дата отображается правилбьно */
+    .filter-menu-extended-created-at {
+        display: inline-block;
+
+    }
+    .filter-menu-extended-created-at input[type="date"] {
+        width: 150px;
+    }
