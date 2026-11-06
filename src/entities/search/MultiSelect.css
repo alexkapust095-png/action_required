@@ -108,6 +108,33 @@
     color: #999;
 }
 
+/* Поле поиска опций (внутри выпадающего списка) */
+.task-widget.search-multi-select .ms-search {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    flex: 0 0 auto;
+    box-sizing: border-box;
+    margin: 0 8px 4px;
+    padding: 5px 8px;
+    font-family: inherit;
+    font-size: 13px;
+    line-height: 18px;
+    color: #1f1f1f;
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    background: #fff;
+    outline: none;
+}
+
+.task-widget.search-multi-select .ms-search:focus {
+    border-color: #1a67c2;
+}
+
+.task-widget.search-multi-select .ms-search::placeholder {
+    color: #999;
+}
+
 /* Опция с чекбоксом (множественный выбор) */
 .task-widget.search-multi-select .ms-option {
     display: flex;
