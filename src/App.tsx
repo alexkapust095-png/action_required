@@ -152,6 +152,13 @@ function App() {
 
   const closeSignModal = useCallback(() => setSignModalOpen(false), [])
 
+  // После успешного подписания: обновляем список задач (как по кнопке «Обновить»)
+  // и снимаем выбор — подписанные документы больше не должны оставаться выбранными
+  const handleSigned = useCallback(() => {
+    setSelectedTaskIds(new Set())
+    void handleUpdate()
+  }, [handleUpdate])
+
   return (
     <>
       <SearchBar key={`search-${resetKey}`} tasks={tasks} onSearch={handleSearch} />
@@ -175,7 +182,7 @@ function App() {
         <SignModal
           tasks={selectedTasks}
           onClose={closeSignModal}
-          onSigned={handleUpdate}
+          onSigned={handleSigned}
         />
       )}
     </>
