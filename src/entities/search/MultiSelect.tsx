@@ -46,6 +46,13 @@ export function MultiSelect(props: {
         [props.options, search],
     )
 
+    // После выбора опции курсор возвращается в строку поиска (клик по label/чекбоксу уводит фокус)
+    useEffect(() => {
+        if (open) {
+            inputRef.current?.focus()
+        }
+    }, [props.value, open])
+
     const toggleOption = useCallback((optionValue: string) => {
         props.onChange(
             props.value.includes(optionValue)

@@ -46,6 +46,13 @@ export function SingleSelect(props: {
         [props.options, search],
     )
 
+    // Если список остался открытым (например, выбор изменён извне), возвращаем курсор в строку поиска
+    useEffect(() => {
+        if (open) {
+            inputRef.current?.focus()
+        }
+    }, [props.value, open])
+
     const selectedLabel = props.value
         ? props.options.find(o => o.value === props.value)?.label ?? props.value
         : null
