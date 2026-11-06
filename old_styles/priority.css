@@ -4,7 +4,7 @@
         align-items: center;
         width: 80%;
         overflow: hidden;
-        text-overflow: ellipsis;
+        text-overflow: ellipsis
     }
 
     .priority-low {

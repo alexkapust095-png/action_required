@@ -25,17 +25,28 @@ export function SignModal(props: {
     /** После успешного подписания: обновить список задач как по кнопке «Обновить» */
     onSigned: () => void
 }) {
-    // Функции для работы с сертификатами и подписанием берём из общего
+    // ID текущего пользователя elma365, Функции для работы с сертификатами и подписанием берём из общего
     // хранилища параметров виджета (складываются в initWidget).
-    const { loadCertificates, signDocuments } = getWidgetParams()
+    const { loadCertificates, signDocuments, userId } = getWidgetParams()
     const modalRef = useRef<HTMLDivElement>(null)
 
     // Черновик списка подписания: id исключённых задач
     const [excludedIds, setExcludedIds] = useState<Set<string>>(new Set())
     const [certificates, setCertificates] = useState<CertificateData[]>([])
     const [certificatesLoading, setCertificatesLoading] = useState(true)
-    const [selectedCertificate, setSelectedCertificate] = useState<string | null>(null)
+    const [selectedCertificate, setSelectedCertificate] = useState<string | null>(getLastCert())
     const [phase, setPhase] = useState<SignPhase>('idle')
+
+    // Функция получения последнего использованного сертификата
+    function getLastCert(): string | null {
+        return localStorage.getItem(`app.crypto-pro.last-certificate.v1:${userId ?? ''}`)
+    }
+
+    // Функция установки последнего использованного сертификата
+    function setLastCert(): void {
+        if (userId && selectedCertificate)
+            localStorage.setItem(`app.crypto-pro.last-certificate.v1:${userId}`, selectedCertificate)
+    }
 
     // Загрузка сертификатов при открытии окна (п.6 — функция без параметров);
     // если функция не передана из elma365 — считаем список пустым
@@ -73,6 +84,8 @@ export function SignModal(props: {
         setPhase('signing')
         try {
             await signDocuments?.(idsToSign, selectedCertificate)
+            // Устанавливаем последний сертификат в хранилище
+            setLastCert()
             setPhase('signed')
             // Обновление списка задач — как по кнопке «Обновить»
             props.onSigned()

@@ -53,7 +53,9 @@ export interface CertificateData {
  */
 export interface WidgetParams {
     /** Базовый URL портала elma365 — используется для открытия задачи по клику */
-    url?: string
+    url?: string,
+    /** ID текущего пользователя ELMA365 */
+    userId?: string
     /** 1) Список задач (массив аналогично testData.ts) */
     tasks?: TaskInfo[]
     /** 2) Функция обновления — привязана к кнопке «Обновить» */
