@@ -21,8 +21,8 @@ export function Task(props: {
     onToggleReaded?: () => void,
 }) {
     let task = props.task
-    // Базовый URL портала приходит из initWidget (WidgetParams.url) — берём из общего хранилища.
-    const { url } = getWidgetParams()
+    // Базовый URL портала приходит из initWidget (WidgetParams.url) и функцию установить прочитанным — берём из общего хранилища.
+    const { url, setReaded } = getWidgetParams()
     // Клик по любому месту строки открывает задачу: url + p/task/<id задачи>.
     // Ссылка формируется только если url передан — без него клик ничего не делает.
     const taskLink = url ? `${url}(p:task/${task.task.id})` : undefined
@@ -43,6 +43,12 @@ export function Task(props: {
         e.stopPropagation()
         props.onSelectChange(task.task.id, !props.selected)
     }
+    // Функция установки прочитанным
+    const setReadedFn = () => {
+        if (!task.readed && setReaded) {
+            setReaded(task.task.id)
+        }
+    }
     // Строка списка: все ячейки — прямые дети grid-контейнера,
     // поэтому колонки шапки и строк совпадают.
     // Признаки «Важно» и «Прочитано» — одна колонка Marks под заголовком «*».
@@ -50,6 +56,7 @@ export function Task(props: {
         <a
             className='task-item task-table-row'
             {...rowProps}
+            onClick={setReadedFn}
             title={taskLink ? 'Открыть задачу' : undefined}
         >
             <div className='task-table-cell checkbox'
