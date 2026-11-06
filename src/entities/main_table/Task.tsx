@@ -1,6 +1,6 @@
 import './Task.css'
 
-import { AnchorHTMLAttributes, ChangeEvent, MouseEvent } from 'react'
+import { AnchorHTMLAttributes, ChangeEvent, MouseEvent, SetStateAction } from 'react'
 import { TaskInfo } from '../../types/types'
 import { getWidgetParams } from '../../shared/widgetParams'
 import { CreatedAt } from './CreatedAt'
@@ -19,6 +19,7 @@ export function Task(props: {
     onToggleImportant?: () => void,
     /** Переключение «Прочитано»: setReaded/setUnreaded(id) по состоянию, затем инверсия */
     onToggleReaded?: () => void,
+    setTasks: (value: SetStateAction<TaskInfo[]>) => void
 }) {
     let task = props.task
     // Базовый URL портала приходит из initWidget (WidgetParams.url) и функцию установить прочитанным — берём из общего хранилища.
@@ -47,6 +48,9 @@ export function Task(props: {
     const setReadedFn = () => {
         if (!task.readed && setReaded) {
             setReaded(task.task.id)
+            props.setTasks(prev => prev.map(t =>
+                t.task.id === task.task.id ? { ...t, readed: !t.readed } : t,
+            ))
         }
     }
     // Строка списка: все ячейки — прямые дети grid-контейнера,
@@ -60,7 +64,7 @@ export function Task(props: {
             title={taskLink ? 'Открыть задачу' : undefined}
         >
             <div className='task-table-cell checkbox'
-                // onClick={handleCheckboxCellClick}
+            // onClick={handleCheckboxCellClick}
             >
                 <input
                     className='task-checkbox'

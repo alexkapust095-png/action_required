@@ -2,6 +2,7 @@ import './TaskTableContent.css'
 
 import { TaskInfo } from "../../types/types";
 import { Task } from "./Task";
+import { SetStateAction } from 'react';
 
 
 export function TaskTableContent(props: {
@@ -10,6 +11,7 @@ export function TaskTableContent(props: {
     onSelectChange: (taskId: string, selected: boolean) => void,
     onToggleImportant?: (taskId: string) => void,
     onToggleReaded?: (taskId: string) => void,
+    setTasks: (value: SetStateAction<TaskInfo[]>) => void
 }) {
 
     const { tasks, selectedIds, onSelectChange, onToggleImportant, onToggleReaded } = props
@@ -35,6 +37,7 @@ export function TaskTableContent(props: {
                         onSelectChange={onSelectChange}
                         onToggleImportant={onToggleImportant ? () => onToggleImportant(task.task.id) : undefined}
                         onToggleReaded={onToggleReaded ? () => onToggleReaded(task.task.id) : undefined}
+                        setTasks={props.setTasks}
                     />
                 })
             }

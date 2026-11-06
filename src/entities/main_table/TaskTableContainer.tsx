@@ -6,6 +6,7 @@ import { TaskTableContent } from "./TaskTableContent";
 import { TaskTableHeader } from "./TaskTableHeader";
 import { Actions } from "../actons/Actions";
 import { Loader } from "../../shared/loader/Loader";
+import { SetStateAction } from 'react';
 
 export function TaskTableContainer(props: {
     tasks: TaskInfo[],
@@ -32,6 +33,7 @@ export function TaskTableContainer(props: {
         someSelected: boolean,
         onChange: (selectAll: boolean) => void,
     },
+    setTasks: (value: SetStateAction<TaskInfo[]>) => void
 }) {
     return (
         <div className="task-widget task-table-container loader-host">
@@ -61,6 +63,7 @@ export function TaskTableContainer(props: {
                 tasks={props.tasks}
                 onToggleImportant={props.onToggleImportant}
                 onToggleReaded={props.onToggleReaded}
+                setTasks={props.setTasks}
             />
         </div>
     )

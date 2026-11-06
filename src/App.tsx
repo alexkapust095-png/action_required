@@ -180,8 +180,8 @@ function App() {
         canSignSelected={canSignSelected}
         onSignSelected={() => setSignModalOpen(true)}
         selectAll={{ ...selectAllState, onChange: handleSelectAllChange }}
+        setTasks={setTasks}
       />
-      <p>Выбрано: {selectedTasks.length}</p>
       {/* Модалка показываем всегда при открытии; отсутствующие функции из elma365
           не блокируют окно — внутри SignModal они обрабатываются мягко */}
       {signModalOpen && (
