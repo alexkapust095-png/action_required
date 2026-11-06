@@ -11,7 +11,7 @@ import { SignModal } from './features/signing/SignModal'
 
 /** Тип действия задачи (itemStatus.data.action_type.code) */
 function actionTypeCode(task: TaskInfo): string | undefined {
-    return task.itemStatus?.data?.action_type?.code
+  return task.itemStatus?.data?.action_type?.code
 }
 
 function App() {
@@ -81,9 +81,10 @@ function App() {
   // П.2: функция обновления — кнопка «Обновить». Вызываем переданную из elma365
   // функцию update; если она вернула массив задач — обновляем состояние,
   // иначе список останется таким, каким его обновила внешняя сторона.
-  const handleUpdate = useCallback(async () => {
+  const handleUpdate = useCallback(async (hideSpinner = false) => {
     if (!params.update) return
-    setIsTasksLoading(true)
+    if (!hideSpinner)
+      setIsTasksLoading(true)
     try {
       const result = await params.update()
       if (Array.isArray(result)) {
@@ -92,7 +93,8 @@ function App() {
     } catch (error) {
       console.error('[action-required] Ошибка обновления задач:', error)
     } finally {
-      setIsTasksLoading(false)
+      if (!hideSpinner)
+        setIsTasksLoading(false)
     }
   }, [params])
 
@@ -159,9 +161,9 @@ function App() {
 
   // После успешного подписания: обновляем список задач (как по кнопке «Обновить»)
   // и снимаем выбор — подписанные документы больше не должны оставаться выбранными
-  const handleSigned = useCallback(() => {
+  const handleSigned = useCallback((hideSpinner = false) => {
     setSelectedTaskIds(new Set())
-    void handleUpdate()
+    handleUpdate(hideSpinner)
   }, [handleUpdate])
 
   return (

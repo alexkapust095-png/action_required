@@ -23,7 +23,7 @@ export function SignModal(props: {
     tasks: TaskInfo[]
     onClose: () => void
     /** После успешного подписания: обновить список задач как по кнопке «Обновить» */
-    onSigned: () => void
+    onSigned: (hideSpinner?: boolean) => void
 }) {
     // ID текущего пользователя elma365, Функции для работы с сертификатами и подписанием берём из общего
     // хранилища параметров виджета (складываются в initWidget).
@@ -88,7 +88,7 @@ export function SignModal(props: {
             setLastCert()
             setPhase('signed')
             // Обновление списка задач — как по кнопке «Обновить»
-            props.onSigned()
+            props.onSigned(true)
         } catch {
             setPhase('idle')
         }

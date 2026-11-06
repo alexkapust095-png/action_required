@@ -152,6 +152,7 @@
     font-family: inherit;
     width: 100%;
     box-sizing: border-box;
+    margin-left: 5px;
 }
 
 .task-widget.search-multi-select .ms-option:hover {

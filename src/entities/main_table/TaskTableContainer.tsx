@@ -15,7 +15,7 @@ export function TaskTableContainer(props: {
     onClearSelection?: () => void,
     onResetFilters?: () => void,
     /** Кнопка «Обновить» — функция обновления из elma365 */
-    onUpdate?: () => void,
+    onUpdate?: (hideSpinner?: boolean) => void,
     /** Идёт загрузка списка задач (нажато «Обновить») — показать колесо загрузки */
     isLoading?: boolean,
     /** Пометка «Важно»: сначала setImportant(id), затем инверсия состояния */

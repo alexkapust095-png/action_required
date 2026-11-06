@@ -190,3 +190,7 @@
     opacity: 0.6;
     cursor: default;
 }
+
+.sign-modal-loading {
+    margin: 0 auto;
+}
