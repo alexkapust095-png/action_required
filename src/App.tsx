@@ -56,6 +56,16 @@ function App() {
     setSelectedTaskIds(new Set())
   }, [])
 
+  // Список задач с учётом строки поиска и фильтров из модалки
+  const filteredTasks = useMemo(() => applySearch(tasks, filters), [tasks, filters])
+
+  // Чекбокс «Выбрать всё» в шапке таблицы:
+  // при отмечивании выбираем только задачи, видимые с учётом применённого
+  // фильтра (filteredTasks), при снятии — очищаем весь выбор.
+  const handleSelectAllChange = useCallback((selectAll: boolean) => {
+    setSelectedTaskIds(selectAll ? new Set(filteredTasks.map(t => t.task.id)) : new Set())
+  }, [filteredTasks])
+
   // Сброс фильтров из панели действий (кнопка «Сбросить фильтры» рядом с «Обновить»):
   // возвращаем исходный список задач и очищаем выбор в первой колонке.
   // Ключ сброса пересоздаёт SearchBar — его внутреннее состояние (строка поиска,
@@ -113,8 +123,19 @@ function App() {
     ))
   }, [params, tasks])
 
-  // Список задач с учётом строки поиска и фильтров из модалки
-  const filteredTasks = useMemo(() => applySearch(tasks, filters), [tasks, filters])
+  // Состояние чекбокса «Выбрать всё» в шапке: считаем по видимым (отфильтрованным) задачам
+  const selectAllState = useMemo(() => {
+    const visibleCount = filteredTasks.length
+    const visibleSelectedCount = filteredTasks.reduce(
+      (acc, t) => acc + (selectedTaskIds.has(t.task.id) ? 1 : 0),
+      0,
+    )
+    return {
+      hasTasks: visibleCount > 0,
+      allSelected: visibleCount > 0 && visibleSelectedCount === visibleCount,
+      someSelected: visibleSelectedCount > 0,
+    }
+  }, [filteredTasks, selectedTaskIds])
 
   // Готовый доступ ко всем выбранным задачам прямо из App
   const selectedTasks = useMemo(
@@ -145,6 +166,7 @@ function App() {
         onToggleReaded={handleToggleReaded}
         canSignSelected={canSignSelected}
         onSignSelected={() => setSignModalOpen(true)}
+        selectAll={{ ...selectAllState, onChange: handleSelectAllChange }}
       />
       <p>Выбрано: {selectedTasks.length}</p>
       {/* Модалка показываем всегда при открытии; отсутствующие функции из elma365

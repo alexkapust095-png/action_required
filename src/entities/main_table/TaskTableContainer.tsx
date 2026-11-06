@@ -22,6 +22,13 @@ export function TaskTableContainer(props: {
     canSignSelected: boolean,
     /** Открытие модалки подписания по кнопке «Подписать выбранные» */
     onSignSelected?: () => void,
+    /** Состояние чекбокса «Выбрать всё» в шапке таблицы */
+    selectAll: {
+        hasTasks: boolean,
+        allSelected: boolean,
+        someSelected: boolean,
+        onChange: (selectAll: boolean) => void,
+    },
 }) {
     return (
         <div className="task-widget task-table-container">
@@ -36,7 +43,12 @@ export function TaskTableContainer(props: {
             {/* Шапка колонок стоит НАД областью прокрутки и в 70vh не входит.
                 Ограничение по высоте (70vh) и прокрутка заданы на .task-table-body
                 (см. TaskTableContent.css) — только тело списка. */}
-            <TaskTableHeader />
+            <TaskTableHeader
+                hasTasks={props.selectAll.hasTasks}
+                allSelected={props.selectAll.allSelected}
+                someSelected={props.selectAll.someSelected}
+                onSelectAllChange={props.selectAll.onChange}
+            />
             <TaskTableContent
                 onSelectChange={props.onSelectChange}
                 selectedIds={props.selectedIds}
