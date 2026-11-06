@@ -1,8 +1,8 @@
 import { useCallback, useMemo, useState } from 'react'
 import './App.css'
 import { testTaskInfoArray } from './types/testData'
-import { TaskInfo, WidgetParams } from './types/types'
-import { WidgetParamsContext } from './context/widgetParams'
+import { TaskInfo } from './types/types'
+import { getWidgetParams } from './shared/widgetParams'
 import { TaskTableContainer } from './entities/main_table/TaskTableContainer'
 import { SearchBar } from './entities/search/SearchBar'
 import { applySearch, EMPTY_FILTERS, isFiltersEmpty } from './entities/search/filterLogic'
@@ -14,8 +14,10 @@ function actionTypeCode(task: TaskInfo): string | undefined {
     return task.itemStatus?.data?.action_type?.code
 }
 
-function App(props: { params?: WidgetParams }) {
-  const params = props.params ?? {}
+function App() {
+  // Параметры виджета берём из общего хранилища (складываются в initWidget),
+  // передавать их через пропсы больше не нужно.
+  const params = getWidgetParams()
   // Список задач живёт в состоянии App: стартовый массив приходит из initWidget
   // (или тестовые данные в dev-режиме), дальше обновляется функцией update.
   const [tasks, setTasks] = useState<TaskInfo[]>(params.tasks ?? testTaskInfoArray)
@@ -130,7 +132,7 @@ function App(props: { params?: WidgetParams }) {
   const closeSignModal = useCallback(() => setSignModalOpen(false), [])
 
   return (
-    <WidgetParamsContext.Provider value={params}>
+    <>
       <SearchBar key={`search-${resetKey}`} tasks={tasks} onSearch={handleSearch} />
       <TaskTableContainer
         tasks={filteredTasks}
@@ -150,13 +152,11 @@ function App(props: { params?: WidgetParams }) {
       {signModalOpen && (
         <SignModal
           tasks={selectedTasks}
-          loadCertificates={params.loadCertificates ?? (async () => [])}
-          signDocuments={params.signDocuments ?? (async () => {})}
           onClose={closeSignModal}
           onSigned={handleUpdate}
         />
       )}
-    </WidgetParamsContext.Provider>
+    </>
   )
 }
 

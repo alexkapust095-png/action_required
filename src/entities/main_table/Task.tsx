@@ -2,7 +2,7 @@ import './Task.css'
 
 import { AnchorHTMLAttributes, ChangeEvent, MouseEvent } from 'react'
 import { TaskInfo } from '../../types/types'
-import { useWidgetParams } from '../../context/widgetParams'
+import { getWidgetParams } from '../../shared/widgetParams'
 import { CreatedAt } from './CreatedAt'
 import { Duedate } from './Duedate'
 import { Initiator } from './Initiator'
@@ -21,8 +21,8 @@ export function Task(props: {
     onToggleReaded?: () => void,
 }) {
     let task = props.task
-    // Базовый URL портала приходит из initWidget (WidgetParams.url).
-    const { url } = useWidgetParams()
+    // Базовый URL портала приходит из initWidget (WidgetParams.url) — берём из общего хранилища.
+    const { url } = getWidgetParams()
     // Клик по любому месту строки открывает задачу: url + p/task/<id задачи>.
     // Ссылка формируется только если url передан — без него клик ничего не делает.
     const taskLink = url ? `${url}(p:task/${task.task.id})` : undefined

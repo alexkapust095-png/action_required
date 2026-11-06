@@ -2,6 +2,7 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App'
 import { WidgetParams } from './types/types'
+import { setWidgetParams } from './shared/widgetParams'
 
 // Точка монтирования виджета.
 // В elma365 обычно нет элемента с id="root", поэтому ищем его, а если не
@@ -17,7 +18,7 @@ function getMountNode(): HTMLElement {
   return node
 }
 
-function mount(params: WidgetParams) {
+function mount() {
   // Защита от двойного монтирования (повторная вставка скрипта на странице)
   const host = getMountNode()
   if (host.dataset.widgetMounted === '1') return
@@ -26,7 +27,7 @@ function mount(params: WidgetParams) {
   // эффекты дважды; на странице elma365 это приводило к тому, что повторный
   // эффект синхронизации чекбоксов сбрасывал DOM-галочку обратно, и выбор
   // «догонял» визуал только со следующим кликом.
-  createRoot(host).render(<App params={params} />)
+  createRoot(host).render(<App />)
 }
 
 /**
@@ -42,5 +43,8 @@ function mount(params: WidgetParams) {
  * 6) loadCertificates() — загрузка доступных сертификатов (CertificateData[]).
  */
 export function initWidget(params: WidgetParams = {}) {
-  mount(params)
+  // Складываем все переданные параметры в общий объект (src/shared/widgetParams.ts),
+  // дальше модули проекта получают их через getWidgetParams() — без пропсов и контекста.
+  setWidgetParams(params)
+  mount()
 }

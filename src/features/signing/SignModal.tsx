@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom'
 import './SignModal.css'
 import '../../entities/search/MultiSelect.css'
 import { CertificateData, TaskInfo } from '../../types/types'
+import { getWidgetParams } from '../../shared/widgetParams'
 import { SingleSelect } from '../../entities/search/SingleSelect'
 
 type SignPhase = 'idle' | 'signing' | 'signed'
@@ -19,14 +20,13 @@ type SignPhase = 'idle' | 'signing' | 'signed'
 export function SignModal(props: {
     /** Выбранные задачи (все с action_type.code === 'signing') */
     tasks: TaskInfo[]
-    /** Функция загрузки доступных сертификатов (без параметров) */
-    loadCertificates: () => Promise<CertificateData[]>
-    /** Функция подписания: принимает массив id задач */
-    signDocuments: (taskIds: string[], certCode: string) => Promise<void>
     onClose: () => void
     /** После успешного подписания: обновить список задач как по кнопке «Обновить» */
     onSigned: () => void
 }) {
+    // Функции для работы с сертификатами и подписанием берём из общего
+    // хранилища параметров виджета (складываются в initWidget).
+    const { loadCertificates, signDocuments } = getWidgetParams()
     const modalRef = useRef<HTMLDivElement>(null)
 
     // Черновик списка подписания: id исключённых задач
@@ -36,10 +36,11 @@ export function SignModal(props: {
     const [selectedCertificate, setSelectedCertificate] = useState<string | null>(null)
     const [phase, setPhase] = useState<SignPhase>('idle')
 
-    // Загрузка сертификатов при открытии окна (п.6 — функция без параметров)
+    // Загрузка сертификатов при открытии окна (п.6 — функция без параметров);
+    // если функция не передана из elma365 — считаем список пустым
     useEffect(() => {
         let cancelled = false
-        Promise.resolve(props.loadCertificates())
+        Promise.resolve(loadCertificates?.() ?? [])
             .then(list => {
                 if (cancelled) return
                 setCertificates(list ?? [])
@@ -70,7 +71,7 @@ export function SignModal(props: {
         if (phase !== 'idle' || idsToSign.length === 0 || !selectedCertificate) return
         setPhase('signing')
         try {
-            await props.signDocuments(idsToSign, selectedCertificate)
+            await signDocuments?.(idsToSign, selectedCertificate)
             setPhase('signed')
             // Обновление списка задач — как по кнопке «Обновить»
             props.onSigned()
