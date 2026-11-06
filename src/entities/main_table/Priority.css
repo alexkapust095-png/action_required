@@ -1,5 +1,6 @@
 /* Priority — колонка «Приоритет» (120px).
-   Только геометрия. Цвета, прозрачность и тени не задаются. */
+   Оформление по подобию старых стилей (old_styles/priority.css):
+   цветные «пилюли» на токенах темы --edo-*. */
 
 .task-widget .task-priority {
     display: flex;
@@ -7,15 +8,44 @@
     min-width: 0;
 }
 
+/* Плашка приоритета: скругление, центрирование, 80% ширины ячейки */
+.task-widget .task-priority > div {
+    border-radius: var(--edo-radius, 5px);
+    text-align: center;
+    align-items: center;
+    width: 80%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .task-widget .priority-low,
 .task-widget .priority-medium,
 .task-widget .priority-high {
     min-width: 0;
+    padding: 2px 8px;
     font-size: 13px;
     line-height: 18px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.task-widget .priority-low {
+    color: var(--edo-success, #0fab36);
+    border: var(--edo-border-width, 1px) solid var(--edo-success, #0fab36);
+    background: var(--edo-success-soft, #0fab361A);
+}
+
+.task-widget .priority-medium {
+    color: var(--edo-warning, #9c8c00);
+    border: var(--edo-border-width, 1px) solid var(--edo-warning, #9c8c00);
+    background: var(--edo-warning-soft, #9c8c001A);
+}
+
+.task-widget .priority-high {
+    color: var(--edo-danger, #ff2929);
+    border: var(--edo-border-width, 1px) solid var(--edo-danger, #ff2929);
+    background: var(--edo-danger-soft, #ff29291A);
 }
 
 .task-widget .task-priority,

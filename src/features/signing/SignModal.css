@@ -131,31 +131,48 @@
 
 /* Колесо загрузки поверх тела модалки */
 .task-widget.sign-modal-backdrop .sign-modal-loading {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 12px;
+    min-height: 160px;
     padding: 24px 0;
 }
 
+/* Полупрозрачная подложка колеса — по подобию old_styles/loader.css */
+.task-widget.sign-modal-backdrop .sign-modal-loading::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: var(--edo-overlay, rgba(255, 255, 255, 0.7));
+    z-index: 1;
+}
+
+.task-widget.sign-modal-backdrop .sign-modal-loading > * {
+    position: relative;
+    z-index: 2;
+}
+
+/* Спиннер — как tasks-loader-spinner из old_styles/loader.css:
+   60px, рамка 8px, акцентная верхняя граница, вращение 1s linear */
 .task-widget.sign-modal-backdrop .sign-spinner {
-    width: 32px;
-    height: 32px;
-    border: 3px solid #d9d9d9;
-    border-top-color: #1a67c2;
+    width: 60px;
+    height: 60px;
+    border: 8px solid var(--edo-border, #e0e0e0);
+    border-top: 8px solid var(--edo-accent, #1e6599);
     border-radius: 50%;
-    animation: sign-spin 0.8s linear infinite;
+    animation: sign-spin 1s linear infinite;
 }
 
 @keyframes sign-spin {
-    to {
-        transform: rotate(360deg);
-    }
+    0%   { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
 .task-widget.sign-modal-backdrop .sign-success {
-    color: #1c8a3e;
+    color: var(--edo-success, #1c8a3e);
     font-weight: 500;
 }
 
