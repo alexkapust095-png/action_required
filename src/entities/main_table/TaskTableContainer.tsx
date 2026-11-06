@@ -5,6 +5,7 @@ import { TaskInfo } from "../../types/types";
 import { TaskTableContent } from "./TaskTableContent";
 import { TaskTableHeader } from "./TaskTableHeader";
 import { Actions } from "../actons/Actions";
+import { Loader } from "../../shared/loader/Loader";
 
 export function TaskTableContainer(props: {
     tasks: TaskInfo[],
@@ -14,6 +15,8 @@ export function TaskTableContainer(props: {
     onResetFilters?: () => void,
     /** Кнопка «Обновить» — функция обновления из elma365 */
     onUpdate?: () => void,
+    /** Идёт загрузка списка задач (нажато «Обновить») — показать колесо загрузки */
+    isLoading?: boolean,
     /** Пометка «Важно»: сначала setImportant(id), затем инверсия состояния */
     onToggleImportant?: (taskId: string) => void,
     /** Пометка «Прочитано»: сначала setReaded(id), затем инверсия состояния */
@@ -31,7 +34,10 @@ export function TaskTableContainer(props: {
     },
 }) {
     return (
-        <div className="task-widget task-table-container">
+        <div className="task-widget task-table-container loader-host">
+            {/* Колесо загрузки поверх таблицы на время обновления списка
+                (по образцу old_styles/loader.css) */}
+            {props.isLoading && <Loader label="Загрузка…" />}
             <Actions
                 selectedIds={props.selectedIds}
                 onClearSelection={props.onClearSelection}

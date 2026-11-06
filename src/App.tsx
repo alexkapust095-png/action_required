@@ -29,6 +29,8 @@ function App() {
   const [resetKey, setResetKey] = useState(0)
   // Модальное окно подписания выбранного
   const [signModalOpen, setSignModalOpen] = useState(false)
+  // Идёт загрузка списка задач (нажато «Обновить») — показываем колесо загрузки
+  const [isTasksLoading, setIsTasksLoading] = useState(false)
 
   const handleSelectChange = useCallback((taskId: string, selected: boolean) => {
     setSelectedTaskIds(prev => {
@@ -81,6 +83,7 @@ function App() {
   // иначе список останется таким, каким его обновила внешняя сторона.
   const handleUpdate = useCallback(async () => {
     if (!params.update) return
+    setIsTasksLoading(true)
     try {
       const result = await params.update()
       if (Array.isArray(result)) {
@@ -88,6 +91,8 @@ function App() {
       }
     } catch (error) {
       console.error('[action-required] Ошибка обновления задач:', error)
+    } finally {
+      setIsTasksLoading(false)
     }
   }, [params])
 
@@ -169,6 +174,7 @@ function App() {
         onClearSelection={handleClearSelection}
         onResetFilters={handleResetFilters}
         onUpdate={handleUpdate}
+        isLoading={isTasksLoading}
         onToggleImportant={handleToggleImportant}
         onToggleReaded={handleToggleReaded}
         canSignSelected={canSignSelected}

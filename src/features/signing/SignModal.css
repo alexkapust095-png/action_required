@@ -129,46 +129,16 @@
     color: #999;
 }
 
-/* Колесо загрузки поверх тела модалки */
-.task-widget.sign-modal-backdrop .sign-modal-loading {
+/* Колесо загрузки поверх тела модалки: общий компонент Loader
+   (src/shared/loader) по образцу old_styles/loader.css.
+   Внутри модалки оверлей не растягиваем на всю подложку, а занимаем
+   только область тела — переопределяем position на relative. */
+.task-widget.sign-modal-backdrop .tasks-loader-overlay {
     position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
     min-height: 160px;
     padding: 24px 0;
-}
-
-/* Полупрозрачная подложка колеса — по подобию old_styles/loader.css */
-.task-widget.sign-modal-backdrop .sign-modal-loading::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: var(--edo-overlay, rgba(255, 255, 255, 0.7));
-    z-index: 1;
-}
-
-.task-widget.sign-modal-backdrop .sign-modal-loading > * {
-    position: relative;
-    z-index: 2;
-}
-
-/* Спиннер — как tasks-loader-spinner из old_styles/loader.css:
-   60px, рамка 8px, акцентная верхняя граница, вращение 1s linear */
-.task-widget.sign-modal-backdrop .sign-spinner {
-    width: 60px;
-    height: 60px;
-    border: 8px solid var(--edo-border, #e0e0e0);
-    border-top: 8px solid var(--edo-accent, #1e6599);
-    border-radius: 50%;
-    animation: sign-spin 1s linear infinite;
-}
-
-@keyframes sign-spin {
-    0%   { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    background: transparent;
+    z-index: auto;
 }
 
 .task-widget.sign-modal-backdrop .sign-success {

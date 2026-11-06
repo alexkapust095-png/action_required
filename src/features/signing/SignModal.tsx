@@ -5,6 +5,7 @@ import '../../entities/search/MultiSelect.css'
 import { CertificateData, TaskInfo } from '../../types/types'
 import { getWidgetParams } from '../../shared/widgetParams'
 import { SingleSelect } from '../../entities/search/SingleSelect'
+import { Loader } from '../../shared/loader/Loader'
 
 type SignPhase = 'idle' | 'signing' | 'signed'
 
@@ -120,10 +121,7 @@ export function SignModal(props: {
 
                 {phase === 'signing' ? (
                     <div className="sign-modal-body">
-                        <div className="sign-modal-loading">
-                            <div className="sign-spinner" aria-hidden="true" />
-                            <span>Подписание…</span>
-                        </div>
+                        <Loader label="Подписание…" />
                     </div>
                 ) : phase === 'signed' ? (
                     <div className="sign-modal-body">
