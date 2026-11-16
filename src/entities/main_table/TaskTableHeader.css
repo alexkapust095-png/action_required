@@ -1,5 +1,8 @@
 /* TaskTableHeader — строка заголовков колонок.
-   Только геометрия. Цвета, прозрачность и тени не задаются. */
+   Геометрия — здесь; дизайн (цвета) — по old_styles/styles.css:
+   подписи колонок --edo-text-secondary (#8C8C8C), акцентная подпись
+   «Отправитель» --edo-accent-text (#1e6599). Разделители-линии заданы
+   в Task.css / Marks.css (цвет --edo-border-table, как #CAD1D8 в old). */
 
 /* ============================================================
    ГДЕ ЗАДАЁТСЯ ШИРИНА ЗАГОЛОВКОВ
@@ -36,6 +39,8 @@
     overflow: hidden;
     text-overflow: ellipsis;
     text-align: left;
+    /* Подписи колонок — вторичный серый (old: .column-name color #8C8C8C) */
+    color: var(--edo-text-secondary, #8C8C8C);
 }
 
 /* Ячейка заголовка = ячейка строки: паддинги берёт из общего правила
@@ -72,6 +77,8 @@
 
 .task-widget .column-name-accent {
     display: block;
+    /* «Отправитель» в шапке — акцентным цветом (old: .column-name-accent) */
+    color: var(--edo-accent-text, #1e6599);
     min-width: 0;
     overflow: hidden;
     text-overflow: ellipsis;

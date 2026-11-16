@@ -21,10 +21,12 @@
 }
 
 /* Заголовок таблицы — на всю ширину сетки, стоит НАД областью прокрутки
-   и в ограничение высоты 70vh НЕ входит (прокручивается только тело). */
+   и в ограничение высоты 70vh НЕ входит (прокручивается только тело).
+   Разделитель снизу — как border-bottom у .task-table-head в old_styles. */
 .task-widget.task-table-container > .task-table-head {
     grid-column: 1 / -1;
     min-width: 0;
+    border-bottom: var(--edo-border-width, 1px) solid var(--edo-border-table, #CAD1D8);
 }
 
 /* Тело списка — на всю ширину сетки; именно оно ограничивается высотой 70vh

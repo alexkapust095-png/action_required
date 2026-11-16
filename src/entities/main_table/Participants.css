@@ -1,5 +1,6 @@
 /* Participants — резиновая колонка «Отправитель / Участники».
-   Только геометрия. Цвета, прозрачность и тени не задаются. */
+   Цвета — по old_styles/styles.css: «Отправитель» акцентным
+   (--edo-accent-text #1e6599), участники обычным текстом (--edo-text #585858). */
 
 .task-widget .task-participants {
     display: flex;
@@ -7,6 +8,16 @@
     justify-content: center;
     gap: 2px;
     min-width: 0;
+}
+
+.task-widget .sender-title {
+    /* old: .sender-title { color: #1e6599 } */
+    color: var(--edo-accent-text, #1e6599);
+}
+
+.task-widget .participant-title {
+    /* old: .participant-title { color: #585858 } */
+    color: var(--edo-text, #585858);
 }
 
 .task-widget .sender-title,

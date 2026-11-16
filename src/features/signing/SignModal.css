@@ -12,7 +12,7 @@
     justify-content: center;
     padding: 16px;
     box-sizing: border-box;
-    background: rgba(0, 0, 0, 0.45);
+    background: var(--edo-modal-backdrop, rgba(0, 0, 0, 0.45));
 }
 
 .task-widget.sign-modal-backdrop .sign-modal {
@@ -22,13 +22,13 @@
     max-width: 100%;
     max-height: calc(100vh - 32px);
     box-sizing: border-box;
-    border-radius: 8px;
-    background: #fff;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
-    font-family: 'Roboto', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    border-radius: var(--edo-radius-l, 8px);
+    background: var(--edo-surface, #FFFFFF);
+    box-shadow: var(--edo-shadow, 0px 6px 28px rgba(37, 41, 65, 0.16));
+    font-family: inherit;
     font-size: 14px;
     line-height: 20px;
-    color: #1f1f1f;
+    color: var(--edo-text-strong, #1f1f1f);
 }
 
 /* Шапка окна */
@@ -37,7 +37,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 12px 16px;
-    border-bottom: 1px solid #e8e8e8;
+    border-bottom: var(--edo-border-width, 1px) solid var(--edo-divider, #e8e8e8);
     flex: 0 0 auto;
 }
 
@@ -55,15 +55,15 @@
     padding: 0;
     cursor: pointer;
     border: none;
-    border-radius: 4px;
+    border-radius: var(--edo-radius, 4px);
     background: transparent;
     font-size: 20px;
     line-height: 1;
-    color: #666;
+    color: var(--edo-icon-muted, #666);
 }
 
 .task-widget.sign-modal-backdrop .sign-modal-close:hover {
-    background: #f0f0f0;
+    background: var(--edo-hover-neutral, #f0f0f0);
 }
 
 /* Тело: список выбираемых документов + выпадающий список сертификатов */
@@ -85,7 +85,7 @@
 .task-widget.sign-modal-backdrop .sign-label {
     font-size: 12px;
     line-height: 16px;
-    color: #666;
+    color: var(--edo-icon-muted, #666);
 }
 
 /* Список «Будут подписаны» с возможностью исключить задачу */
@@ -95,8 +95,8 @@
     gap: 4px;
     max-height: 200px;
     overflow-y: auto;
-    border: 1px solid #e8e8e8;
-    border-radius: 4px;
+    border: var(--edo-border-width, 1px) solid var(--edo-divider, #e8e8e8);
+    border-radius: var(--edo-radius, 4px);
     padding: 8px;
     box-sizing: border-box;
 }
@@ -126,7 +126,7 @@
 
 .task-widget.sign-modal-backdrop .sign-task-row.excluded .sign-task-name {
     text-decoration: line-through;
-    color: #999;
+    color: var(--edo-placeholder, #999);
 }
 
 /* Колесо загрузки поверх тела модалки: общий компонент Loader
@@ -142,7 +142,7 @@
 }
 
 .task-widget.sign-modal-backdrop .sign-success {
-    color: var(--edo-success, #1c8a3e);
+    color: var(--edo-success, #0fab36);
     font-weight: 500;
 }
 
@@ -153,7 +153,7 @@
     justify-content: flex-end;
     gap: 8px;
     padding: 12px 16px;
-    border-top: 1px solid #e8e8e8;
+    border-top: var(--edo-border-width, 1px) solid var(--edo-divider, #e8e8e8);
     flex: 0 0 auto;
 }
 
@@ -161,12 +161,12 @@
     height: 32px;
     padding: 0 12px;
     cursor: pointer;
-    border: 1px solid #d9d9d9;
-    border-radius: 4px;
-    background: #fff;
+    border: var(--edo-border-width, 1px) solid var(--edo-border, #D9D9D9);
+    border-radius: var(--edo-radius, 4px);
+    background: var(--edo-surface, #FFFFFF);
     font-family: inherit;
     font-size: 14px;
-    color: #1f1f1f;
+    color: var(--edo-text-strong, #1f1f1f);
 }
 
 .task-widget.sign-modal-backdrop .sign-modal-submit {
@@ -174,15 +174,15 @@
     padding: 0 20px;
     cursor: pointer;
     border: none;
-    border-radius: 4px;
-    background: #1a67c2;
+    border-radius: var(--edo-radius, 4px);
+    background: var(--edo-btn-bg, #1E6599);
     font-family: inherit;
     font-size: 14px;
-    color: #fff;
+    color: var(--edo-btn-text, #FFFFFF);
 }
 
 .task-widget.sign-modal-backdrop .sign-modal-submit:hover:not(:disabled) {
-    background: #155aae;
+    background: var(--edo-btn-bg-hover, #367eb2);
 }
 
 .task-widget.sign-modal-backdrop .sign-modal-submit:disabled,

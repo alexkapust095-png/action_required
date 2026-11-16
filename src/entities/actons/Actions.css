@@ -1,5 +1,7 @@
 /* Actions — панель заголовка/действий над списком.
-   Только геометрия. Цвета, прозрачность и тени не задаются. */
+   Кнопки оформлены по old_styles/styles.css (.filter-button-container > button):
+   фон --edo-btn-bg (#1E6599), белый текст, hover --edo-btn-bg-hover (#367eb2),
+   скругление --edo-radius. */
 
 .task-widget.task-table-headers {
     display: flex;
@@ -17,7 +19,9 @@
     margin-right: auto;
     font-size: 20px;
     line-height: 28px;
-    font-weight: 500;
+    /* Полужирный заголовка — по аналогии с --edo-font-weight-bold из old_styles */
+    font-weight: var(--edo-font-weight-bold, 600);
+    color: var(--edo-accent-text, #1e6599);
     white-space: nowrap;
 }
 
@@ -34,10 +38,26 @@
     gap: 8px;
     height: 32px;
     padding: 0 12px;
-    font-size: 14px;
+    font-size: var(--edo-font-size, 14px);
     line-height: 20px;
     white-space: nowrap;
     cursor: pointer;
+    transition: background 0.3s;
+    border: none;
+    outline: none;
+    border-radius: var(--edo-radius, 4px);
+    color: var(--edo-btn-text, #FFFFFF);
+    background: var(--edo-btn-bg, #1E6599);
+}
+
+/* Подсветка при наведении — как .filter-button-container > button:hover в old */
+.task-widget .action-button:hover {
+    background: var(--edo-btn-bg-hover, #367eb2);
+}
+
+/* Иконка внутри кнопки наследует белый текст кнопки */
+.task-widget .action-button .elma-icons {
+    color: inherit;
 }
 
 .task-widget .action-button .elma-icons {

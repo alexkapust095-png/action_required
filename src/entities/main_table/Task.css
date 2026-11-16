@@ -1,5 +1,7 @@
 /* Task — одна строка списка задач.
-   Только геометрия. Цвета, прозрачность и тени не задаются. */
+   Цветовая схема — по old_styles/styles.css (.tasks-list-item):
+   разделитель снизу #CAD1D8, hover-подсветка --edo-accent-soft,
+   просроченная строка — подсветка --edo-danger-row (#ffcccca1). */
 
 .task-widget .task-table-row {
     display: grid;
@@ -13,6 +15,25 @@
 .task-widget a.task-table-row {
     text-decoration: none;
     color: inherit;
+}
+
+/* Разделитель под строкой — как border-bottom у .tasks-list-item в old */
+.task-widget .task-table-row {
+    border-bottom: var(--edo-border-width, 1px) solid var(--edo-border-table, #CAD1D8);
+    transition: background 0.18s;
+}
+
+/* Подсветка строки при наведении — как .tasks-list-item:hover в old */
+.task-widget a.task-table-row:hover {
+    background: var(--edo-accent-soft, #f6fafd);
+    color: inherit !important;
+    text-decoration: none !important;
+}
+
+/* Просроченная задача — розовая подсветка всей строки
+   (old: .tasks-list_overdue, был inline background-color в скрипте) */
+.task-widget .task-table-row_overdue {
+    background-color: var(--edo-danger-row, #ffcccca1);
 }
 
 /* Общая ячейка строки: одинаковый горизонтальный отступ для всех колонок */

@@ -3,7 +3,9 @@
    в той же строке списка, что и «Важно», под тем же заголовком «*”.
    Слот такой же ширины (--tt-col-mark), как у первого признака, поэтому
    правая граница колонки меток совпадает с правой границей заголовка «*”.
-   Только геометрия. Цвета, прозрачность и тени не задаются. */
+   Цвета — по old_styles/styles.css: прочитано — приглушённый
+   --edo-icon-muted (#B0B0B0), не прочитано — жёлтый --edo-unread (#e9c500),
+   оба с !important (как у прежних inline-стилей). */
 
 .task-widget .task-mark-readed-slot {
     display: inline-flex;
@@ -28,11 +30,12 @@
     box-sizing: border-box;
 }
 
-/* Лампа «Прочитано»: новое состояние readed === true → жёлтая; иначе серая */
+/* Лампа «Прочитано»: readed === true → серая (old: .task-mark-read #B0B0B0);
+   иначе — жёлтая «не прочитано» (old: .task-mark-unread #e9c500) */
 .task-widget .task-mark-readed.task-mark-read {
-    color: #9e9e9e;
+    color: var(--edo-icon-muted, #B0B0B0) !important;
 }
 
 .task-widget .task-mark-readed.task-mark-unread {
-    color: #f9c81a;
+    color: var(--edo-unread, #e9c500) !important;
 }

@@ -10,7 +10,7 @@
 
 /* Плашка приоритета: скругление, центрирование, 80% ширины ячейки */
 .task-widget .task-priority > div {
-    border-radius: var(--edo-radius, 5px);
+    border-radius: var(--edo-priority-radius, 5px);
     text-align: center;
     align-items: center;
     width: 80%;

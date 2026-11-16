@@ -1,7 +1,8 @@
 /* ImportantMark — первый признак колонки «Метки» («Важно»).
    Слот (task-mark-important-slot) занимает первую ячейку 2-колоночной
    сетки Marks, т.е. стоит ровно под заголовком «*” и слева от «Прочитано».
-   Только геометрия. Цвета, прозрачность и тени не задаются. */
+   Цвета — по old_styles/styles.css: .task-mark-important — red
+   (был !important у inline-стиля, сохраняем !important). */
 
 .task-widget .task-mark-important-slot {
     display: inline-flex;
@@ -40,10 +41,10 @@
     box-sizing: border-box;
 }
 
-/* Звезда «Важно»: important === true → залитая красная;
+/* Звезда «Важно»: important === true → залитая красная (old: red !important);
    important === false → пустая (unicode-контур star) с чёрным контуром */
 .task-widget .task-mark-important-active {
-    color: #e53935;
+    color: var(--edo-important, red) !important;
 }
 
 .task-widget .task-mark-important:not(.task-mark-important-active) {

@@ -24,15 +24,15 @@
     font-family: inherit;
     font-size: 14px;
     line-height: 20px;
-    color: #1f1f1f;
-    border: 1px solid #d9d9d9;
-    border-radius: 4px;
-    background: #fff;
+    color: var(--edo-text-strong, #1f1f1f);
+    border: var(--edo-border-width, 1px) solid var(--edo-border, #D9D9D9);
+    border-radius: var(--edo-radius, 4px);
+    background: var(--edo-surface, #FFFFFF);
 }
 
 .task-widget.search-multi-select .ms-control:hover,
 .task-widget.search-multi-select .ms-control.open {
-    border-color: #1a67c2;
+    border-color: var(--edo-accent, #1e6599);
 }
 
 .task-widget.search-multi-select .ms-summary {
@@ -50,7 +50,7 @@
 }
 
 .task-widget.search-multi-select .ms-placeholder {
-    color: #999;
+    color: var(--edo-placeholder, #999);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -65,8 +65,8 @@
     font-size: 12px;
     line-height: 18px;
     border-radius: 9px;
-    background: #eaf1fa;
-    color: #1a67c2;
+    background: var(--edo-accent-soft, #e6f4fa);
+    color: var(--edo-accent-text, #1e6599);
 }
 
 /* Стрелка-указатель */
@@ -76,7 +76,7 @@
     height: 0;
     border-left: 4px solid transparent;
     border-right: 4px solid transparent;
-    border-top: 5px solid #666;
+    border-top: 5px solid var(--edo-icon-muted, #B0B0B0);
     transition: transform 0.15s ease;
 }
 
@@ -97,15 +97,15 @@
     overflow-y: auto;
     box-sizing: border-box;
     padding: 4px 0;
-    border: 1px solid #d9d9d9;
-    border-radius: 4px;
-    background: #fff;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border: var(--edo-border-width, 1px) solid var(--edo-border, #D9D9D9);
+    border-radius: var(--edo-radius, 4px);
+    background: var(--edo-surface, #FFFFFF);
+    box-shadow: var(--edo-shadow, 0px 6px 28px rgba(37, 41, 65, 0.16));
 }
 
 .task-widget.search-multi-select .ms-empty {
     padding: 8px 12px;
-    color: #999;
+    color: var(--edo-placeholder, #999);
 }
 
 /* Поле поиска опций (внутри выпадающего списка) */
@@ -120,19 +120,19 @@
     font-family: inherit;
     font-size: 13px;
     line-height: 18px;
-    color: #1f1f1f;
-    border: 1px solid #d9d9d9;
-    border-radius: 4px;
-    background: #fff;
+    color: var(--edo-text-strong, #1f1f1f);
+    border: var(--edo-border-width, 1px) solid var(--edo-border, #D9D9D9);
+    border-radius: var(--edo-radius, 4px);
+    background: var(--edo-surface, #FFFFFF);
     outline: none;
 }
 
 .task-widget.search-multi-select .ms-search:focus {
-    border-color: #1a67c2;
+    border-color: var(--edo-accent, #1e6599);
 }
 
 .task-widget.search-multi-select .ms-search::placeholder {
-    color: #999;
+    color: var(--edo-placeholder, #999);
 }
 
 /* Опция с чекбоксом (множественный выбор) */
@@ -145,7 +145,7 @@
     user-select: none;
     font-size: 14px;
     line-height: 20px;
-    color: #1f1f1f;
+    color: var(--edo-text-strong, #1f1f1f);
     background: transparent;
     border: none;
     text-align: left;
@@ -156,11 +156,11 @@
 }
 
 .task-widget.search-multi-select .ms-option:hover {
-    background: #f2f6fb;
+    background: var(--edo-accent-soft, #e6f4fa);
 }
 
 .task-widget.search-multi-select .ms-option.checked {
-    background: #eaf1fa;
+    background: var(--edo-accent-soft, #e6f4fa);
 }
 
 .task-widget.search-multi-select .ms-option input[type='checkbox'] {
@@ -186,12 +186,12 @@
     text-align: center;
     font-family: inherit;
     font-size: 12px;
-    color: #1a67c2;
-    border: 1px dashed #b9cfe8;
-    border-radius: 4px;
-    background: #fff;
+    color: var(--edo-accent-text, #1e6599);
+    border: var(--edo-border-width, 1px) dashed var(--edo-border, #D9D9D9);
+    border-radius: var(--edo-radius, 4px);
+    background: var(--edo-surface, #FFFFFF);
 }
 
 .task-widget.search-multi-select .ms-clear:hover {
-    background: #eaf1fa;
+    background: var(--edo-accent-soft, #e6f4fa);
 }
