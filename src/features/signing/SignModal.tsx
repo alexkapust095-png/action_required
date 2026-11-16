@@ -7,7 +7,7 @@ import { getWidgetParams } from '../../shared/widgetParams'
 import { SingleSelect } from '../../entities/search/SingleSelect'
 import { Loader } from '../../shared/loader/Loader'
 
-type SignPhase = 'idle' | 'signing' | 'signed'
+type SignPhase = 'idle' | 'signing' | 'signed' | 'error'
 
 /**
  * Модальное окно «Подписать выбранное».
@@ -36,6 +36,7 @@ export function SignModal(props: {
     const [certificatesLoading, setCertificatesLoading] = useState(true)
     const [selectedCertificate, setSelectedCertificate] = useState<string | null>(getLastCert?.(userId) ?? null)
     const [phase, setPhase] = useState<SignPhase>('idle')
+    const [errorMessage, setErrorMessage] = useState<string>('')
 
     // Загрузка сертификатов при открытии окна (п.6 — функция без параметров);
     // если функция не передана из elma365 — считаем список пустым
@@ -78,8 +79,11 @@ export function SignModal(props: {
             setPhase('signed')
             // Обновление списка задач — как по кнопке «Обновить»
             props.onSigned(true)
-        } catch {
-            setPhase('idle')
+        } catch (error) {
+            if (error instanceof Error) {
+                setErrorMessage(error.message)
+            }
+            setPhase('error')
         }
     }
 
@@ -121,50 +125,56 @@ export function SignModal(props: {
                     </button>
                 </div>
 
-                {phase === 'signing' ? (
-                    <div className="sign-modal-body">
-                        <Loader label="Подписание…" />
-                    </div>
-                ) : phase === 'signed' ? (
+                {phase === 'error' ? (
                     <div className="sign-modal-body">
                         <div className="sign-modal-loading">
-                            <span className="sign-success">Документы подписаны!</span>
+                            <span className="sign-error">Ошибка подписания: {errorMessage}</span>
                         </div>
                     </div>
+                ) : phase === 'signing' ? (
+                <div className="sign-modal-body">
+                    <Loader label="Подписание…" />
+                </div>
+                ) : phase === 'signed' ? (
+                <div className="sign-modal-body">
+                    <div className="sign-modal-loading">
+                        <span className="sign-success">Документы подписаны!</span>
+                    </div>
+                </div>
                 ) : (
-                    <div className="sign-modal-body">
-                        <div className="sign-field">
-                            <span className="sign-label">Будут подписаны:</span>
-                            <div className="sign-task-list">
-                                {props.tasks.map(task => {
-                                    const excluded = excludedIds.has(task.task.id)
-                                    return (
-                                        <label
-                                            key={task.task.id}
-                                            className={`sign-task-row${excluded ? ' excluded' : ''}`}
-                                        >
-                                            <input
-                                                type="checkbox"
-                                                checked={!excluded}
-                                                onChange={() => toggleExcluded(task.task.id)}
-                                            />
-                                            <span className="sign-task-name">{task.task.data.__name}</span>
-                                        </label>
-                                    )
-                                })}
-                            </div>
-                        </div>
-
-                        <div className="sign-field">
-                            <span className="sign-label">Сертификат:</span>
-                            <SingleSelect
-                                options={certificates.map(cert => ({ value: cert.code, label: cert.name }))}
-                                value={selectedCertificate}
-                                onChange={setSelectedCertificate}
-                                placeholder={certificatesLoading ? 'Загрузка сертификатов…' : 'Выберите сертификат'}
-                            />
+                <div className="sign-modal-body">
+                    <div className="sign-field">
+                        <span className="sign-label">Будут подписаны:</span>
+                        <div className="sign-task-list">
+                            {props.tasks.map(task => {
+                                const excluded = excludedIds.has(task.task.id)
+                                return (
+                                    <label
+                                        key={task.task.id}
+                                        className={`sign-task-row${excluded ? ' excluded' : ''}`}
+                                    >
+                                        <input
+                                            type="checkbox"
+                                            checked={!excluded}
+                                            onChange={() => toggleExcluded(task.task.id)}
+                                        />
+                                        <span className="sign-task-name">{task.task.data.__name}</span>
+                                    </label>
+                                )
+                            })}
                         </div>
                     </div>
+
+                    <div className="sign-field">
+                        <span className="sign-label">Сертификат:</span>
+                        <SingleSelect
+                            options={certificates.map(cert => ({ value: cert.code, label: cert.name }))}
+                            value={selectedCertificate}
+                            onChange={setSelectedCertificate}
+                            placeholder={certificatesLoading ? 'Загрузка сертификатов…' : 'Выберите сертификат'}
+                        />
+                    </div>
+                </div>
                 )}
 
                 <div className="sign-modal-footer">

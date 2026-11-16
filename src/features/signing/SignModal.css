@@ -146,6 +146,12 @@
     font-weight: 500;
 }
 
+.task-widget.sign-modal-backdrop .sign-error {
+    color: var(--edo-danger, #ab0f0f);
+    font-weight: 500;
+    white-space: pre-line;
+}
+
 /* Подвал с кнопками «Отмена» / «Подписать» */
 .task-widget.sign-modal-backdrop .sign-modal-footer {
     display: flex;
