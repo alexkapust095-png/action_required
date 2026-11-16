@@ -56,9 +56,29 @@ export function Task(props: {
     // Строка списка: все ячейки — прямые дети grid-контейнера,
     // поэтому колонки шапки и строк совпадают.
     // Признаки «Важно» и «Прочитано» — одна колонка Marks под заголовком «*».
+
+    // Вычисление просрочена ли задача
+    let isOverdue = false
+    if (task.task.data.dueDate) {
+        let taskDuedateMs = new Date(
+            task.task.data.dueDate.year,
+            task.task.data.dueDate.month - 1,
+            task.task.data.dueDate.day,
+            task.task.data.dueDate.hours ?? 0,
+            task.task.data.dueDate.minutes ?? 0,
+            task.task.data.dueDate.seconds ?? 0,
+            task.task.data.dueDate.milliseconds ?? 0,
+        ).getTime()
+        let nowMs = new Date().getTime()
+        isOverdue = nowMs > taskDuedateMs
+    }
     return (
         <a
-            className='task-item task-table-row'
+            className={
+                isOverdue ?
+                'task-item task-table-row_overdue' :
+                'task-item task-table-row' 
+            }
             {...rowProps}
             onClick={setReadedFn}
             title={taskLink ? 'Открыть задачу' : undefined}
@@ -82,7 +102,7 @@ export function Task(props: {
                 onToggleReaded={props.onToggleReaded}
                 onStopRowClick={stopRowClick}
             />
-            <TaskName taskName={task.task.data.__name} />
+            <TaskName taskName={task.task.data.__name} readed={task.readed} />
             <CreatedAt date={task.task.data.__createdAt} />
             <Initiator createdBy={task.createdBy} />
             <Participants sender={task.sender} participants={task.participants} />

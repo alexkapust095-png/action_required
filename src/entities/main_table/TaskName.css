@@ -30,6 +30,14 @@
     color: var(--edo-accent-text-hover, #448ec4);
 }
 
+.task-title-span.readed {
+    font-weight: 400;
+}
+
+.task-title-span.unreaded {
+    font-weight: 900;
+}
+
 .task-widget .task-title,
 .task-widget .task-title-span {
     box-sizing: border-box;
