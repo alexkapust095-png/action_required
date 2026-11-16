@@ -19,9 +19,7 @@
     font-weight: var(--edo-font-weight-bold, 600);
     font-size: var(--edo-font-size, 14px);
     line-height: 20px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    white-space: initial;
     /* Название — акцентный текст (old: .task-name color #1e6599) */
     color: var(--edo-accent-text, #1e6599);
     transition: color 0.2s;

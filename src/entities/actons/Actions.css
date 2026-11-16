@@ -21,7 +21,7 @@
     line-height: 28px;
     /* Полужирный заголовка — по аналогии с --edo-font-weight-bold из old_styles */
     font-weight: var(--edo-font-weight-bold, 600);
-    color: var(--edo-accent-text, #1e6599);
+    /* color: var(--edo-accent-text, #1e6599); */
     white-space: nowrap;
 }
 
@@ -33,7 +33,7 @@
 
 /* Кнопки панели — фиксированная высота 32px, внутренний отступ 12px */
 .task-widget .action-button {
-    display: inline-flex;
+    /* display: inline-flex;
     align-items: center;
     gap: 8px;
     height: 32px;
@@ -47,7 +47,7 @@
     outline: none;
     border-radius: var(--edo-radius, 4px);
     color: var(--edo-btn-text, #FFFFFF);
-    background: var(--edo-btn-bg, #1E6599);
+    background: var(--edo-btn-bg, #1E6599); */
 }
 
 /* Подсветка при наведении — как .filter-button-container > button:hover в old */

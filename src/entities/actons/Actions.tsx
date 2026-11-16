@@ -31,7 +31,7 @@ export function Actions(props: {
                     {/* Сброс выбора в первой колонке списка задач */}
                     <button
                         id="deleteButton"
-                        className="action-button"
+                        className="btn btn-default"
                         onClick={props.onClearSelection}
                     >
                         Очистить выбор
@@ -43,17 +43,17 @@ export function Actions(props: {
             {props.canSignSelected && (
                 <button
                     id="signButton"
-                    className="action-button"
+                    className="btn btn-primary"
                     onClick={props.onSignSelected}
                 >
                     <i className="elma-icons md-18">pencil</i>Подписать выбранные
                 </button>
             )}
-            <button id="refreshButton" className="action-button" onClick={updateFromElma}><i className="elma-icons md-18">sync</i>Обновить</button>
+            <button id="refreshButton" className="btn btn-primary" onClick={updateFromElma}><i className="elma-icons md-18">sync</i>Обновить</button>
             {/* Сброс фильтров + выбранных документов: обработчик поднимается в App */}
             <button
                 id="resetButton"
-                className="action-button"
+                className="btn btn-default"
                 onClick={props.onResetFilters}
             >
                 Сбросить фильтры
