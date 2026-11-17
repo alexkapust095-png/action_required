@@ -45,7 +45,10 @@ export function Task(props: {
         props.onSelectChange(task.task.id, !props.selected)
     }
     // Функция установки прочитанным
-    const setReadedFn = () => {
+    const setReadedFn = (event: any) => {
+        let tag = event.target.tagName.toLowerCase()
+        if (tag === 'input')
+            return
         if (!task.readed && setReaded) {
             setReaded(task.task.id)
             props.setTasks(prev => prev.map(t =>

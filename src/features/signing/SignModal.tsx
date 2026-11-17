@@ -77,14 +77,14 @@ export function SignModal(props: {
             // Устанавливаем последний сертификат в хранилище
             setLastCert?.(userId, selectedCertificate)
             setPhase('signed')
-            // Обновление списка задач — как по кнопке «Обновить»
-            props.onSigned(true)
         } catch (error) {
             if (error instanceof Error) {
                 setErrorMessage(error.message)
             }
             setPhase('error')
         }
+        // Обновление списка задач — как по кнопке «Обновить»
+        props.onSigned(true)
     }
 
     const canClose = phase !== 'signing'

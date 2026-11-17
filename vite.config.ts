@@ -19,7 +19,7 @@ export default defineConfig({
       // безопаснее для вставки в чужие страницы (elma365 Script-in-Script),
       // чем UMD с секциями module.exports/AMD.
       formats: ['umd'],
-      fileName: () => 'my-widget.umd.js'
+      fileName: () => 'action-required.umd.js'
     },
     rollupOptions: {
       // React и ReactDOM БУНДЛЯТСЯ внутрь файла виджета (не external):
