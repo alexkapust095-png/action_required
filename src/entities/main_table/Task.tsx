@@ -1,26 +1,116 @@
+import './Task.css'
 
+import { AnchorHTMLAttributes, ChangeEvent, MouseEvent, SetStateAction } from 'react'
 import { TaskInfo } from '../../types/types'
+import { getWidgetParams } from '../../shared/widgetParams'
+import { CreatedAt } from './CreatedAt'
 import { Duedate } from './Duedate'
-import { ImportantMark } from './ImportantMark'
 import { Initiator } from './Initiator'
+import { Marks } from './Marks'
 import { Participants } from './Participants'
 import { Priority } from './Priority'
-import { ReadedMark } from './ReadedMark'
 import { TaskName } from './TaskName'
 
-export function Task(props: {task: TaskInfo}) {
+export function Task(props: {
+    task: TaskInfo,
+    selected: boolean,
+    onSelectChange: (taskId: string, selected: boolean) => void,
+    /** Переключение «Важно»: setImportant/clearImportant(id) по состоянию, затем инверсия */
+    onToggleImportant?: () => void,
+    /** Переключение «Прочитано»: setReaded/setUnreaded(id) по состоянию, затем инверсия */
+    onToggleReaded?: () => void,
+    setTasks: (value: SetStateAction<TaskInfo[]>) => void
+}) {
     let task = props.task
+    // Базовый URL портала приходит из initWidget (WidgetParams.url) и функцию установить прочитанным — берём из общего хранилища.
+    const { url, setReaded } = getWidgetParams()
+    // Клик по любому месту строки открывает задачу: url + p/task/<id задачи>.
+    // Ссылка формируется только если url передан — без него клик ничего не делает.
+    const taskLink = url ? `${url}(p:task/${task.task.id})` : undefined
+    // Строка — обычная ссылка <a href="...">. Клик по ней обрабатывает
+    // роутер портала elma365: страница НЕ перезагружается, открывается
+    // карточка задачи. stopPropagation на чекбоксе/метках защищает их
+    // от «клика по ссылке».
+    const rowProps: AnchorHTMLAttributes<HTMLAnchorElement> = taskLink
+        ? { href: taskLink }
+        : {}
+    // «Прочитано» и «Важно» — как бы поверх строки: клики по этим элементам
+    // не должны открывать задачу. preventDefault отменяет навигацию по <a>,
+    // stopPropagation гасит всплытие (сами кнопки onClick работают штатно,
+    // т.к. React слушает события на корне виджета).
+    const stopRowClick = (e: MouseEvent) => { e.preventDefault(); e.stopPropagation() }
+    // Чекбокс выбора задачи — полный контроль React над состоянием.
+    const handleCheckboxCellClick = (e: ChangeEvent<HTMLInputElement, HTMLInputElement>) => {
+        e.stopPropagation()
+        props.onSelectChange(task.task.id, !props.selected)
+    }
+    // Функция установки прочитанным
+    const setReadedFn = (event: any) => {
+        let tag = event.target.tagName.toLowerCase()
+        if (tag === 'input')
+            return
+        if (!task.readed && setReaded) {
+            setReaded(task.task.id)
+            props.setTasks(prev => prev.map(t =>
+                t.task.id === task.task.id ? { ...t, readed: !t.readed } : t,
+            ))
+        }
+    }
+    // Строка списка: все ячейки — прямые дети grid-контейнера,
+    // поэтому колонки шапки и строк совпадают.
+    // Признаки «Важно» и «Прочитано» — одна колонка Marks под заголовком «*».
+
+    // Вычисление просрочена ли задача
+    let isOverdue = false
+    if (task.task.data.dueDate) {
+        let taskDuedateMs = new Date(
+            task.task.data.dueDate.year,
+            task.task.data.dueDate.month - 1,
+            task.task.data.dueDate.day,
+            task.task.data.dueDate.hours ?? 0,
+            task.task.data.dueDate.minutes ?? 0,
+            task.task.data.dueDate.seconds ?? 0,
+            task.task.data.dueDate.milliseconds ?? 0,
+        ).getTime()
+        let nowMs = new Date().getTime()
+        isOverdue = nowMs > taskDuedateMs
+    }
     return (
-        <>
-            <div className='task-item'>
-                <ImportantMark important={task.important}/>
-                <ReadedMark readed={task.readed} />
-                <TaskName taskName={task.task.data.__name} />
-                <Initiator createdBy={task.createdBy} />
-                <Participants sender={task.sender} participants={task.participants} />
-                <Priority priority={task.task.data.priority} />
-                <Duedate date={task.task.data.dueDate} />
+        <a
+            className={
+                isOverdue ?
+                'task-item task-table-row_overdue' :
+                'task-item task-table-row' 
+            }
+            {...rowProps}
+            onClick={setReadedFn}
+            title={taskLink ? 'Открыть задачу' : undefined}
+        >
+            <div className='task-table-cell checkbox'
+            // onClick={handleCheckboxCellClick}
+            >
+                <input
+                    className='task-checkbox'
+                    type='checkbox'
+                    checked={props.selected}
+                    // onChange={() => {}}
+                    onChange={handleCheckboxCellClick}
+                    aria-label='Выбрать задачу'
+                />
             </div>
-        </>
+            <Marks
+                important={task.important}
+                readed={task.readed}
+                onToggleImportant={props.onToggleImportant}
+                onToggleReaded={props.onToggleReaded}
+                onStopRowClick={stopRowClick}
+            />
+            <TaskName taskName={task.task.data.__name} readed={task.readed} />
+            <CreatedAt date={task.task.data.__createdAt} />
+            <Initiator createdBy={task.createdBy} />
+            <Participants sender={task.sender} participants={task.participants} />
+            <Priority priority={task.task.data.priority} />
+            <Duedate date={task.task.data.dueDate} />
+        </a>
     )
 }

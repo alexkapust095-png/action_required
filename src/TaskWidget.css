@@ -1,0 +1,189 @@
+/* ============================================================
+   TaskWidget — корневая область встраиваемого виджета «Задачи».
+
+   Виджет встраивается в чужую страницу (ЭДО), поэтому:
+   - здесь нет ГЛОБАЛЬНЫХ селекторов ( *, html, body, #root, div, p ...);
+   - каждое правило привязано к классам/id внутри корня .task-widget;
+   - токены геометрии объявлены на самом корне (.task-widget), а не в :root,
+     поэтому наружу (к <html>) они не выходят и с чужими стилями не спорят.
+
+   Геометрия: размеры, отступы, позиционирование — здесь.
+   Дизайн (цвета, шрифт, подсветки) приведён в соответствие со старыми
+   стилями old_styles/styles.css и вынесен в единые токены темы --edo-*
+   (значения — из fallback'ов old_styles; селекторы компонентов берут
+   цвета только через var(--edo-…, <прежнее значение>), поэтому без
+   переключателя виджет выглядит как раньше).
+   ============================================================ */
+
+.task-widget {
+    /* Шрифт — как в old_styles/styles.css (.task-table-container):
+       SF Pro Display с теми же фолбэками. */
+    font-family: var(--edo-font, SF Pro Display, Helvetica, Arial, sans-serif);
+    font-size: var(--edo-font-size, 14px);
+    line-height: var(--edo-line-height, 20px);
+    -webkit-font-smoothing: antialiased;
+
+    /* ============================================================
+       ТОКЕНЫ ТЕМЫ (дизайн по old_styles/styles.css / priority.css /
+       loader.css). Объявлены на корне .task-widget — наружу (<html>)
+       не выходят и с чужими стилями не спорят. Значения равны
+       прежним fallback'ам старых стилей.
+       ============================================================ */
+    /* Поверхности и рамки */
+    --edo-surface: #FFFFFF;               /* фон полей, попапов, модалок */
+    --edo-border: #D9D9D9;                /* рамка полей ввода, попапов, кнопок «вторичных» */
+    --edo-border-table: #CAD1D8;          /* разделители таблицы и select'ы фильтров */
+    --edo-border-width: 1px;
+    --edo-radius: 4px;                    /* скругление полей и кнопок (old) */
+    --edo-priority-radius: 5px;           /* скругление пилюли приоритета (old priority.css) */
+    --edo-shadow: 0px 6px 28px rgba(37, 41, 65, 0.16); /* тень выпадающих списков (old) */
+
+    /* Текст */
+    --edo-text: #585858;                  /* обычный текст ячеек */
+    --edo-text-strong: #1f1f1f;           /* текст полей/модалок (прежнее значение) */
+    --edo-text-secondary: #8C8C8C;        /* подписи колонок шапки (old) */
+    --edo-icon-muted: #B0B0B0;            /* приглушённые иконки */
+    --edo-placeholder: #999;              /* плейсхолдеры, неактивные пункты (прежнее значение) */
+
+    /* Акцент (ссылки, заголовки «Отправитель», кнопки) */
+    --edo-accent: #1e6599;                /* основной акцент (old) */
+    --edo-accent-text: #1e6599;           /* акцентный текст (old) */
+    --edo-accent-text-hover: #448ec4;     /* подсветка ссылки при наведении (old) */
+    --edo-accent-soft: #e6f4fa;           /* мягкая подсветка hover/выбранных пунктов (old) */
+    --edo-on-accent: white;               /* текст на акцентном фоне */
+
+    /* Кнопки */
+    --edo-btn-bg: #1E6599;                /* фон основных кнопок (old) */
+    --edo-btn-text: #FFFFFF;              /* текст основных кнопок (old) */
+    --edo-btn-bg-hover: #367eb2;          /* hover основных кнопок (old) */
+
+    /* Подсветки состояний */
+    --edo-danger-row: #ffcccca1;          /* просроченная строка (old) */
+    --edo-important: red;                 /* звезда «Важно» (old) */
+    --edo-unread: #e9c500;                /* лампа «не прочитано» (old) */
+    --edo-success: #0fab36;               /* приоритет низкий / успех (old) */
+    --edo-warning: #9c8c00;               /* приоритет средний (old) */
+    --edo-danger: #ff2929;                /* приоритет высокий (old) */
+    --edo-overlay: rgba(255, 255, 255, 0.7); /* оверлей загрузки (old loader.css) */
+
+    /* Служебные нейтральные (прежние значения) */
+    --edo-divider: #e8e8e8;               /* границы секций модалок */
+    --edo-hover-neutral: #f0f0f0;         /* hover нейтральных кнопок/иконок */
+    --edo-modal-backdrop: rgba(0, 0, 0, 0.45); /* затемнение под модалками (прежнее) */
+
+    /* Внутренняя модель блоков виджета изолирована от чужих reset-стилей.
+       Модель задаётся списком классов (без универсального селектора `*`),
+       чтобы не переопределять правила страницы-хоста. */
+
+    /* ============================================================
+       Единая сетка колонок таблицы — общий токен геометрии.
+       8 колонок: чекбокс | метки (*) | наименование |
+                  дата создания | инициатор | участники | приоритет | сделать до
+
+       Колонка «Метки» (--tt-col-marks = 2 x --tt-col-mark + отступ между):
+       внутри неё признаки «Важно» и «Прочитано» стоят ВТОРАЯ ПОД ПЕРВОЙ
+       (одна колонка, один заголовок «*»). Шапка (TaskTableHeader) и
+       строки (Task) используют ОДНУ сетку, поэтому границы ровные.
+       ============================================================ */
+    --tt-col-mark: 24px;                    /* ширина одного признака (иконка) */
+    --tt-col-marks-gap: 8px;                /* зазор между признаками          */
+    --tt-col-marks: calc(2 * var(--tt-col-mark) + var(--tt-col-marks-gap)); /* 56px */
+    /* Внутренние колонки меток (см. Marks.css): слот признака = ширина иконки,
+       зазор между признаками — отдельная средняя колонка сетки меток.
+       Сумма (24 + 8 + 24) тождественно равна ширине самой колонки «Метки»,
+       поэтому заголовок «*”» и оба признака занимают одну и ту же область
+       на любом брейкпоинте. */
+    --tt-col-mark-slot: var(--tt-col-mark);
+    --tt-col-marks-gap-half: calc(var(--tt-col-marks-gap) / 2);
+
+    --tt-grid-columns:
+        48px                  /* task-checkbox  */
+        var(--tt-col-marks)   /* Marks (*): важно + прочитано друг под другом */
+        minmax(260px, 1.2fr)  /* TaskName       */
+        170px                 /* CreatedAt      */
+        170px                 /* Initiator      */
+        minmax(220px, 1fr)    /* Participants   */
+        120px                 /* Priority       */
+        170px;                /* Duedate        */
+
+    --tt-row-min-height: 56px;    /* высота строки списка ЭДО */
+    --tt-head-height: 40px;       /* высота заголовков колонок */
+    --tt-toolbar-height: 56px;    /* высота панели действий */
+    --tt-cell-padding-inline: 12px;
+    --tt-cell-padding-block: 8px;
+
+    /* Видимая высота ТЕЛА списка (без панели действий и без заголовка
+       таблицы) — 70% высоты экрана. Внутри этой области прокручиваются строки;
+       панель действий и заголовок таблицы стоят над ней и в 70vh не входят. */
+    --tt-list-max-height: 70vh;
+}
+
+/* Модель блоков — только узлы виджета, перечисленные по классам.
+   Универсальных селекторов (`*`, теги) нет: стили не выходят за пределы виджета */
+.task-widget,
+.task-widget .task-table-container,
+.task-widget .task-table-headers,
+.task-widget .task-table-head,
+.task-widget .task-table-body,
+.task-widget .task-table-row,
+.task-widget .task-table-cell,
+.task-widget .task-table-cell.marks,
+.task-widget .task-mark-important-slot,
+.task-widget .task-checkbox,
+.task-widget .task-title,
+.task-widget .task-title-span,
+.task-widget .column-name,
+.task-widget .column-name-accent,
+.task-widget .created-at-title,
+.task-widget .created-by-title,
+.task-widget .duedate-title,
+.task-widget .sender-title,
+.task-widget .participant-title,
+.task-widget .priority-low,
+.task-widget .priority-medium,
+.task-widget .priority-high,
+.task-widget .task-mark-important,
+.task-widget .task-mark-readed,
+.task-widget .action-button,
+.task-widget .elma-icons,
+.task-widget .task-table-empty {
+    box-sizing: border-box;
+}
+
+/* Геометрия глифов иконок elma-icons — только внутри виджета */
+.task-widget .elma-icons.md-14 { width: 14px; height: 14px; font-size: 14px; }
+.task-widget .elma-icons.md-18 { width: 18px; height: 18px; font-size: 18px; }
+.task-widget .elma-icons.md-24 { width: 24px; height: 24px; font-size: 24px; }
+
+/* ============================================================
+   Адаптивная геометрия: на узких экранах сжимаются колонки метаданных,
+   резиновые колонки (наименование / участники) остаются.
+   Переопределяются токены на том же корне .task-widget.
+   ============================================================ */
+
+@media (max-width: 1400px) {
+    .task-widget {
+        --tt-grid-columns:
+            48px var(--tt-col-marks)
+            minmax(220px, 1.2fr)
+            150px 150px
+            minmax(180px, 1fr)
+            110px
+            150px;
+    }
+}
+
+@media (max-width: 1100px) {
+    .task-widget {
+        --tt-col-mark: 20px;
+        --tt-col-marks-gap: 6px; /* --tt-col-marks = 46px */
+        --tt-grid-columns:
+            40px var(--tt-col-marks)
+            minmax(180px, 1.2fr)
+            130px 130px
+            minmax(150px, 1fr)
+            100px
+            130px;
+        --tt-cell-padding-inline: 8px;
+    }
+}

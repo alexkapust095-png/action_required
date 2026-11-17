@@ -1,0 +1,41 @@
+/* ReadedMark — второй признак колонки «Метки» («Прочитано»).
+   Занимает вторую внутреннюю колонку 2-колоночной сетки Marks (см. Marks.css) —
+   в той же строке списка, что и «Важно», под тем же заголовком «*”.
+   Слот такой же ширины (--tt-col-mark), как у первого признака, поэтому
+   правая граница колонки меток совпадает с правой границей заголовка «*”.
+   Цвета — по old_styles/styles.css: прочитано — приглушённый
+   --edo-icon-muted (#B0B0B0), не прочитано — жёлтый --edo-unread (#e9c500),
+   оба с !important (как у прежних inline-стилей). */
+
+.task-widget .task-mark-readed-slot {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-start;
+    /* слот растягивается на свою внутреннюю колонку сетки меток,
+       поэтому оба признака делят ширину колонки «*”» поровну */
+    width: 100%;
+    height: 24px;
+    min-width: 0;
+    box-sizing: border-box;
+}
+
+.task-widget .task-mark-readed {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    font-size: 18px;
+    line-height: 18px;
+    box-sizing: border-box;
+}
+
+/* Лампа «Прочитано»: readed === true → серая (old: .task-mark-read #B0B0B0);
+   иначе — жёлтая «не прочитано» (old: .task-mark-unread #e9c500) */
+.task-widget .task-mark-readed.task-mark-read {
+    color: var(--edo-icon-muted, #B0B0B0) !important;
+}
+
+.task-widget .task-mark-readed.task-mark-unread {
+    color: var(--edo-unread, #e9c500) !important;
+}

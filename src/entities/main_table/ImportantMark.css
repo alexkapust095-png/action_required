@@ -1,0 +1,52 @@
+/* ImportantMark — первый признак колонки «Метки» («Важно»).
+   Слот (task-mark-important-slot) занимает первую ячейку 2-колоночной
+   сетки Marks, т.е. стоит ровно под заголовком «*” и слева от «Прочитано».
+   Цвета — по old_styles/styles.css: .task-mark-important — red
+   (был !important у inline-стиля, сохраняем !important). */
+
+.task-widget .task-mark-important-slot {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-start;
+    /* слот растягивается на свою внутреннюю колонку сетки меток (1fr),
+       поэтому «Важно» и «Прочитано» делят ширину колонки «*”» поровну */
+    width: 100%;
+    height: 24px;
+    min-width: 0;
+    box-sizing: border-box;
+}
+
+/* Глиф иконки: квадрат 18x18 по левому краю своего слота */
+.task-widget .task-mark-important {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    font-size: 18px;
+    line-height: 18px;
+    box-sizing: border-box;
+}
+
+/* Кнопка-переключатель вокруг глифа звезды: без рамок/фона, только курсор */
+.task-widget .task-mark-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0;
+    margin: 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+/* Звезда «Важно»: important === true → залитая красная (old: red !important);
+   important === false → пустая (unicode-контур star) с чёрным контуром */
+.task-widget .task-mark-important-active {
+    color: var(--edo-important, red) !important;
+}
+
+.task-widget .task-mark-important:not(.task-mark-important-active) {
+    color: #000;
+}

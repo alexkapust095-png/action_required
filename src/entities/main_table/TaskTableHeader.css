@@ -1,0 +1,92 @@
+/* TaskTableHeader — строка заголовков колонок.
+   Геометрия — здесь; дизайн (цвета) — по old_styles/styles.css:
+   подписи колонок --edo-text-secondary (#8C8C8C), акцентная подпись
+   «Отправитель» --edo-accent-text (#1e6599). Разделители-линии заданы
+   в Task.css / Marks.css (цвет --edo-border-table, как #CAD1D8 в old). */
+
+/* ============================================================
+   ГДЕ ЗАДАЁТСЯ ШИРИНА ЗАГОЛОВКОВ
+
+   Ширины колонок нигде не дублируются — они берутся из ОДНОГО места:
+
+   1) src/TaskWidget.css → токен --tt-grid-columns (список колонок сетки)
+      и токены меток --tt-col-mark / --tt-col-marks-gap / --tt-col-marks;
+   2) Task.css → правило `.task-widget .task-table-row { display: grid;
+      grid-template-columns: var(--tt-grid-columns); }` — ОДИН раз для всех
+      строк таблицы.
+
+   Строка заголовков размечена классами "task-table-head task-table-row",
+   а строки задач — "task-table-row". Обе применяют одно и то же правило
+   сетки, поэтому ширина КАЖДОГО заголовка равна ширине соответствующей
+   ячейки значений (включая резиновые minmax-колонки). В этом файле сетка
+   не переопределяется: здесь только высота шапки и типографика подписей.
+   ============================================================ */
+.task-widget .task-table-head {
+    align-items: center;
+    height: var(--tt-head-height);
+    flex-shrink: 0;
+}
+
+/* Подпись колонки растягивается на всю ширину своей ячейки сетки, поэтому её
+   левая/правая границы совпадают с границами колонки значений. Горизонтальный
+   отступ и левое выравнивание — общие для всех ячеек (.task-table-cell). */
+.task-widget .task-table-head .column-name {
+    width: 100%;
+    min-width: 0;
+    font-size: 12px;
+    line-height: 16px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: left;
+    /* Подписи колонок — вторичный серый (old: .column-name color #8C8C8C) */
+    color: var(--edo-text-secondary, #8C8C8C);
+}
+
+/* Ячейка заголовка = ячейка строки: паддинги берёт из общего правила
+   .task-widget .task-table-cell (Task.css). Здесь переопределяется только
+   вертикальный отступ (строка шапки плотнее строки задачи) и левое
+   выравнивание — на случай унаследованных стилей страницы-хоста. */
+.task-widget .task-table-head .task-table-cell {
+    padding-block: 0;
+    text-align: left;
+}
+
+/* Колонка «Метки»: один заголовок «*”» над признаками «Важно» и «Прочитано».
+   Внутренняя сетка слотов, промежуток между ними, ширина ячейки и внешние
+   отступы заданы ОДНИМ общим правилом в Marks.css
+   (.task-widget .task-table-cell.marks) и действуют одинаково на шапку и на
+   строки задач. Здесь ничего не дублируется — только позиция подписи:
+   она растягивается на все внутренние колонки меток, т.е. стоит ровно над
+   обоими признаками, с теми же левыми/правыми границами. */
+.task-widget .task-table-head .column-name.marks {
+    grid-column: 1 / -1;
+    width: 100%;
+    height: auto;
+    line-height: 16px;
+    text-align: left;
+}
+
+/* Двухстрочный заголовок «Отправитель / Участники» внутри одной колонки */
+.task-widget .column-name.participants {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    white-space: normal;
+}
+
+.task-widget .column-name-accent {
+    display: block;
+    /* «Отправитель» в шапке — акцентным цветом (old: .column-name-accent) */
+    color: var(--edo-accent-text, #1e6599);
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.task-widget .task-table-head,
+.task-widget .column-name,
+.task-widget .column-name-accent {
+    box-sizing: border-box;
+}

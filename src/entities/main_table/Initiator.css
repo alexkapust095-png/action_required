@@ -1,0 +1,16 @@
+/* Initiator — колонка «Инициатор» (170px).
+   Цвет текста значений — как в old_styles/styles.css
+   (.created-at-title / .created-by / .due-date-title): --edo-text (#585858). */
+
+.task-widget .created-by-title {
+    display: block;
+    color: var(--edo-text, #585858);
+    min-width: 0;
+    font-size: 13px;
+    line-height: 18px;
+    white-space: initial;
+}
+
+.task-widget .created-by-title {
+    box-sizing: border-box;
+}

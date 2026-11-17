@@ -1,15 +1,17 @@
+import './TaskName.css'
 
+import { escapeHtml } from '../../utils/escapeHtml'
 
-export function TaskName(props: {taskName: string}) {
+export function TaskName(props: {taskName: string, readed?: boolean}) {
     return (
-        <>
-            <div>
-                <b>
-                    <span className="task-title-span">
-                        `${props.taskName}`
-                    </span>
-                </b>
-            </div>
-        </>
+        <div className="task-table-cell name">
+            <span className="task-title">
+                <span
+                    // className="task-title-span"
+                    className={props.readed ? 'task-title-span readed' : 'task-title-span unreaded'}
+                    dangerouslySetInnerHTML={{ __html: escapeHtml(props.taskName ?? '') }}
+                />
+            </span>
+        </div>
     )
 }

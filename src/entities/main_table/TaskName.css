@@ -1,0 +1,44 @@
+/* TaskName — резиновая колонка «Наименование».
+   Название задачи — акцентная ссылка, как в old_styles/styles.css
+   (.task-name / .task-name-title:hover): цвет --edo-accent-text,
+   при наведении — --edo-accent-text-hover. */
+
+.task-widget .task-table-cell.name {
+    min-width: 0;
+}
+
+.task-widget .task-title {
+    display: block;
+    min-width: 0;
+}
+
+.task-widget .task-title-span {
+    display: block;
+    min-width: 0;
+    /* Полужирный — как --edo-font-weight-bold (600) в old_styles */
+    font-weight: var(--edo-font-weight-bold, 600);
+    font-size: var(--edo-font-size, 14px);
+    line-height: 20px;
+    white-space: initial;
+    /* Название — акцентный текст (old: .task-name color #1e6599) */
+    color: var(--edo-accent-text, #1e6599);
+    transition: color 0.2s;
+}
+
+/* Подсветка названия при наведении (old: .task-name-title:hover #448ec4) */
+.task-widget a.task-table-row:hover .task-title-span {
+    color: var(--edo-accent-text-hover, #448ec4);
+}
+
+.task-title-span.readed {
+    font-weight: 400;
+}
+
+.task-title-span.unreaded {
+    font-weight: 900;
+}
+
+.task-widget .task-title,
+.task-widget .task-title-span {
+    box-sizing: border-box;
+}

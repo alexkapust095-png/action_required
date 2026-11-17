@@ -1,0 +1,29 @@
+
+/* ------------------------- */
+/*        ЗАГРУЗКА...        */
+/* ------------------------- */
+.tasks-loader-overlay {
+    position: absolute;
+    background: var(--edo-overlay, rgba(255,255,255,0.7 ));
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tasks-loader-spinner {
+    width: 60px;
+    height: 60px;
+    border: 8px solid var(--edo-border, #e0e0e0);
+    border-top: 8px solid var(--edo-accent, #1e6599);
+    border-radius: 50%;
+    animation: tasks-spin 1s linear infinite;
+}
+
+@keyframes tasks-spin {
+    0%   { transform: rotate(0deg);}
+    100% { transform: rotate(360deg);}
+}
+
+

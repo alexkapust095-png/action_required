@@ -1,0 +1,76 @@
+/* ============================================================
+   SearchBar — строка поиска с кнопкой фильтров в конце.
+   Оформление — по old_styles/styles.css (.filter-menu-form):
+   рамка #D9D9D9, скругление 4px, белое поле без рамки, кнопки-иконки
+   с левой разделительной границей; значок фильтра — акцентным цветом
+   (old: .filter-menu-button-extend path fill #1e6599).
+   ============================================================ */
+
+.task-widget.search-bar {
+    --sb-height: 36px;
+    --sb-gap: 4px;
+
+    display: flex;
+    align-items: stretch;
+    gap: var(--sb-gap);
+    box-sizing: border-box;
+    padding: 8px 12px;
+}
+
+.task-widget.search-bar .search-bar-form {
+    display: flex;
+    flex: 1 1 auto;
+    align-items: stretch;
+    gap: var(--sb-gap);
+    min-width: 0;
+}
+
+.task-widget.search-bar .search-input {
+    flex: 1 1 auto;
+    min-width: 0;
+    height: var(--sb-height);
+    box-sizing: border-box;
+    padding: 0 12px;
+    font-family: inherit;
+    font-size: var(--edo-font-size, 14px);
+    line-height: 20px;
+    color: var(--edo-text-strong, #1f1f1f);
+    border: var(--edo-border-width, 1px) solid var(--edo-border, #D9D9D9);
+    border-radius: var(--edo-radius, 4px);
+    background: var(--edo-surface, #FFFFFF);
+}
+
+.task-widget.search-bar .search-filter-button,
+.task-widget.search-bar .search-submit-button {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--sb-height);
+    height: var(--sb-height);
+    box-sizing: border-box;
+    padding: 0;
+    cursor: pointer;
+    border: var(--edo-border-width, 1px) solid var(--edo-border, #D9D9D9);
+    border-radius: var(--edo-radius, 4px);
+    background: transparent;
+    color: inherit;
+}
+
+.task-widget.search-bar .search-filter-button:hover,
+.task-widget.search-bar .search-filter-button.active,
+.task-widget.search-bar .search-submit-button:hover {
+    border-color: var(--edo-accent, #1e6599);
+    background: var(--edo-accent-soft, #e6f4fa);
+}
+
+/* Значок фильтра — акцентным цветом (old: .filter-menu-button-extend path fill) */
+.task-widget.search-bar .search-filter-button .elma-icons {
+    color: var(--edo-accent-text, rgb(20%, 33%, 53%, 1));
+}
+
+.task-widget.search-bar .search-filter-button .elma-icons,
+.task-widget.search-bar .search-submit-button .elma-icons {
+    font-size: 18px;
+    line-height: 1;
+}

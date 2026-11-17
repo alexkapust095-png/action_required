@@ -1,0 +1,91 @@
+/* Task — одна строка списка задач.
+   Цветовая схема — по old_styles/styles.css (.tasks-list-item):
+   разделитель снизу #CAD1D8, hover-подсветка --edo-accent-soft,
+   просроченная строка — подсветка --edo-danger-row (#ffcccca1). */
+
+.task-widget .task-table-row,
+.task-widget .task-table-row_overdue {
+    display: grid;
+    grid-template-columns: var(--tt-grid-columns);
+    align-items: center;
+    min-height: var(--tt-row-min-height);
+}
+
+/* Строка задачи — ссылка <a>: сбрасываем браузерные стили ссылок
+   (подчёркивание, цвет), сетку и размеры задают правила выше. */
+.task-widget a.task-table-row,
+.task-widget .task-table-row_overdue {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Разделитель под строкой — как border-bottom у .tasks-list-item в old */
+.task-widget .task-table-row,
+.task-widget .task-table-row_overdue {
+    border-bottom: var(--edo-border-width, 1px) solid var(--edo-border-table, #CAD1D8);
+    transition: background 0.18s;
+}
+
+/* Подсветка строки при наведении — как .tasks-list-item:hover в old */
+.task-widget a.task-table-row:hover {
+    background: var(--edo-accent-soft, #fdf6f6);
+    color: inherit !important;
+    text-decoration: none !important;
+}
+
+.task-widget a.task-table-row_overdue:hover {
+    background: var(--edo-accent-soft, #f6fafd);
+    color: inherit !important;
+    text-decoration: none !important;
+}
+
+/* Просроченная задача — розовая подсветка всей строки
+   (old: .tasks-list_overdue, был inline background-color в скрипте) */
+.task-widget .task-table-row_overdue {
+    background-color: var(--edo-danger-row, #ffcccca1);
+}
+
+/* Общая ячейка строки: одинаковый горизонтальный отступ для всех колонок */
+.task-widget .task-table-cell {
+    min-width: 0;
+    padding: var(--tt-cell-padding-block) var(--tt-cell-padding-inline);
+}
+
+/* Ячейка-колонка чекбокса (48px): обёртка div.task-table-cell.checkbox
+   вокруг input.task-checkbox как у остальных колонок. Горизонтальный отступ
+   НЕ переопределяется: он общий для всех ячеек (.task-widget .task-table-cell),
+   поэтому левый край чекбокса в строках и пустой служебной ячейки в шапке
+   совпадает с одним шагом сетки. */
+.task-widget .task-table-cell.checkbox {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+/* Сам чекбокс — фиксированный квадрат 16×16 внутри ячейки, по левому краю */
+.task-widget .task-checkbox {
+    display: block;
+    width: 16px;
+    height: 16px;
+    margin: 0;
+    flex-shrink: 0;
+    cursor: pointer;
+}
+
+/* Внутренняя сетка колонок меток (2 признака) объявлена ОДНАЖДЫ в Marks.css
+   (.task-widget .task-table-cell.marks) и действует одинаково на шапку и на
+   строки задач. Здесь не дублируется, чтобы границы заголовка «*”» и
+   признаков в задачах не могли разойтись. */
+
+.task-widget .task-table-row,
+.task-widget .task-table-cell,
+.task-widget .task-checkbox {
+    box-sizing: border-box;
+}
+
+/* Строка задачи целиком кликабельна — открывает задачу (url + p/task/<id>).
+   «Выбор», «Важно» и «Прочитано» стоят поверх строки: их клики не открывают
+   задачу (stopPropagation в Task.tsx), но курсор у них остаётся свой. */
+.task-widget .task-table-row {
+    cursor: pointer;
+}

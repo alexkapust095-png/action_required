@@ -1,0 +1,202 @@
+/* ============================================================
+   SignModal — модальное окно «Подписать выбранное».
+   Повторяет геометрию FilterModal (подложка на весь экран, окно по центру).
+   ============================================================ */
+
+.task-widget.sign-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    box-sizing: border-box;
+    background: var(--edo-modal-backdrop, rgba(0, 0, 0, 0.45));
+}
+
+.task-widget.sign-modal-backdrop .sign-modal {
+    display: flex;
+    flex-direction: column;
+    width: 460px;
+    max-width: 100%;
+    max-height: calc(100vh - 32px);
+    box-sizing: border-box;
+    border-radius: var(--edo-radius-l, 8px);
+    background: var(--edo-surface, #FFFFFF);
+    box-shadow: var(--edo-shadow, 0px 6px 28px rgba(37, 41, 65, 0.16));
+    font-family: inherit;
+    font-size: 14px;
+    line-height: 20px;
+    color: var(--edo-text-strong, #1f1f1f);
+}
+
+/* Шапка окна */
+.task-widget.sign-modal-backdrop .sign-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    border-bottom: var(--edo-border-width, 1px) solid var(--edo-divider, #e8e8e8);
+    flex: 0 0 auto;
+}
+
+.task-widget.sign-modal-backdrop .sign-modal-title {
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.task-widget.sign-modal-backdrop .sign-modal-close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    cursor: pointer;
+    border: none;
+    border-radius: var(--edo-radius, 4px);
+    background: transparent;
+    font-size: 20px;
+    line-height: 1;
+    color: var(--edo-icon-muted, #666);
+}
+
+.task-widget.sign-modal-backdrop .sign-modal-close:hover {
+    background: var(--edo-hover-neutral, #f0f0f0);
+}
+
+/* Тело: список выбираемых документов + выпадающий список сертификатов */
+.task-widget.sign-modal-backdrop .sign-modal-body {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 16px;
+    overflow-y: visible;
+    flex: 1 1 auto;
+}
+
+.task-widget.sign-modal-backdrop .sign-field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.task-widget.sign-modal-backdrop .sign-label {
+    font-size: 12px;
+    line-height: 16px;
+    color: var(--edo-icon-muted, #666);
+}
+
+/* Список «Будут подписаны» с возможностью исключить задачу */
+.task-widget.sign-modal-backdrop .sign-task-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    max-height: 200px;
+    overflow-y: auto;
+    border: var(--edo-border-width, 1px) solid var(--edo-divider, #e8e8e8);
+    border-radius: var(--edo-radius, 4px);
+    padding: 8px;
+    box-sizing: border-box;
+}
+
+.task-widget.sign-modal-backdrop .sign-task-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.task-widget.sign-modal-backdrop .sign-task-row input[type='checkbox'] {
+    width: 16px;
+    height: 16px;
+    margin: 0;
+    cursor: pointer;
+    flex: 0 0 auto;
+}
+
+.task-widget.sign-modal-backdrop .sign-task-name {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.task-widget.sign-modal-backdrop .sign-task-row.excluded .sign-task-name {
+    text-decoration: line-through;
+    color: var(--edo-placeholder, #999);
+}
+
+/* Колесо загрузки поверх тела модалки: общий компонент Loader
+   (src/shared/loader) по образцу old_styles/loader.css.
+   Внутри модалки оверлей не растягиваем на всю подложку, а занимаем
+   только область тела — переопределяем position на relative. */
+.task-widget.sign-modal-backdrop .tasks-loader-overlay {
+    position: relative;
+    min-height: 160px;
+    padding: 24px 0;
+    background: transparent;
+    z-index: auto;
+}
+
+.task-widget.sign-modal-backdrop .sign-success {
+    color: var(--edo-success, #0fab36);
+    font-weight: 500;
+}
+
+.task-widget.sign-modal-backdrop .sign-error {
+    color: var(--edo-danger, #ab0f0f);
+    font-weight: 500;
+    white-space: pre-line;
+}
+
+/* Подвал с кнопками «Отмена» / «Подписать» */
+.task-widget.sign-modal-backdrop .sign-modal-footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    padding: 12px 16px;
+    border-top: var(--edo-border-width, 1px) solid var(--edo-divider, #e8e8e8);
+    flex: 0 0 auto;
+}
+
+.task-widget.sign-modal-backdrop .sign-modal-cancel {
+    height: 32px;
+    padding: 0 12px;
+    cursor: pointer;
+    border: var(--edo-border-width, 1px) solid var(--edo-border, #D9D9D9);
+    border-radius: var(--edo-radius, 4px);
+    background: var(--edo-surface, #FFFFFF);
+    font-family: inherit;
+    font-size: 14px;
+    color: var(--edo-text-strong, #1f1f1f);
+}
+
+.task-widget.sign-modal-backdrop .sign-modal-submit {
+    height: 32px;
+    padding: 0 20px;
+    cursor: pointer;
+    border: none;
+    border-radius: var(--edo-radius, 4px);
+    background: var(--edo-btn-bg, #1E6599);
+    font-family: inherit;
+    font-size: 14px;
+    color: var(--edo-btn-text, #FFFFFF);
+}
+
+.task-widget.sign-modal-backdrop .sign-modal-submit:hover:not(:disabled) {
+    background: var(--edo-btn-bg-hover, #367eb2);
+}
+
+.task-widget.sign-modal-backdrop .sign-modal-submit:disabled,
+.task-widget.sign-modal-backdrop .sign-modal-cancel:disabled {
+    opacity: 0.6;
+    cursor: default;
+}
+
+.sign-modal-loading {
+    margin: 0 auto;
+}

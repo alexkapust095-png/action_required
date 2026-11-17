@@ -1,0 +1,46 @@
+/* TaskTableContent — тело списка (область прокрутки строк).
+   Только геометрия. Цвета, прозрачность и тени не задаются. */
+
+/* Ограничение высоты ТЕЛА списка: 70% высоты экрана.
+   Панель действий и заголовок таблицы в эту область НЕ входят —
+   они стоят над ней и остаются на месте. Значение вынесено в токен
+   --tt-list-max-height на корне .task-widget (см. TaskWidget.css),
+   чтобы его можно было переопределить снаружи виджета. */
+.task-widget .task-table-body {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    max-height: var(--tt-list-max-height);
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+}
+
+/* Пустое состояние: этот блок становится корнем виджета (.task-widget),
+   поэтому селектор — только по классу области, без префикса */
+.task-table-empty-cell {
+    display: block;
+    width: 100%;
+    padding: var(--tt-cell-padding-block) 0;
+    max-height: var(--tt-list-max-height);
+    overflow-y: auto;
+}
+
+/* Если пустое состояние вставлено внутрь контейнера-сетки — на всю ширину */
+.task-widget.task-table-container > .task-table-empty-cell {
+    grid-column: 1 / -1;
+}
+
+.task-widget .task-table-empty {
+    margin: 0;
+    padding: 32px var(--tt-cell-padding-inline);
+    text-align: center;
+    font-size: 14px;
+    line-height: 20px;
+}
+
+.task-widget .task-table-body,
+.task-widget .task-table-empty,
+.task-table-empty-cell {
+    box-sizing: border-box;
+}

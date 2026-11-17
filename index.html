@@ -8,6 +8,11 @@
   </head>
   <body>
     <div id="root"></div>
+    <!--
+      Dev-режим: обычный module-скрипт (HMR и т.д.).
+      В production-сборке этот тег вырезается плагином widgetBuild,
+      а вместо него вставляются loader + UMD-бандл виджета.
+    -->
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
